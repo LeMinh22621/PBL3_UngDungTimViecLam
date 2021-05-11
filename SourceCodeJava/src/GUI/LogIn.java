@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
@@ -126,7 +125,6 @@ public class LogIn extends JFrame implements ActionListener {
 		case Admin:
 		case Employer:
 		case JobSeeker: {
-			JOptionPane.showMessageDialog(null, p);
 			frame.getContentPane().removeAll();
 			frame.getContentPane().repaint();
 			setpLogIn();
@@ -527,10 +525,24 @@ public class LogIn extends JFrame implements ActionListener {
 		btnRegisterLogin.setBounds(134, 319, 89, 23);
 		panel_1.add(btnRegisterLogin);
 
+		JButton btnBackLogin = new JButton("back");
+		btnBackLogin.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.getContentPane().removeAll();
+				frame.getContentPane().repaint();
+				setpMenuChoice();
+			}
+		});
+		btnBackLogin.setBounds(268, 11, 63, 23);
+		panel_1.add(btnBackLogin);
+
 		frame.getContentPane().add(pLogIn);
 		pLogIn.add(panel);
 		frame.setVisible(true);
 
+		if (p == permission.Admin)
+			btnRegisterLogin.setEnabled(false);
 //		for (int i = 450; i >= 0; i--)
 //		{
 //			try
@@ -549,8 +561,8 @@ public class LogIn extends JFrame implements ActionListener {
 		frame.setBounds(100, 100, WIDTH, HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		// setpLogIn();
-		setpMenuChoice();
+		setpLogIn();
+		// setpMenuChoice();
 		// setpRegister();
 	}
 
@@ -560,5 +572,5 @@ public class LogIn extends JFrame implements ActionListener {
 
 	public static enum permission {
 		JobSeeker, Employer, Guest, Admin
-	};
+	}
 }
