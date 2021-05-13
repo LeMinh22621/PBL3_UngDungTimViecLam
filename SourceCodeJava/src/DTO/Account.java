@@ -7,7 +7,7 @@ public class Account {
 	private String EMAIL;
 	private String PHONENUMBER;
 	private boolean STATUS;
-	private boolean CATEGORY;
+	private String CATEGORY;
 
 	public String getID_ACCOUNT() {
 		return ID_ACCOUNT;
@@ -49,7 +49,7 @@ public class Account {
 		PHONENUMBER = pHONENUMBER;
 	}
 
-	public boolean isSTATUS() {
+	public boolean getSTATUS() {
 		return STATUS;
 	}
 
@@ -57,11 +57,11 @@ public class Account {
 		STATUS = sTATUS;
 	}
 
-	public boolean isCATEGORY() {
+	public String getCATEGORY() {
 		return CATEGORY;
 	}
 
-	public void setCATEGORY(boolean cATEGORY) {
+	public void setCATEGORY(String cATEGORY) {
 		CATEGORY = cATEGORY;
 	}
 

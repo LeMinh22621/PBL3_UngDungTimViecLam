@@ -8,6 +8,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class DBHelper
@@ -23,11 +24,18 @@ public class DBHelper
 		}
 		return Instance;
 	}
-	
-	private DBHelper(String url) throws ClassNotFoundException, SQLException
+
+	private DBHelper(String url)// throws ClassNotFoundException, SQLException
 	{
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		Con = DriverManager.getConnection(url, "", "");
+		try
+		{
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Con = DriverManager.getConnection(url, "", "");
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
 	}
 	public DefaultTableModel GetRecords(String sql) throws SQLException
 	{
@@ -42,11 +50,7 @@ public class DBHelper
 		{
 			dataTableModel.addColumn(metaData.getColumnLabel(i));
 		}
-		
-		for(int i = 0; i < dataTableModel.getColumnCount(); i++)
-		{
-			System.out.print(dataTableModel.getColumnName(i) + " ");
-		}
+
 		System.out.println();
 		
 		while(resultSet.next())
@@ -56,7 +60,6 @@ public class DBHelper
 			{
 				arr[i] = resultSet.getObject(i+1);
 			}
-			System.out.println();
 			dataTableModel.addRow(arr);
 		}
 		resultSet.close();
