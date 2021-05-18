@@ -1,9 +1,10 @@
 package DTO;
 
-public class Post {
+public class Post
+{
 	private String ID_POST;// id bai post
 	private String JOB_NAME;// ten cong viec
-	private String ENTERPRISE_NAME;// ten doanh nghiep
+	private String ID_EMPLOYER;// ten doanh nghiep
 	private Address ID_ADDRESS;
 	private int WORK_HOUR;
 	private int SALARY;
@@ -25,12 +26,12 @@ public class Post {
 		JOB_NAME = jOB_NAME;
 	}
 
-	public String getENTERPRISE_NAME() {
-		return ENTERPRISE_NAME;
+	public String getID_EMPLOYER() {
+		return ID_EMPLOYER;
 	}
 
-	public void setENTERPRISE_NAME(String eNTERPRISE_NAME) {
-		ENTERPRISE_NAME = eNTERPRISE_NAME;
+	public void setID_EMPLOYER(String iD_EMPLOYER) {
+		ID_EMPLOYER = iD_EMPLOYER;
 	}
 
 	public Address getID_ADDRESS() {

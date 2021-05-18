@@ -1,15 +1,17 @@
-package homepage;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -22,42 +24,24 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-public class EmployerAfterLogin extends JFrame implements ActionListener{
+public class Employer extends JFrame implements ActionListener, WindowListener
+{
 
 	private JPanel contentPane;
 	JTable tableE;
 	private JTextField txtJobE;
 	private JTextField txtAdressE;
 	JButton btnPostE;
-	post a;
+	//post a;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void run() 
+	public Employer()
 	{
-		try {
-			EmployerAfterLogin frame = new EmployerAfterLogin();
-			frame.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
-	public static void main(String[] args) {
-		run();
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public EmployerAfterLogin() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		
 		
 		JPanel Employer_login = new JPanel();
 		Employer_login.setBounds(0, 0, 784, 461);
@@ -69,6 +53,14 @@ public class EmployerAfterLogin extends JFrame implements ActionListener{
 		pTitleE.setBounds(0, 0, 784, 62);
 		Employer_login.add(pTitleE);
 		pTitleE.setLayout(null);
+		
+		JInternalFrame internalFrame = new JInternalFrame("Profile");
+		internalFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		internalFrame.setBounds(198, 17, 399, 382);
+		pTitleE.add(internalFrame);
+		internalFrame.getContentPane().setLayout(null);
+		internalFrame.setVisible(true);
+		internalFrame.toFront();
 		
 		JLabel lblTitle = new JLabel("JOB-SEEKING APP FOR DESKTOP");
 		lblTitle.setForeground(new Color(255, 255, 0));
@@ -90,12 +82,31 @@ public class EmployerAfterLogin extends JFrame implements ActionListener{
 		menuBar.add(mnEmployer);
 		
 		JMenuItem mnItemProfile = new JMenuItem("Profile");
+		mnItemProfile.addActionListener(new ActionListener()
+		{
+			
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				
+			}
+		});
 		mnItemProfile.setBackground(new Color(255, 255, 153));
 		mnItemProfile.setFont(new Font("Segoe UI Black", Font.PLAIN, 14));
 		mnItemProfile.setForeground(Color.BLUE);
 		mnEmployer.add(mnItemProfile);
 		
 		JMenuItem mnItemLogOut = new JMenuItem("Log Out");
+		mnItemLogOut.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				dispose();
+				LogIn f = new LogIn("Choise Permission");
+				f.setVisible(true);
+			}
+		});
 		mnItemLogOut.setBackground(new Color(255, 204, 51));
 		mnItemLogOut.setFont(new Font("Segoe UI Black", Font.PLAIN, 14));
 		mnItemLogOut.setForeground(Color.BLUE);
@@ -201,17 +212,62 @@ public class EmployerAfterLogin extends JFrame implements ActionListener{
 		lblTopSeeker.setBorder(BorderFactory.createLineBorder(Color.RED));
 		lblTopSeeker.setForeground(new Color(255, 51, 0));
 		lblTopSeeker.setBounds(35, 11, 105, 27);
-		pListE.add(lblTopSeeker);		
+		pListE.add(lblTopSeeker);
+		
+		addWindowListener(this);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		if(e.getSource()==btnPostE)
+		{
+			//a = new post();
+			//a.setVisible(true);
+		}
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void windowClosing(WindowEvent e) 
+	{
+		dispose();
+        LogIn f = new LogIn("Choise Permission");
+        f.setVisible(true);
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getSource()==btnPostE)
-		{
-			a = new post();
-			a.setVisible(true);
-		}
-	}// máy m màn hình răng ầ. kệ hắn đi
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
