@@ -11,7 +11,6 @@ import java.awt.event.WindowListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -26,7 +25,6 @@ import javax.swing.table.DefaultTableModel;
 
 public class Employer extends JFrame implements ActionListener, WindowListener
 {
-
 	private JPanel contentPane;
 	JTable tableE;
 	private JTextField txtJobE;
@@ -54,14 +52,6 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 		Employer_login.add(pTitleE);
 		pTitleE.setLayout(null);
 		
-		JInternalFrame internalFrame = new JInternalFrame("Profile");
-		internalFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		internalFrame.setBounds(198, 17, 399, 382);
-		pTitleE.add(internalFrame);
-		internalFrame.getContentPane().setLayout(null);
-		internalFrame.setVisible(true);
-		internalFrame.toFront();
-		
 		JLabel lblTitle = new JLabel("JOB-SEEKING APP FOR DESKTOP");
 		lblTitle.setForeground(new Color(255, 255, 0));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -84,7 +74,6 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 		JMenuItem mnItemProfile = new JMenuItem("Profile");
 		mnItemProfile.addActionListener(new ActionListener()
 		{
-			
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
