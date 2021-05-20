@@ -165,10 +165,6 @@ public class LogIn extends JFrame implements ActionListener
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Employer
 		JPanel pER = new JPanel();
 		pER.setBackground(Color.GRAY);
-		// Image backgroundpER =
-		// java.awt.Toolkit.getDefaultToolkit().createImage("C:\\Users\\lehon\\Desktop\\HK4\\PBL3_UngDungTimViecLam\\Image\\Register.jpg");
-		// pER.paint(getGraphics());
-		// pER.set
 		pER.setBounds(0, 0, 450, 461);
 		pRegister.add(pER);
 		pER.setLayout(null);

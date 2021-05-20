@@ -65,7 +65,7 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 		mnJobSeeker.setBackground(new Color(204, 204, 204));
 		menuBar.add(mnJobSeeker);
 		
-		JMenuItem mnItemProfile = new JMenuItem("Profile");
+		JMenuItem mnItemProfile = new JMenuItem("Post");
 		mnItemProfile.setBackground(new Color(255, 255, 153));
 		mnItemProfile.setFont(new Font("Segoe UI Black", Font.PLAIN, 14));
 		mnItemProfile.setForeground(Color.BLUE);

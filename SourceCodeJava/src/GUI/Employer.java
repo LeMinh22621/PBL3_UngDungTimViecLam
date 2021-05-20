@@ -30,7 +30,7 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 	private JTextField txtJobE;
 	private JTextField txtAdressE;
 	JButton btnPostE;
-	//post a;
+	Post post;
 
 	public Employer()
 	{
@@ -211,8 +211,8 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 	{
 		if(e.getSource()==btnPostE)
 		{
-			//a = new post();
-			//a.setVisible(true);
+			post = Post.getProfile();
+			post.setVisible(true);
 		}
 	}
 

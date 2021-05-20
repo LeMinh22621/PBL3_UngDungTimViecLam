@@ -132,7 +132,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		//mnNewMenu.setIcon(imageIcon);
 		menuBar.add(mnNewMenu);
 		
-		JButton btnProfile = new JButton("Profile ");
+		JButton btnProfile = new JButton("Post ");
 		btnProfile.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
