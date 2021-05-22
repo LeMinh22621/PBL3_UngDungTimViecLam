@@ -1,52 +1,35 @@
-package homepage;
+package GUI;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
 import java.awt.Color;
-import javax.swing.JMenuItem;
-import javax.swing.JTextField;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
 import javax.swing.JButton;
-import javax.swing.JTable;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
-public class JobseekerAfterLogin extends JFrame {
-
+public class JobSeeker extends JFrame implements ActionListener, WindowListener
+{
 	private JPanel contentPane;
 	private JTextField txtJobS;
 	private JTextField txtAddressS;
 	private JTable tableS;
-	apply apl;
+	JobSeekerProfile profile;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JobseekerAfterLogin frame = new JobseekerAfterLogin();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public JobseekerAfterLogin() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public JobSeeker()
+	{
 		setBounds(100, 100, 800, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -83,6 +66,15 @@ public class JobseekerAfterLogin extends JFrame {
 		menuBar.add(mnJobSeeker);
 		
 		JMenuItem mnItemProfile = new JMenuItem("Profile");
+		mnItemProfile.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				profile = JobSeekerProfile.getInstance();
+				profile.setVisible(true);
+			}
+		});
 		mnItemProfile.setBackground(new Color(255, 255, 153));
 		mnItemProfile.setFont(new Font("Segoe UI Black", Font.PLAIN, 14));
 		mnItemProfile.setForeground(Color.BLUE);
@@ -168,5 +160,57 @@ public class JobseekerAfterLogin extends JFrame {
 		lblTopJob.setBounds(35, 11, 155, 22);
 		pListS.add(lblTopJob);
 		getContentPane().add(contentPane);
+
+		addWindowListener(this);
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e)
+	{
+		dispose();
+        LogIn f = new LogIn("Choise Permission");
+        f.setVisible(true);
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

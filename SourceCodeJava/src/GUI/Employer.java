@@ -1,11 +1,14 @@
-package homepage;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,37 +25,18 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-public class EmployerAfterLogin extends JFrame implements ActionListener{
-
+public class Employer extends JFrame implements ActionListener, WindowListener
+{
 	private JPanel contentPane;
 	JTable tableE;
 	private JTextField txtJobE;
 	private JTextField txtAdressE;
 	JButton btnPostE;
-	post a;
+	Post post;
+	EmployerProfile profile;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void run() 
+	public Employer()
 	{
-		try {
-			EmployerAfterLogin frame = new EmployerAfterLogin();
-			frame.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
-	public static void main(String[] args) {
-		run();
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public EmployerAfterLogin() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -90,12 +74,31 @@ public class EmployerAfterLogin extends JFrame implements ActionListener{
 		menuBar.add(mnEmployer);
 		
 		JMenuItem mnItemProfile = new JMenuItem("Profile");
+		mnItemProfile.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				profile = EmployerProfile.getInstance();
+				profile.setVisible(true);
+			}
+		});
 		mnItemProfile.setBackground(new Color(255, 255, 153));
 		mnItemProfile.setFont(new Font("Segoe UI Black", Font.PLAIN, 14));
 		mnItemProfile.setForeground(Color.BLUE);
 		mnEmployer.add(mnItemProfile);
 		
 		JMenuItem mnItemLogOut = new JMenuItem("Log Out");
+		mnItemLogOut.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				dispose();
+				LogIn f = new LogIn("Choise Permission");
+				f.setVisible(true);
+			}
+		});
 		mnItemLogOut.setBackground(new Color(255, 204, 51));
 		mnItemLogOut.setFont(new Font("Segoe UI Black", Font.PLAIN, 14));
 		mnItemLogOut.setForeground(Color.BLUE);
@@ -170,6 +173,14 @@ public class EmployerAfterLogin extends JFrame implements ActionListener{
 				{"12","KT"}
 		};
 		tableE = new JTable(Data,Colums);
+		tableE.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				
+			}
+		});
 		tableE.setModel(new DefaultTableModel(
 			new Object[][] {
 				{"12", "KT"},
@@ -201,17 +212,62 @@ public class EmployerAfterLogin extends JFrame implements ActionListener{
 		lblTopSeeker.setBorder(BorderFactory.createLineBorder(Color.RED));
 		lblTopSeeker.setForeground(new Color(255, 51, 0));
 		lblTopSeeker.setBounds(35, 11, 105, 27);
-		pListE.add(lblTopSeeker);		
+		pListE.add(lblTopSeeker);
+		
+		addWindowListener(this);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		if(e.getSource()==btnPostE)
+		{
+			post = Post.getProfile();
+			post.setVisible(true);
+		}
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void windowClosing(WindowEvent e) 
+	{
+		dispose();
+        LogIn f = new LogIn("Choise Permission");
+        f.setVisible(true);
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getSource()==btnPostE)
-		{
-			a = new post();
-			a.setVisible(true);
-		}
-	}// máy m màn hình răng ầ. kệ hắn đi
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }

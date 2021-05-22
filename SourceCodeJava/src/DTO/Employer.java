@@ -1,6 +1,7 @@
 package DTO;
 
-public class Employer {
+public class Employer
+{
 	private String ID_EMPLOYER;
 	private String NAME_EMPLOYER;
 	private String ID_ADDRESS;

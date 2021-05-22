@@ -1,63 +1,39 @@
 package GUI;
 
 import java.awt.Dimension;
-import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Image;
-
-import javax.swing.SwingConstants;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneLayout;
-import javax.swing.JMenuBar;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 
-public class Guest {
-
-	private JFrame frame;
+public class Guest extends JFrame implements ActionListener, WindowListener
+{
 	private JTextField textName;
 	private JTextField textAddress;
 	private JTable table;
 	private JTable table1;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Guest window = new Guest();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public Guest() {
+	public Guest()
+	{
 		initialize();
 	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
+	
 	class Item
 	{
 		private int Value;
@@ -67,6 +43,7 @@ public class Guest {
 			Value = value;
 			Text = text;
 		}
+		@Override
 		public String toString()
 		{
 			return Text;
@@ -88,11 +65,10 @@ public class Guest {
 			return Text;
 		}
 	}
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 800, 500);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+	private void initialize()
+	{
+		setBounds(100, 100, 800, 500);
+		getContentPane().setLayout(null);
 		
 		JPanel guest =new JPanel();
 		guest.setPreferredSize(new Dimension( 750,800));
@@ -124,6 +100,7 @@ public class Guest {
 		
 		JButton btnSearch = new JButton("SEARCH");
 		btnSearch.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = textName.getText();
 				String address = textAddress.getText();
@@ -151,12 +128,13 @@ public class Guest {
 		guest.add(menuBar);
 		
 		JMenu mnNewMenu = new JMenu("GUEST");
-		ImageIcon imageIcon = new ImageIcon(new ImageIcon("C:\\Users\\ADMIN\\Pictures\\download1.jpg").getImage().getScaledInstance(20, 30, Image.SCALE_DEFAULT));
-		mnNewMenu.setIcon(imageIcon);
+		//ImageIcon imageIcon = new ImageIcon(new ImageIcon("C:\\Users\\ADMIN\\Pictures\\download1.jpg").getImage().getScaledInstance(20, 30, Image.SCALE_DEFAULT));
+		//mnNewMenu.setIcon(imageIcon);
 		menuBar.add(mnNewMenu);
 		
-		JButton btnProfile = new JButton("Profile ");
+		JButton btnProfile = new JButton("Post ");
 		btnProfile.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// mo form moi
 			}
@@ -219,7 +197,50 @@ public class Guest {
 		scrollPaneFrame.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPaneFrame.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
-		frame.getContentPane().add(scrollPaneFrame);
+		getContentPane().add(scrollPaneFrame);
+		
+		addWindowListener(this);
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowClosing(WindowEvent e)
+	{
+		dispose();
+        LogIn f = new LogIn("Choise Permission");
+        f.setVisible(true);
+	}
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }
