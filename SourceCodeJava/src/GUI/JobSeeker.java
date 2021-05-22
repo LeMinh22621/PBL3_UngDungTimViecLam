@@ -26,7 +26,7 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 	private JTextField txtJobS;
 	private JTextField txtAddressS;
 	private JTable tableS;
-//	apply apl;
+	JobSeekerProfile profile;
 
 	public JobSeeker()
 	{
@@ -65,7 +65,16 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 		mnJobSeeker.setBackground(new Color(204, 204, 204));
 		menuBar.add(mnJobSeeker);
 		
-		JMenuItem mnItemProfile = new JMenuItem("Post");
+		JMenuItem mnItemProfile = new JMenuItem("Profile");
+		mnItemProfile.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				profile = JobSeekerProfile.getInstance();
+				profile.setVisible(true);
+			}
+		});
 		mnItemProfile.setBackground(new Color(255, 255, 153));
 		mnItemProfile.setFont(new Font("Segoe UI Black", Font.PLAIN, 14));
 		mnItemProfile.setForeground(Color.BLUE);

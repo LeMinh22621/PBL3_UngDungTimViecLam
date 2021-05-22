@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -31,6 +33,7 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 	private JTextField txtAdressE;
 	JButton btnPostE;
 	Post post;
+	EmployerProfile profile;
 
 	public Employer()
 	{
@@ -39,7 +42,6 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
 		
 		JPanel Employer_login = new JPanel();
 		Employer_login.setBounds(0, 0, 784, 461);
@@ -77,7 +79,8 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				
+				profile = EmployerProfile.getInstance();
+				profile.setVisible(true);
 			}
 		});
 		mnItemProfile.setBackground(new Color(255, 255, 153));
@@ -170,6 +173,14 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 				{"12","KT"}
 		};
 		tableE = new JTable(Data,Colums);
+		tableE.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				
+			}
+		});
 		tableE.setModel(new DefaultTableModel(
 			new Object[][] {
 				{"12", "KT"},

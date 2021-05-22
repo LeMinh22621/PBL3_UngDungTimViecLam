@@ -21,6 +21,14 @@ import javax.swing.UIManager;
 
 public class LogIn extends JFrame implements ActionListener
 {
+	
+	private static LogIn Instance;
+	public static LogIn getInstance()
+	{
+		if(Instance == null)
+			Instance= new LogIn("MenuChoise");
+		return Instance;
+	}
 	private int WIDTH = 800, HEIGHT = 500;
 	
 	private JPanel pMenuChoice, pLogIn, pRegister;
@@ -440,11 +448,6 @@ public class LogIn extends JFrame implements ActionListener
 
 		getContentPane().add(pRegister);
 		setVisible(true);
-		/*
-		 * for(int i = 450; i >= 0; i--) { try { pJSR.setBounds(i, 0, 450, 461);
-		 * Thread.sleep(2); } catch (InterruptedException e) { e.printStackTrace(); } }
-		 */
-
 	}
 
 	private void setpLogIn()// set Login
@@ -466,16 +469,19 @@ public class LogIn extends JFrame implements ActionListener
 		{
 			case Admin:
 			{
+				setTitle("Admin");
 				lbLogin.setText("Admin Log In");
 				break;
 			}
 			case Employer:
 			{
+				setTitle("Employer");
 				lbLogin.setText("Employer Log In");
 				break;
 			}
 			case JobSeeker:
 			{
+				setTitle("JobSeeker");
 				lbLogin.setText("JobSeeker Log In");
 				break;
 			}
@@ -591,6 +597,7 @@ public class LogIn extends JFrame implements ActionListener
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				setTitle("Menu Choise");
 				getContentPane().removeAll();
 				getContentPane().repaint();
 				setpMenuChoice();
