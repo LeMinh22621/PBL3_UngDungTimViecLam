@@ -183,4 +183,8 @@ public class Post extends JFrame implements ActionListener, WindowListener
 		// TODO Auto-generated method stub
 		
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> b8ebc18 (push code)

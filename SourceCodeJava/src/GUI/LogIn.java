@@ -19,6 +19,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+<<<<<<< HEAD
+=======
+import BLL.BLL_LOGIN;
+
+>>>>>>> b8ebc18 (push code)
 public class LogIn extends JFrame implements ActionListener
 {
 	
@@ -542,30 +547,74 @@ public class LogIn extends JFrame implements ActionListener
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+<<<<<<< HEAD
 				dispose();
+=======
+				String name = txtUsername.getText();
+				String pwd = String.valueOf(pwdPassword.getPassword());//.toString();
+				System.out.println(pwd);
+				boolean opened=false;
+>>>>>>> b8ebc18 (push code)
 				switch (p)
 				{
 					case Admin:
 					{
+<<<<<<< HEAD
 						
 						Admin f = new Admin();
 						f.setVisible(true);
+=======
+						if(BLL_LOGIN.getInstance().CheckAdmin_BLL_LOGIN(name,pwd))
+						{
+							dispose();
+							Admin f = new Admin();
+							f.frame.setVisible(true);
+							opened=true;
+						}
+>>>>>>> b8ebc18 (push code)
 						break;
 					}
 					case Employer:
 					{
+<<<<<<< HEAD
 						Employer f =  new Employer();
 						f.setVisible(true);
 						
+=======
+						if(BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,true))
+						{
+							dispose();
+							Employer f =  new Employer();
+							f.setVisible(true);
+							opened=true;
+						}
+>>>>>>> b8ebc18 (push code)
 						break;
 					}
 					case JobSeeker:
 					{
+<<<<<<< HEAD
 						JobSeeker f =  new JobSeeker();
 						f.setVisible(true);
 						break;
 					}
 				}
+=======
+						if(BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,false))
+						{
+							dispose();
+							JobSeeker f =  new JobSeeker();
+							f.setVisible(true);
+							opened=true;
+						}
+						break;
+					}
+				}
+				if(!opened)
+				{
+					System.out.println("PASS OR USER IS INCORRECT");
+				}
+>>>>>>> b8ebc18 (push code)
 			}
 		});
 		btn_LogIn.setFont(new Font("Dialog", Font.BOLD, 12));

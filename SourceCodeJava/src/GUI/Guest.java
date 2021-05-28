@@ -7,7 +7,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+<<<<<<< HEAD
 import javax.swing.DefaultComboBoxModel;
+=======
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
+
+import BLL.BLL;
+import BLL.BLL_GUEST;
+import DTO.JobSeeker;
+import DTO.Post;
+import DTO.Profile;
+
+>>>>>>> b8ebc18 (push code)
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -19,15 +31,34 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneLayout;
+<<<<<<< HEAD
 import javax.swing.SwingConstants;
 
+=======
+import javax.swing.JMenuBar;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+
+public class Guest extends JFrame implements ActionListener, WindowListener{
+>>>>>>> b8ebc18 (push code)
 
 public class Guest extends JFrame implements ActionListener, WindowListener
 {
 	private JTextField textName;
 	private JTextField textAddress;
-	private JTable table;
-	private JTable table1;
+	private JTable tablepost;
+	private JTable tablejobseeker;
 
 	public Guest()
 	{
@@ -71,7 +102,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		getContentPane().setLayout(null);
 		
 		JPanel guest =new JPanel();
-		guest.setPreferredSize(new Dimension( 750,800));
+		guest.setPreferredSize(new Dimension( 750,750));
 		guest.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("JOBS-SEEKING APP FOR DESKTOP");
@@ -82,13 +113,13 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		guest.add(lblNewLabel);
 		
 		textName = new JTextField();
-		textName.setBounds(94, 81, 459, 32);
+		textName.setBounds(147, 81, 459, 32);
 		guest.add(textName);
 		textName.setColumns(10);
 		
 		textAddress = new JTextField();
 		textAddress.setColumns(10);
-		textAddress.setBounds(94, 131, 459, 32);
+		textAddress.setBounds(147, 124, 459, 32);
 		guest.add(textAddress);
 		
 		
@@ -99,6 +130,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		guest.add(cbb);
 		
 		JButton btnSearch = new JButton("SEARCH");
+<<<<<<< HEAD
 		btnSearch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -109,18 +141,21 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 			}
 		});
 		btnSearch.setBounds(635, 131, 106, 32);
+=======
+		btnSearch.setBounds(635, 124, 106, 32);
+>>>>>>> b8ebc18 (push code)
 		guest.add(btnSearch);
 		
-		JLabel lblName = new JLabel("NAME");
-		lblName.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		JLabel lblName = new JLabel("JOB-NAME");
+		lblName.setFont(new Font("Segoe UI Black", Font.PLAIN, 16));
 		lblName.setHorizontalAlignment(SwingConstants.CENTER);
-		lblName.setBounds(10, 79, 74, 32);
+		lblName.setBounds(0, 78, 137, 32);
 		guest.add(lblName);
 		
 		JLabel lblAddress = new JLabel("ADDRESS");
 		lblAddress.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAddress.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblAddress.setBounds(10, 131, 74, 32);
+		lblAddress.setFont(new Font("Segoe UI Black", Font.PLAIN, 16));
+		lblAddress.setBounds(30, 121, 74, 32);
 		guest.add(lblAddress);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -137,6 +172,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// mo form moi
+				
 			}
 		});
 		mnNewMenu.add(btnProfile);
@@ -144,52 +180,52 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		JButton btnLogin = new JButton("Log-in ");
 		mnNewMenu.add(btnLogin);
 		
-		String[] Colums = {"Name","Lop"};
-		Object[][] data = {
-				{ "KT","12" },
-				{ "KY","13" },
-				{ "KU","14" },
-				{ "KT","12" },
-				{ "KY","13" },
-				{ "KU","14" },
-				{ "KT","12" },
-				{ "KY","13" },
-				{ "KU","14" },
-				{ "KT","12" },
-				{ "KY","13" },
-				{ "KU","14" },
-				{ "KT","12" },
-				{ "KY","13" },
-				{ "KU","14" }
-			
-		};
+		JButton btnSentCV = new JButton("SEND CV");
+		btnSentCV.setVisible(false);
+		btnSentCV.setBounds(652, 422, 89, 23);
+		guest.add(btnSentCV);
 		
 		JLabel lbseeker = new JLabel("Top-Ranking Jobs");
-		lbseeker.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lbseeker.setFont(new Font("VNI-Fato", Font.PLAIN, 15));
 		lbseeker.setHorizontalAlignment(SwingConstants.CENTER);
-		lbseeker.setBounds(62, 174, 150, 32);
+		lbseeker.setBounds(42, 174, 150, 32);
 		guest.add(lbseeker);
 		
-		
-		table = new JTable(data,Colums);
-		JScrollPane scrollPane = new JScrollPane(table);
-		table.setFillsViewportHeight(true);
-		scrollPane.setBounds(72, 206, 613, 225);
+		// bang jobname
+		tablepost = new JTable();
+		String[] nameOfColumnsPost = {"EMPLOYER_NAME","CATEGORY_JOB_NAME","JOB_NAME","COMPANY_NAME","CITY",
+				"SALARY","DESCIPTION_JOB","LABOR"};
+		DefaultTableModel tmp = new DefaultTableModel();
+		tmp.setColumnIdentifiers(nameOfColumnsPost);
+		tablepost.setModel(tmp);
+		JScrollPane scrollPane = new JScrollPane(tablepost);
+		tablepost.setFillsViewportHeight(true);
+		scrollPane.setBounds(35, 206, 706, 216);
 		guest.add(scrollPane);
+		
+		JButton btnSentMessage = new JButton("SEND MESSAGE");
+		btnSentMessage.setVisible(false);
+		btnSentMessage.setBounds(612, 726, 129, 23);
+		guest.add(btnSentMessage);
 		
 		JLabel lbemployer = new JLabel("Top-Seeker");
 		lbemployer.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lbemployer.setHorizontalAlignment(SwingConstants.CENTER);
-		lbemployer.setBounds(50, 485, 150, 32);
+		lbemployer.setBounds(20, 485, 150, 32);
 		guest.add(lbemployer);
 		
-		table1 = new JTable(data,Colums);
-		JScrollPane scrollPane1 = new JScrollPane(table1);
-		table1.setFillsViewportHeight(true);
-		scrollPane1.setBounds(74, 510, 613, 225);
+		tablejobseeker = new JTable();
+		String[] nameOfColumnsjobseeker = {"JOBSEEKER_NAME","CITY","PHONENUMBER","AGE","PROFESSIONAL"};
+		DefaultTableModel tmpjobseeker = new DefaultTableModel();
+		tmpjobseeker.setColumnIdentifiers(nameOfColumnsjobseeker);
+		tablejobseeker.setModel(tmpjobseeker);
+		JScrollPane scrollPane1 = new JScrollPane(tablejobseeker);
+		tablejobseeker.setFillsViewportHeight(true);
+		scrollPane1.setBounds(35, 510, 706, 216);
 		guest.add(scrollPane1);
 		
 		JScrollPane scrollPaneFrame = new JScrollPane(guest);
+		
 		scrollPaneFrame.setBounds(0, 0, 784, 450);
 		scrollPaneFrame.setLayout(new ScrollPaneLayout());
 		
@@ -197,8 +233,158 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		scrollPaneFrame.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPaneFrame.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
+<<<<<<< HEAD
 		getContentPane().add(scrollPaneFrame);
 		
+=======
+		// Chuc nang
+		// set SK bang Top-Ranking Jobs
+		tablepost.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if(tablepost.getSelectedRowCount()>0)
+				{
+					btnSentCV.setVisible(true);
+				}
+			}
+		});
+		// set SK bang Top-Seeker
+		tablejobseeker.addMouseListener(new MouseListener() {
+					
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+						
+			}
+					
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+						
+			}
+					
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+						
+			}
+					
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+						
+			}
+				
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if(tablejobseeker.getSelectedRowCount()>0)
+				{
+					btnSentMessage.setVisible(true);
+				}
+			}
+		});
+		//login
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// mo form moi
+				frame.setVisible(false);
+				LogIn Log = new LogIn("Choise Permission");
+			}
+		});
+		//cbb
+		cbb.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				if(cbb.getSelectedItem().toString().equals("JobName"))
+				{
+					lblName.setText("JOB-NAME");
+				}
+			else
+			{
+				lblName.setText("PROFESSIONAL");
+			}
+			}
+		});
+		// tim kiem
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = textName.getText();
+				String address = textAddress.getText();
+				switch(cbb.getSelectedItem().toString())
+				{
+				 	case "JobName":
+				 	{
+				 		DefaultTableModel dtm = (DefaultTableModel) tablepost.getModel();
+						dtm.setNumRows(0);
+						for(Post i : BLL_GUEST.getInstance().getListPostByNameAndAddress_BLL_GUEST(name,address))
+						{
+							Object[] row = new Object[dtm.getColumnCount()];
+							row[0] = i.getEMPLOYER().getPROFILE().getNAME();
+							row[1] = i.getCATEGORY_JOB().getCATEGORY_JOB_NAME();
+							row[2] = i.getJOB_NAME();
+							row[3] = i.getCOMPANY_NAME();
+							row[4] = i.getCITY();
+							row[5] = i.getSALARY();
+							row[6] = i.getDESCIPTION_JOB();
+							row[7] = i.getLABOR();
+							 
+							dtm.addRow(row);
+						}
+				 		break;
+				 	}
+				 	case "SeekerName":
+				 	{
+				 		DefaultTableModel dtm = (DefaultTableModel) tablejobseeker.getModel();
+						dtm.setNumRows(0);
+						for(JobSeeker i : BLL_GUEST.getInstance().GetlistJobSeeker_BLL_GUEST(name,address))
+						{
+							Object[] row = new Object[dtm.getColumnCount()];
+							row[0] = i.getPROFILE().getNAME();
+							row[1] = i.getPROFILE().getCITY();
+							row[2] = i.getPROFILE().getPHONENUMBER();
+							row[3] = i.getAGE();
+							row[4] = i.getPROFESSIONAL();
+							 
+							dtm.addRow(row);
+						}
+				 		break;
+				 	}
+				}
+			}
+		});
+		// SK table post
+		
+		frame.getContentPane().add(scrollPaneFrame);
+>>>>>>> b8ebc18 (push code)
 		addWindowListener(this);
 	}
 	@Override
