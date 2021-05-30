@@ -25,7 +25,7 @@ public class DAL
 		return Instance;
 	}
 	
-	public static List<Employer> getListEmployers_DAL() throws ClassNotFoundException, SQLException
+	public List<Employer> getListEmployers_DAL() throws ClassNotFoundException, SQLException
 	{
 		List<Employer> list = new ArrayList<Employer>();
 		String query = "Select * from TB_EMPLOYER";
@@ -43,7 +43,7 @@ public class DAL
 		
 		return list;
 	}
-	public static Employer getEmployerByID_DAL(String ID) throws ClassNotFoundException, SQLException
+	public Employer getEmployerByID_DAL(String ID) throws ClassNotFoundException, SQLException
 	{
 		for(Employer i : getListEmployers_DAL())
 		{
@@ -54,7 +54,7 @@ public class DAL
 		}
 		return null;
 	}
-	public static List<Account> getListAccounts_DAL() throws ClassNotFoundException, SQLException
+	public List<Account> getListAccounts_DAL() throws ClassNotFoundException, SQLException
 	{
 		List<Account> list = new ArrayList<Account>();
 		String query = "Select * from TB_ACCOUNT";
@@ -79,7 +79,7 @@ public class DAL
 		
 		return list;
 	}
-	public static Account getAccountByID_DAL(String id_ACCOUNT) throws ClassNotFoundException, SQLException {
+	public Account getAccountByID_DAL(String id_ACCOUNT) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		for(Account i :getListAccounts_DAL())
 		{
@@ -91,7 +91,7 @@ public class DAL
 		return null;
 	}
 	// category
-	public static Category_job getCategory_jobByID_DAL(String ID) throws ClassNotFoundException, SQLException
+	public Category_job getCategory_jobByID_DAL(String ID) throws ClassNotFoundException, SQLException
 	{
 		String query ="select from TB_CATEGORY_JOB where ID_CATEGORY_JOB ='"+ID+"'";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
@@ -102,7 +102,7 @@ public class DAL
 		return category_job;
 	}
 	// List post
-	public static List<Post> getListPost_DAL() throws ClassNotFoundException, SQLException
+	public List<Post> getListPost_DAL() throws ClassNotFoundException, SQLException
 	{
 		List<Post> list = new ArrayList<Post>();
 		String query = "Select * from TB_POST";
@@ -128,7 +128,7 @@ public class DAL
 		
 		return list;
 	}
-	public static Post getPostByID_DAL(String ID) throws ClassNotFoundException, SQLException
+	public Post getPostByID_DAL(String ID) throws ClassNotFoundException, SQLException
 	{
 		for(Post i : getListPost_DAL())
 		{
@@ -141,7 +141,7 @@ public class DAL
 	}
 	
 	//
-	public static List<String[]> getJOB_NAMEByID_POST_DAL(String ID) throws ClassNotFoundException, SQLException
+	public List<String[]> getJOB_NAMEByID_POST_DAL(String ID) throws ClassNotFoundException, SQLException
 	{
 		List<String[]> tmp = new ArrayList<String[]>();
 		for(Post i : getListPost_DAL())
@@ -248,7 +248,7 @@ public class DAL
 		DBHelper.getInstance().ExcuteDB(query);
 	}
 
-	public static Profile getProfileByID_DAL(String id_PROFILE) throws ClassNotFoundException, SQLException {
+	public Profile getProfileByID_DAL(String id_PROFILE) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		String query = "select from TB_PROFILE where ID_PROFILE='"+id_PROFILE+"'";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);

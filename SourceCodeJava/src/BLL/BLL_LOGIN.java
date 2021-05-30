@@ -2,6 +2,8 @@ package BLL;
 
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 import DAL.DAL;
 import DTO.Account;
 
@@ -18,6 +20,10 @@ public class BLL_LOGIN {
 		try {
 			for(Account i : DAL.getInstance().getListAccounts_DAL())
 			{
+				String s = "";
+				s += i.getID_ACCOUNT() + " " + i.getUSERNAME() + " " + i.getPASSWORD();
+				JOptionPane.showMessageDialog(null, s);
+				
 				if(i.getUSERNAME().equals(name)&&i.getPASSWORD().equals(pwd)&&i.getACCESSER()==accesser)
 				{
 					return true;

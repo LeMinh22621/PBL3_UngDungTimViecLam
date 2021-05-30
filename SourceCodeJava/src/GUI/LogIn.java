@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
@@ -434,6 +435,8 @@ public class LogIn extends JFrame implements ActionListener
 					case Employer:
 						setpRgisterEmployer(pER);
 						break;
+				default:
+					break;
 				}
 
 			}
@@ -486,6 +489,8 @@ public class LogIn extends JFrame implements ActionListener
 				lbLogin.setText("JobSeeker Log In");
 				break;
 			}
+		default:
+			break;
 		}
 		lbLogin.setBounds(10, 77, 430, 66);
 		lbLogin.setForeground(new Color(0, 255, 0));
@@ -546,9 +551,11 @@ public class LogIn extends JFrame implements ActionListener
 				String name = txtUsername.getText();
 				String pwd = String.valueOf(pwdPassword.getPassword());//.toString();
 				System.out.println(pwd);
-				boolean opened=false;
+				boolean accesser=false;
 				switch (p)
 				{
+					default:
+						break;
 					case Admin:
 					{
 						if(BLL_LOGIN.getInstance().CheckAdmin_BLL_LOGIN(name,pwd))
@@ -556,7 +563,7 @@ public class LogIn extends JFrame implements ActionListener
 							dispose();
 							Admin f = new Admin();
 							f.setVisible(true);
-							opened=true;
+							accesser=true;
 						}
 						break;
 					}
@@ -567,7 +574,7 @@ public class LogIn extends JFrame implements ActionListener
 							dispose();
 							Employer f =  new Employer();
 							f.setVisible(true);
-							opened=true;
+							accesser=true;
 						}
 						break;
 					}
@@ -578,14 +585,15 @@ public class LogIn extends JFrame implements ActionListener
 							dispose();
 							JobSeeker f =  new JobSeeker();
 							f.setVisible(true);
-							opened=true;
+							accesser=true;
 						}
 						break;
 					}
+					
 				}
-				if(!opened)
+				if(!accesser)
 				{
-					System.out.println("PASS OR USER IS INCORRECT");
+					JOptionPane.showMessageDialog(null, "Incorrect user or password");
 				}
 			}
 		});
