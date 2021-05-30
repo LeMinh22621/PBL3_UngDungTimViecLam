@@ -8,39 +8,30 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class DBHelper
 {
 	private static DBHelper Instance;
 	private Connection Con;
+	private static String url = "jdbc:sqlserver://DESKTOP-0QMTVFB\\LEHONGMINH;databaseName=UngDungTimViecLam;integratedSecurity=true";
 	public static DBHelper getInstance() throws ClassNotFoundException, SQLException
 	{
 		if(Instance == null)
 		{
-			String url = "jdbc:sqlserver://DESKTOP-0QMTVFB\\LEHONGMINH;databaseName=UngDungTimViecLam;integratedSecurity=true";
 			Instance = new DBHelper(url);
 		}
 		return Instance;
 	}
 
-	private DBHelper(String url)// throws ClassNotFoundException, SQLException
+	private DBHelper(String url) throws ClassNotFoundException, SQLException
 	{
-		try
-		{
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			Con = DriverManager.getConnection(url, "", "");
-		}
-		catch (ClassNotFoundException | SQLException e)
-		{
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
+		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 	}
 	public DefaultTableModel GetRecords(String sql) throws SQLException
 	{
 		DefaultTableModel dataTableModel = new DefaultTableModel();
-		
+		Con = DriverManager.getConnection(url, "", "");
 		Statement statement = Con.createStatement();
 		ResultSet resultSet = statement.executeQuery(sql);
 		
@@ -50,9 +41,6 @@ public class DBHelper
 		{
 			dataTableModel.addColumn(metaData.getColumnLabel(i));
 		}
-
-		System.out.println();
-		
 		while(resultSet.next())
 		{
 			Object[] arr = new Object[metaData.getColumnCount()];
@@ -69,6 +57,7 @@ public class DBHelper
 	}
 	public void ExcuteDB(String sql) throws SQLException
 	{
+		Con = DriverManager.getConnection(url, "", "");
 		PreparedStatement preparedStatement = Con.prepareStatement(sql);
 		preparedStatement.execute();
 		Con.close();

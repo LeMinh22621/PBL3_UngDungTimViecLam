@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -19,35 +21,39 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneLayout;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
-public class Admin extends JFrame implements ActionListener, WindowListener
-{
-	public Admin()
-	{
+import BLL.BLL;
+import DTO.Account;
+import DTO.Post;
+
+public class Admin extends JFrame implements ActionListener, WindowListener{
+	public Admin() {
 		initialize();
 	}
 
-	private void initialize()
-	{
-		setBounds(100, 100, 800, 500);
+
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 800, 500);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel admin = new JPanel();
-		JTable tableAccount;
-		JTable tableContents;
-		JTable tableContentsDetail;
+		JTable tableAccountG;
+		JTable tableContentsG;
 		admin.setLayout(new BorderLayout());
-		JButton AccountManagement = new JButton("ACCOUNT MANAGEMENT");
-		JButton CensorContents = new JButton("CENSOR CONTENTS");
+		JButton AccountManagementG = new JButton("ACCOUNT MANAGEMENT");
+		JButton CensorContentsG = new JButton("CENSOR CONTENTS");
 		
-		JPanel pAccMgt = new JPanel();
-		pAccMgt.setBackground(Color.GRAY);
-		pAccMgt.setPreferredSize(new Dimension( 758,435));
-		pAccMgt.setLayout(null);
-		JPanel pConsor = new JPanel();
-		pConsor.setBackground(Color.GRAY);
-		pConsor.setForeground(Color.LIGHT_GRAY);
-		pConsor.setPreferredSize(new Dimension( 758,435));
-		pConsor.setLayout(null);
+		JPanel pAccMgtG = new JPanel();
+		pAccMgtG.setBackground(Color.GRAY);
+		pAccMgtG.setPreferredSize(new Dimension( 758,435));
+		pAccMgtG.setLayout(null);
+		JPanel pConsorG = new JPanel();
+		pConsorG.setBackground(Color.GRAY);
+		pConsorG.setForeground(Color.LIGHT_GRAY);
+		pConsorG.setPreferredSize(new Dimension( 758,435));
+		pConsorG.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("JOBS-SEEKING APP FOR DESKTOP");
 		lblNewLabel.setForeground(Color.YELLOW);
@@ -55,10 +61,10 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Algerian", Font.BOLD | Font.ITALIC, 30));
 		lblNewLabel.setBounds(135, 0, 512, 51);
-		pAccMgt.add(lblNewLabel);
+		pAccMgtG.add(lblNewLabel);
 		
 		
-		JScrollPane scrollpAccMgt = new JScrollPane(pAccMgt);
+		JScrollPane scrollpAccMgt = new JScrollPane(pAccMgtG);
 		scrollpAccMgt.setBounds(0, 0, 784, 450);
 		scrollpAccMgt.setLayout(new ScrollPaneLayout());
 		
@@ -66,198 +72,357 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 		scrollpAccMgt.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 278, 21);
+		menuBar.setBounds(0, 0, 278, 21); 
 		admin.add(menuBar,BorderLayout.NORTH);
 		
-		AccountManagement.setHorizontalAlignment(SwingConstants.CENTER);
-		AccountManagement.setFont(new Font("Arial", Font.BOLD, 12));
-		menuBar.add(AccountManagement);
+		AccountManagementG.setHorizontalAlignment(SwingConstants.CENTER);
+		AccountManagementG.setFont(new Font("Arial", Font.BOLD, 12));
+		menuBar.add(AccountManagementG);
 		
 		
-		CensorContents.setHorizontalAlignment(SwingConstants.CENTER);
-		CensorContents.setFont(new Font("Arial", Font.BOLD, 12));
-		menuBar.add(CensorContents);
-		pConsor.setLayout(null);
+		CensorContentsG.setHorizontalAlignment(SwingConstants.CENTER);
+		CensorContentsG.setFont(new Font("Arial", Font.BOLD, 12));
+		menuBar.add(CensorContentsG);
+		pConsorG.setLayout(null);
 		
 		JLabel lblNewLabel1 = new JLabel("JOBS-SEEKING APP FOR DESKTOP");
 		lblNewLabel1.setForeground(Color.YELLOW);
 		lblNewLabel1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel1.setFont(new Font("Algerian", Font.BOLD | Font.ITALIC, 30));
 		lblNewLabel1.setBounds(135, 0, 512, 51);
-		pConsor.add(lblNewLabel1);
+		pConsorG.add(lblNewLabel1);
 		
-		JScrollPane scrollpConsor = new JScrollPane(pConsor);
-		scrollpConsor.setBounds(0, 0, 784, 450);
-		scrollpConsor.setLayout(new ScrollPaneLayout());
+		JScrollPane scrollpConsorG = new JScrollPane(pConsorG);
+		scrollpConsorG.setBounds(0, 0, 784, 450);
+		scrollpConsorG.setLayout(new ScrollPaneLayout());
 		
-		scrollpConsor.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollpConsor.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollpConsorG.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollpConsorG.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 		admin.add(scrollpAccMgt,BorderLayout.CENTER);
-		//admin.add(scrollpConsor,BorderLayout.CENTER);
+		//admin.add(scrollpConsorG,BorderLayout.CENTER);
 		
 		
-		String[] Colums = {"Name","Lop"};
-		Object[][] data = {
-				{ "KT","12" },
-				{ "KY","13" },
-				{ "KU","14" },
-				{ "KT","12" },
-				{ "KY","13" },
-				{ "KU","14" },
-				{ "KT","12" },
-				{ "KY","13" },
-				{ "KU","14" },
-				{ "KT","12" },
-				{ "KY","13" },
-				{ "KU","14" },
-				{ "KT","12" },
-				{ "KY","13" },
-				{ "KU","14" }
-			
-		};
+		JLabel lbAccMgtG = new JLabel("LIST ACCOUNT");
+		lbAccMgtG.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lbAccMgtG.setHorizontalAlignment(SwingConstants.CENTER);
+		lbAccMgtG.setBounds(12, 68, 118, 32);
+		pAccMgtG.add(lbAccMgtG);
 		
-		JLabel lbAccMgt = new JLabel("LIST ACCOUNT");
-		lbAccMgt.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lbAccMgt.setHorizontalAlignment(SwingConstants.CENTER);
-		lbAccMgt.setBounds(12, 68, 118, 32);
-		pAccMgt.add(lbAccMgt);
-		
-		
-		tableAccount = new JTable(data,Colums);
-		JScrollPane scrollPane = new JScrollPane(tableAccount);
-		tableAccount.setFillsViewportHeight(true);
+		//bang account
+		tableAccountG = new JTable();
+		String[] nameOfColumnsAcc = {"ID_ACCOUNT","USERNAME","PASSWORD","ACCESSER","STATUS"};
+		DefaultTableModel tmpAcc = new DefaultTableModel();
+		tmpAcc.setColumnIdentifiers(nameOfColumnsAcc);
+		tableAccountG.setModel(tmpAcc);
+		//
+		JScrollPane scrollPane = new JScrollPane(tableAccountG);
+		tableAccountG.setFillsViewportHeight(true);
 		scrollPane.setBounds(25, 100, 730, 287);
-		pAccMgt.add(scrollPane);
+		pAccMgtG.add(scrollPane);
 		
-		JButton btnNewButton_3 = new JButton("SHOW");
-		btnNewButton_3.setBackground(new Color(204, 204, 255));
-		btnNewButton_3.setBounds(52, 398, 89, 23);
-		pAccMgt.add(btnNewButton_3);
+		JButton btnShowListAccG = new JButton("SHOW");
+		btnShowListAccG.setBackground(new Color(204, 204, 255));
+		btnShowListAccG.setBounds(52, 398, 89, 23);
+		pAccMgtG.add(btnShowListAccG);
 		
-		JButton btnNewButton_4 = new JButton("DELETE");
-		btnNewButton_4.setBackground(new Color(204, 204, 255));
-		btnNewButton_4.setBounds(210, 398, 89, 23);
-		pAccMgt.add(btnNewButton_4);
+		JButton btnDeleteAccG = new JButton("DELETE");
+		btnDeleteAccG.setBackground(new Color(204, 204, 255));
+		btnDeleteAccG.setBounds(210, 398, 89, 23);
+		pAccMgtG.add(btnDeleteAccG);
 		
-		JButton btnNewButton_5 = new JButton("BLOCK");
-		btnNewButton_5.setBackground(new Color(204, 204, 255));
-		btnNewButton_5.setBounds(368, 398, 89, 23);
-		pAccMgt.add(btnNewButton_5);
+		JButton btnBlockAccG = new JButton("BLOCK");
+		btnBlockAccG.setBackground(new Color(204, 204, 255));
+		btnBlockAccG.setBounds(368, 398, 89, 23);
+		pAccMgtG.add(btnBlockAccG);
 		
-		JButton btnNewButton_6 = new JButton("SORT");
-		btnNewButton_6.setBackground(new Color(204, 204, 255));
-		btnNewButton_6.setBounds(517, 398, 89, 23);
-		pAccMgt.add(btnNewButton_6);
+		JButton btnSortAccG = new JButton("SORT");
+		btnSortAccG.setBackground(new Color(204, 204, 255));
+		btnSortAccG.setBounds(517, 398, 89, 23);
+		pAccMgtG.add(btnSortAccG);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(627, 398, 96, 22);
-		pAccMgt.add(comboBox);
+		String[] itemsacc = {"ID_ACCOUNT","USERNAME","ACCESSER","STATUS"};
+		JComboBox cbbSortAccG = new JComboBox(itemsacc);
+		cbbSortAccG.setBounds(627, 398, 109, 22);
+		pAccMgtG.add(cbbSortAccG);
 		
 		JLabel lbContents = new JLabel("LIST CONTENTS");
 		lbContents.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lbContents.setHorizontalAlignment(SwingConstants.CENTER);
 		lbContents.setBounds(0, 68, 150, 32);
-		pConsor.add(lbContents);
+		pConsorG.add(lbContents);
 		
-		tableContents = new JTable(data,Colums);
-		JScrollPane scrollPane1 = new JScrollPane(tableContents);
-		tableContents.setFillsViewportHeight(true);
-		scrollPane1.setBounds(25, 100, 303, 287);
-		pConsor.add(scrollPane1);
+		// bang post
+		tableContentsG = new JTable();
+		// dua du lieu vao bang list contents
+		String[] nameOfColumnsPost = {"ID_POST","EMPLOYER_NAME","CATEGORY_JOB_NAME","JOB_NAME","COMPANY_NAME","CITY",
+				"SALARY","DESCIPTION_JOB","LABOR","STATUS"};
+		DefaultTableModel tmp = new DefaultTableModel();
+		tmp.setColumnIdentifiers(nameOfColumnsPost);
+		tableContentsG.setModel(tmp);
 		
-		JLabel lblDetail = new JLabel("DETAILS");
-		lblDetail.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDetail.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblDetail.setBounds(306, 68, 76, 32);
-		pConsor.add(lblDetail);
+		//
+		JScrollPane scrollPane1 = new JScrollPane(tableContentsG);
+		tableContentsG.setFillsViewportHeight(true);
+		scrollPane1.setBounds(25, 100, 718, 287);
+		pConsorG.add(scrollPane1);
 		
-		tableContentsDetail = new JTable(data,Colums);
-		JScrollPane scrollPaneCD = new JScrollPane(tableContentsDetail);
-		tableContents.setFillsViewportHeight(true);
-		scrollPaneCD.setBounds(338, 100, 417, 287);
-		pConsor.add(scrollPaneCD);
+		tableContentsG.setFillsViewportHeight(true);
 		
-		JButton btnShowdetail = new JButton("SHOWDETAILS");
-		btnShowdetail.setBackground(new Color(204, 204, 255));
-		btnShowdetail.setBounds(25, 398, 125, 23);
-		pConsor.add(btnShowdetail);
+		JButton btnAcceptG = new JButton("ACCEPT");
+		btnAcceptG.setVisible(false);
+		btnAcceptG.setBackground(new Color(204, 204, 255));
+		btnAcceptG.setBounds(220, 398, 89, 23);
+		pConsorG.add(btnAcceptG);
 		
-		JButton btnAccept = new JButton("ACCEPT");
-		btnAccept.setBackground(new Color(204, 204, 255));
-		btnAccept.setBounds(386, 398, 89, 23);
-		btnAccept.setVisible(false);
-		pConsor.add(btnAccept);
+		JButton btnDeclineG = new JButton("DECLINE");
+		btnDeclineG.setVisible(false);
+		btnDeclineG.setBackground(new Color(204, 204, 255));
+		btnDeclineG.setBounds(389, 398, 89, 23);
+		pConsorG.add(btnDeclineG);
 		
-		JButton btnDecline = new JButton("DECLINE");
-		btnDecline.setBackground(new Color(204, 204, 255));
-		btnDecline.setBounds(603, 398, 89, 23);
-		btnDecline.setVisible(false);
-		pConsor.add(btnDecline);
+		JButton btnSortCensorG = new JButton("SORT");
+		btnSortCensorG.setBackground(new Color(204, 204, 204));
+		btnSortCensorG.setBounds(558, 398, 69, 23);
+		pConsorG.add(btnSortCensorG);
 		
-		JButton btnNewButton_7 = new JButton("SORT");
-		btnNewButton_7.setBackground(new Color(204, 204, 204));
-		btnNewButton_7.setBounds(160, 398, 69, 23);
-		pConsor.add(btnNewButton_7);
+		String[] itemspost = {"ID_POST","EMPLOYER_NAME","STATUS"};
+		JComboBox cbbSortCensorG = new JComboBox(itemspost);
+		cbbSortCensorG.setBounds(637, 398, 106, 22);
+		pConsorG.add(cbbSortCensorG);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(233, 398, 95, 22);
-		pConsor.add(comboBox_1);
+		JButton btnShowPostG = new JButton("SHOW");
+		btnShowPostG.setBounds(49, 398, 89, 23);
+		pConsorG.add(btnShowPostG);
 		
-		AccountManagement.addActionListener(new ActionListener() {
+		// Chuc nang
+		
+		AccountManagementG.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				admin.remove(scrollpConsor);
+				admin.remove(scrollpConsorG);
 				admin.add(scrollpAccMgt,BorderLayout.CENTER);
 				admin.revalidate();
 				admin.repaint();
 			}
 		});
-		CensorContents.addActionListener(new ActionListener() {
+		CensorContentsG.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				admin.remove(scrollpAccMgt);
-				admin.add(scrollpConsor,BorderLayout.CENTER);
+				admin.add(scrollpConsorG,BorderLayout.CENTER);
 				admin.revalidate();
 				admin.repaint();
 			}
 		});
-		btnShowdetail.addActionListener(new ActionListener() {
+		
+		// Account management
+		// Show
+		btnShowListAccG.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				btnAccept.setVisible(true);
-				btnDecline.setVisible(true);
-			}
-		});
-		btnAccept.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				btnAccept.setVisible(false);
-				btnDecline.setVisible(false);
-			}
-		});
-		btnDecline.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				btnAccept.setVisible(false);
-				btnDecline.setVisible(false);
+				DefaultTableModel dtm = (DefaultTableModel) tableAccountG.getModel();
+				dtm.setNumRows(0);
+				for(Account i : BLL.getInstance().getListAccount_BLL())
+				{
+					Object[] row = new Object[dtm.getColumnCount()];
+
+					row[0] = i.getID_ACCOUNT();
+					row[1] = i.getUSERNAME();
+					row[2] = i.getPASSWORD();
+					row[3] = i.getACCESSER();
+					row[4] = i.getSTATUS();
+					
+					dtm.addRow(row);
+				}
 			}
 		});
 		
+		//Delete
+		btnDeleteAccG.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				for(int i = 0; i < tableAccountG.getSelectedRowCount(); i++)
+					{
+						int index = tableAccountG.getSelectedRows()[i];
+						BLL.getInstance().DeleteAccountbyID_BLL(tableAccountG.getValueAt(index,0).toString());
+					}
+				btnShowListAccG.doClick();
+			}
+		});
+		// Block
+		btnBlockAccG.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				for(int i = 0; i < tableAccountG.getSelectedRowCount(); i++)
+				{
+					int index = tableAccountG.getSelectedRows()[i];
+					BLL.getInstance().BlockAccountbyID_BLL(tableAccountG.getValueAt(index,0).toString());
+				}
+				btnShowListAccG.doClick();
+			}
+		});
+		// Sort
+		btnSortAccG.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				DefaultTableModel dtm = (DefaultTableModel) tableAccountG.getModel();
+				dtm.setNumRows(0);
+				String item = cbbSortAccG.getSelectedItem().toString();
+				for(Account i : BLL.getInstance().SortAccount_BLL(item))
+				{
+					Object[] row = new Object[dtm.getColumnCount()];
+
+					row[0] = i.getID_ACCOUNT();
+					row[1] = i.getUSERNAME();
+					row[2] = i.getPASSWORD();
+					row[3] = i.getACCESSER();
+					row[4] = i.getSTATUS();
+					
+					dtm.addRow(row);
+				}
+			}
+		});
+		// Censor Contents
+		tableContentsG.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if(tableContentsG.getSelectedRowCount()>0) {
+					btnAcceptG.setVisible(true);
+					btnDeclineG.setVisible(true);
+				}
+			}
+		});
+		// Show
+		btnShowPostG.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				DefaultTableModel dtm = (DefaultTableModel) tableContentsG.getModel();
+				dtm.setNumRows(0);
+				for(Post i : BLL.getInstance().getListPost_BLL())
+				{
+					Object[] row = new Object[dtm.getColumnCount()];
+					row[0] = i.getID_POST();
+					row[1] = i.getEMPLOYER().getPROFILE().getNAME();
+					row[2] = i.getCATEGORY_JOB().getCATEGORY_JOB_NAME();
+					row[3] = i.getJOB_NAME();
+					row[4] = i.getCOMPANY_NAME();
+					row[5] = i.getCITY();
+					row[6] = i.getSALARY();
+					row[7] = i.getDESCIPTION_JOB();
+					row[8] = i.getLABOR();
+					row[9] = i.getSTATUS();
+					 
+					dtm.addRow(row);
+				}
+			}
+		});
+		// Accept
+		btnAcceptG.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				for(int i = 0; i < tableContentsG.getSelectedRowCount(); i++)
+				{
+					int index = tableContentsG.getSelectedRows()[i];
+					BLL.getInstance().AcceptPost_BLL(tableContentsG.getValueAt(index,0).toString());
+				}
+				btnShowPostG.doClick();
+				btnAcceptG.setVisible(false);
+				btnDeclineG.setVisible(false);
+			}
+		});
+		// Decline
+		btnDeclineG.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				for(int i = 0; i < tableContentsG.getSelectedRowCount(); i++)
+				{
+					int index = tableContentsG.getSelectedRows()[i];
+					if(Boolean.parseBoolean(tableContentsG.getValueAt(index,9).toString()) == false)
+					{
+						BLL.getInstance().DeclinePost_BLL(tableContentsG.getValueAt(index,0).toString());
+					}
+				}
+				btnShowPostG.doClick();
+				btnAcceptG.setVisible(false);
+				btnDeclineG.setVisible(false);
+			}
+		});
+		// Sort
+		btnSortCensorG.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					DefaultTableModel dtm = (DefaultTableModel) tableContentsG.getModel();
+					dtm.setNumRows(0);
+					String item = cbbSortCensorG.getSelectedItem().toString();
+					for(Post i : BLL.getInstance().SortPost_BLL(item))
+					{
+						Object[] row = new Object[dtm.getColumnCount()];
+						
+						row[0] = i.getID_POST();
+						row[1] = i.getEMPLOYER().getPROFILE().getNAME();
+						row[2] = i.getCATEGORY_JOB().getCATEGORY_JOB_NAME();
+						row[3] = i.getJOB_NAME();
+						row[4] = i.getCOMPANY_NAME();
+						row[5] = i.getCITY();
+						row[6] = i.getSALARY();
+						row[7] = i.getDESCIPTION_JOB();
+						row[8] = i.getLABOR();
+						row[9] = i.getSTATUS();
+						 
+						dtm.addRow(row);
+					}
+				}
+			});
+
 		getContentPane().add(admin);
 		addWindowListener(this);
 	}
-	
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
@@ -276,7 +441,7 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 	}
 
 	@Override
-	public void windowOpened(WindowEvent e) {
+	public void windowaccesser(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

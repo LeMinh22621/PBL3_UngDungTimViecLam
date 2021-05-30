@@ -2,11 +2,11 @@ package DTO;
 
 public class JobSeeker {
 	private String ID_JOBSEEKER;
-	private String NAME_JOBSEEKER;
-	private String ID_ADDRESS;
+	private Account ACCOUNT;
+	private Profile PROFILE;
 	private int AGE;
+	private boolean GENDER;
 	private String PROFESSIONAL;
-	private String ID_ACCOUNT;
 
 	public String getID_JOBSEEKER() {
 		return ID_JOBSEEKER;
@@ -16,20 +16,20 @@ public class JobSeeker {
 		ID_JOBSEEKER = iD_JOBSEEKER;
 	}
 
-	public String getNAME_JOBSEEKER() {
-		return NAME_JOBSEEKER;
+	public Profile getPROFILE() {
+		return PROFILE;
 	}
 
-	public void setNAME_JOBSEEKER(String nAME_JOBSEEKER) {
-		NAME_JOBSEEKER = nAME_JOBSEEKER;
+	public void setPROFILE(Profile pROFILE) {
+		PROFILE = pROFILE;
 	}
 
-	public String getID_ADDRESS() {
-		return ID_ADDRESS;
+	public boolean getGENDER() {
+		return GENDER;
 	}
 
-	public void setID_ADDRESS(String iD_ADDRESS) {
-		ID_ADDRESS = iD_ADDRESS;
+	public void setGENDER(boolean gENDER) {
+		GENDER = gENDER;
 	}
 
 	public int getAGE() {
@@ -48,12 +48,12 @@ public class JobSeeker {
 		PROFESSIONAL = pROFESSIONAL;
 	}
 
-	public String getID_ACCOUNT() {
-		return ID_ACCOUNT;
+	public Account getACCOUNT() {
+		return ACCOUNT;
 	}
 
-	public void setID_ACCOUNT(String iD_ACCOUNT) {
-		ID_ACCOUNT = iD_ACCOUNT;
+	public void setACCOUNT(Account aCCOUNT) {
+		ACCOUNT = aCCOUNT;
 	}
 
 }

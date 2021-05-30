@@ -4,11 +4,8 @@ public class Account {
 	private String ID_ACCOUNT;
 	private String USERNAME;
 	private String PASSWORD;
-	private String EMAIL;
-	private String PHONENUMBER;
+	private boolean ACCESSER;
 	private boolean STATUS;
-	private String CATEGORY;
-
 	public String getID_ACCOUNT() {
 		return ID_ACCOUNT;
 	}
@@ -33,22 +30,6 @@ public class Account {
 		PASSWORD = pASSWORD;
 	}
 
-	public String getEMAIL() {
-		return EMAIL;
-	}
-
-	public void setEMAIL(String eMAIL) {
-		EMAIL = eMAIL;
-	}
-
-	public String getPHONENUMBER() {
-		return PHONENUMBER;
-	}
-
-	public void setPHONENUMBER(String pHONENUMBER) {
-		PHONENUMBER = pHONENUMBER;
-	}
-
 	public boolean getSTATUS() {
 		return STATUS;
 	}
@@ -57,12 +38,12 @@ public class Account {
 		STATUS = sTATUS;
 	}
 
-	public String getCATEGORY() {
-		return CATEGORY;
+	public boolean getACCESSER() {
+		return ACCESSER;
 	}
 
-	public void setCATEGORY(String cATEGORY) {
-		CATEGORY = cATEGORY;
+	public void setACCESSER(boolean aCCESSER) {
+		ACCESSER = aCCESSER;
 	}
 
 }

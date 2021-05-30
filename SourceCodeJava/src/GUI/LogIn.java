@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
@@ -19,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import BLL.BLL_LOGIN;
 public class LogIn extends JFrame implements ActionListener
 {
 	
@@ -433,6 +435,8 @@ public class LogIn extends JFrame implements ActionListener
 					case Employer:
 						setpRgisterEmployer(pER);
 						break;
+				default:
+					break;
 				}
 
 			}
@@ -485,6 +489,8 @@ public class LogIn extends JFrame implements ActionListener
 				lbLogin.setText("JobSeeker Log In");
 				break;
 			}
+		default:
+			break;
 		}
 		lbLogin.setBounds(10, 77, 430, 66);
 		lbLogin.setForeground(new Color(0, 255, 0));
@@ -542,29 +548,52 @@ public class LogIn extends JFrame implements ActionListener
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				dispose();
+				String name = txtUsername.getText();
+				String pwd = String.valueOf(pwdPassword.getPassword());//.toString();
+				System.out.println(pwd);
+				boolean accesser=false;
 				switch (p)
 				{
+					default:
+						break;
 					case Admin:
 					{
-						
-						Admin f = new Admin();
-						f.setVisible(true);
+						if(BLL_LOGIN.getInstance().CheckAdmin_BLL_LOGIN(name,pwd))
+						{
+							dispose();
+							Admin f = new Admin();
+							f.setVisible(true);
+							accesser=true;
+						}
 						break;
 					}
 					case Employer:
 					{
-						Employer f =  new Employer();
-						f.setVisible(true);
-						
+						if(BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,true))
+						{
+							dispose();
+							Employer f =  new Employer();
+							f.setVisible(true);
+							accesser=true;
+						}
 						break;
 					}
 					case JobSeeker:
 					{
-						JobSeeker f =  new JobSeeker();
-						f.setVisible(true);
+						if(BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,false))
+						{
+							dispose();
+							JobSeeker f =  new JobSeeker();
+							f.setVisible(true);
+							accesser=true;
+						}
 						break;
 					}
+					
+				}
+				if(!accesser)
+				{
+					JOptionPane.showMessageDialog(null, "Incorrect user or password");
 				}
 			}
 		});

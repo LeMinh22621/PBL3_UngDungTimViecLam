@@ -165,7 +165,7 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 	}
 
 	@Override
-	public void windowOpened(WindowEvent e) {
+	public void windowaccesser(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
