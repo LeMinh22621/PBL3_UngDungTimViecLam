@@ -4,22 +4,14 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-<<<<<<< HEAD
 import javax.swing.DefaultComboBoxModel;
-=======
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
-
-import BLL.BLL;
-import BLL.BLL_GUEST;
-import DTO.JobSeeker;
-import DTO.Post;
-import DTO.Profile;
-
->>>>>>> b8ebc18 (push code)
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -31,27 +23,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneLayout;
-<<<<<<< HEAD
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
-=======
-import javax.swing.JMenuBar;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
-
-public class Guest extends JFrame implements ActionListener, WindowListener{
->>>>>>> b8ebc18 (push code)
+import BLL.BLL_GUEST;
+import DTO.JobSeeker;
+import DTO.Post;
 
 public class Guest extends JFrame implements ActionListener, WindowListener
 {
@@ -122,7 +99,6 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		textAddress.setBounds(147, 124, 459, 32);
 		guest.add(textAddress);
 		
-		
 		JComboBox cbb = new JComboBox();
 		cbb.setModel(new DefaultComboBoxModel(new Item[] {new Item(0,"JobName"), new Item(1,"SeekerName")}));
 		cbb.setToolTipText("");
@@ -130,20 +106,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		guest.add(cbb);
 		
 		JButton btnSearch = new JButton("SEARCH");
-<<<<<<< HEAD
-		btnSearch.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String name = textName.getText();
-				String address = textAddress.getText();
-				//if(cbb.)
-				//textTEST.setText(name + " : " +address);
-			}
-		});
-		btnSearch.setBounds(635, 131, 106, 32);
-=======
 		btnSearch.setBounds(635, 124, 106, 32);
->>>>>>> b8ebc18 (push code)
 		guest.add(btnSearch);
 		
 		JLabel lblName = new JLabel("JOB-NAME");
@@ -170,8 +133,8 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		JButton btnProfile = new JButton("Post ");
 		btnProfile.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// mo form moi
+			public void actionPerformed(ActionEvent e)
+			{
 				
 			}
 		});
@@ -232,11 +195,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		//p.setAutoscrolls(true);
 		scrollPaneFrame.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPaneFrame.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		
-<<<<<<< HEAD
-		getContentPane().add(scrollPaneFrame);
-		
-=======
+
 		// Chuc nang
 		// set SK bang Top-Ranking Jobs
 		tablepost.addMouseListener(new MouseListener() {
@@ -312,9 +271,10 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		});
 		//login
 		btnLogin.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// mo form moi
-				frame.setVisible(false);
+				setVisible(false);
 				LogIn Log = new LogIn("Choise Permission");
 			}
 		});
@@ -336,6 +296,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		});
 		// tim kiem
 		btnSearch.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = textName.getText();
 				String address = textAddress.getText();
@@ -383,8 +344,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		});
 		// SK table post
 		
-		frame.getContentPane().add(scrollPaneFrame);
->>>>>>> b8ebc18 (push code)
+		getContentPane().add(scrollPaneFrame);
 		addWindowListener(this);
 	}
 	@Override

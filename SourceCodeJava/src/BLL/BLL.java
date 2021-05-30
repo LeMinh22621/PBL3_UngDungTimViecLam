@@ -1,20 +1,14 @@
 package BLL;
 
 import java.sql.SQLException;
-<<<<<<< HEAD
-=======
 import java.util.ArrayList;
->>>>>>> b8ebc18 (push code)
 import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import DAL.DAL;
 import DTO.Account;
-<<<<<<< HEAD
-=======
 import DTO.Post;
->>>>>>> b8ebc18 (push code)
 
 public class BLL
 {
@@ -27,11 +21,7 @@ public class BLL
 	}
 	public List<Account> getListAccount_BLL()
 	{
-<<<<<<< HEAD
-		List<Account> list = null;
-=======
 		List<Account> list = new ArrayList<Account>();
->>>>>>> b8ebc18 (push code)
 		try
 		{
 			list = DAL.getInstance().getListAccounts_DAL();
@@ -43,9 +33,7 @@ public class BLL
 		
 		return list;
 	}
-<<<<<<< HEAD
-}
-=======
+	
 	public List<Post> getListPost_BLL()
 	{
 		List<Post> list = new ArrayList<Post>();
@@ -245,4 +233,3 @@ public class BLL
 		return list;
 	}
 }
->>>>>>> b8ebc18 (push code)

@@ -7,16 +7,12 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import DTO.Account;
-<<<<<<< HEAD
-import DTO.Employer;
-=======
 import DTO.CV;
 import DTO.Category_job;
 import DTO.Employer;
 import DTO.JobSeeker;
 import DTO.Post;
 import DTO.Profile;
->>>>>>> b8ebc18 (push code)
 
 public class DAL
 {
@@ -29,11 +25,7 @@ public class DAL
 		return Instance;
 	}
 	
-<<<<<<< HEAD
-	public List<Employer> getListEmployers_DAL() throws ClassNotFoundException, SQLException
-=======
 	public static List<Employer> getListEmployers_DAL() throws ClassNotFoundException, SQLException
->>>>>>> b8ebc18 (push code)
 	{
 		List<Employer> list = new ArrayList<Employer>();
 		String query = "Select * from TB_EMPLOYER";
@@ -44,23 +36,13 @@ public class DAL
 			Employer employer = new Employer();
 			
 			employer.setID_EMPLOYER(defaultTableModel.getValueAt(i, 0).toString());
-<<<<<<< HEAD
-			employer.setNAME_EMPLOYER(defaultTableModel.getValueAt(i, 1).toString());
-			employer.setID_ADDRESS(defaultTableModel.getValueAt(i, 2).toString());
-			employer.setID_ACCOUNT(defaultTableModel.getValueAt(i, 3).toString());
-=======
 			employer.setACCOUNT(getAccountByID_DAL(defaultTableModel.getValueAt(i, 1).toString()));
 			employer.setPROFILE(getProfileByID_DAL(defaultTableModel.getValueAt(i, 2).toString()));
->>>>>>> b8ebc18 (push code)
-			
 			list.add(employer);
 		}
 		
 		return list;
 	}
-<<<<<<< HEAD
-	
-=======
 	public static Employer getEmployerByID_DAL(String ID) throws ClassNotFoundException, SQLException
 	{
 		for(Employer i : getListEmployers_DAL())
@@ -72,16 +54,12 @@ public class DAL
 		}
 		return null;
 	}
->>>>>>> b8ebc18 (push code)
 	public static List<Account> getListAccounts_DAL() throws ClassNotFoundException, SQLException
 	{
 		List<Account> list = new ArrayList<Account>();
 		String query = "Select * from TB_ACCOUNT";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
-<<<<<<< HEAD
-		
-=======
->>>>>>> b8ebc18 (push code)
+
 		for(int i = 0; i < defaultTableModel.getRowCount(); i++)
 		{
 			Account account = new Account();
@@ -89,29 +67,18 @@ public class DAL
 			account.setID_ACCOUNT(defaultTableModel.getValueAt(i, 0).toString());
 			account.setUSERNAME(defaultTableModel.getValueAt(i, 1).toString());
 			account.setPASSWORD(defaultTableModel.getValueAt(i, 2).toString());
-<<<<<<< HEAD
-			account.setEMAIL(defaultTableModel.getValueAt(i, 3).toString());
-			account.setPHONENUMBER(defaultTableModel.getValueAt(i, 4).toString());
-			account.setSTATUS(Boolean.parseBoolean(defaultTableModel.getValueAt(i, 5).toString()));
-			account.setCATEGORY(defaultTableModel.getValueAt(i, 6).toString());
-=======
 			if(defaultTableModel.getValueAt(i, 3)==null)
 			{
 				break;
 			}
 			account.setACCESSER(Boolean.parseBoolean(defaultTableModel.getValueAt(i, 3).toString()));
 			account.setSTATUS(Boolean.parseBoolean(defaultTableModel.getValueAt(i, 4).toString()));
->>>>>>> b8ebc18 (push code)
 			
 			list.add(account);
 		}
 		
 		return list;
 	}
-<<<<<<< HEAD
-
-}
-=======
 	public static Account getAccountByID_DAL(String id_ACCOUNT) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		for(Account i :getListAccounts_DAL())
@@ -344,4 +311,3 @@ public class DAL
 	}
 
 }
->>>>>>> b8ebc18 (push code)

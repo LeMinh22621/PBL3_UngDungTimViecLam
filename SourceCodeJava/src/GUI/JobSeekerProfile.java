@@ -174,8 +174,4 @@ public class JobSeekerProfile extends JFrame
 		btnCancel.setBounds(564, 422, 75, 28);
 		getContentPane().add(btnCancel);
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> b8ebc18 (push code)

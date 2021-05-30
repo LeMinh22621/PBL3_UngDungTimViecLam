@@ -25,21 +25,9 @@ public class DBHelper
 		return Instance;
 	}
 
-	private DBHelper(String url)// throws ClassNotFoundException, SQLException
+	private DBHelper(String url) throws ClassNotFoundException, SQLException
 	{
-<<<<<<< HEAD
-		try
-		{
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			Con = DriverManager.getConnection(url, "", "");
-		}
-		catch (ClassNotFoundException | SQLException e)
-		{
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
-=======
 		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
->>>>>>> b8ebc18 (push code)
 	}
 	public DefaultTableModel GetRecords(String sql) throws SQLException
 	{
@@ -54,12 +42,6 @@ public class DBHelper
 		{
 			dataTableModel.addColumn(metaData.getColumnLabel(i));
 		}
-
-<<<<<<< HEAD
-		System.out.println();
-		
-=======
->>>>>>> b8ebc18 (push code)
 		while(resultSet.next())
 		{
 			Object[] arr = new Object[metaData.getColumnCount()];

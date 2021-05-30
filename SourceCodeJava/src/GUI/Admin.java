@@ -6,16 +6,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-<<<<<<< HEAD
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-=======
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.sql.SQLException;
->>>>>>> b8ebc18 (push code)
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -27,31 +21,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneLayout;
 import javax.swing.SwingConstants;
-<<<<<<< HEAD
-
-public class Admin extends JFrame implements ActionListener, WindowListener
-{
-	public Admin()
-	{
-		initialize();
-	}
-
-	private void initialize()
-	{
-		setBounds(100, 100, 800, 500);
-=======
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JMenuBar;
-import java.awt.Color;
-import javax.swing.JComboBox;
+
 import BLL.BLL;
 import DTO.Account;
 import DTO.Post;
 
 public class Admin extends JFrame implements ActionListener, WindowListener{
-
-	public JFrame frame;
-
 	public Admin() {
 		initialize();
 	}
@@ -61,7 +37,6 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
->>>>>>> b8ebc18 (push code)
 		
 		JPanel admin = new JPanel();
 		JTable tableAccountG;
@@ -444,17 +419,10 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 					}
 				}
 			});
-		
-<<<<<<< HEAD
+
 		getContentPane().add(admin);
 		addWindowListener(this);
 	}
-	
-=======
-		frame.getContentPane().add(admin);
-		addWindowListener(this);
-	}
->>>>>>> b8ebc18 (push code)
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
