@@ -1,10 +1,10 @@
 package DTO;
 
-public class Employer {
+public class Employer
+{
 	private String ID_EMPLOYER;
-	private String NAME_EMPLOYER;
-	private String ID_ADDRESS;
-	private String ID_ACCOUNT;
+	private Account ACCOUNT;
+	private Profile PROFILE;
 
 	public String getID_EMPLOYER() {
 		return ID_EMPLOYER;
@@ -14,28 +14,19 @@ public class Employer {
 		ID_EMPLOYER = iD_EMPLOYER;
 	}
 
-	public String getNAME_EMPLOYER() {
-		return NAME_EMPLOYER;
+	public Account getACCOUNT() {
+		return ACCOUNT;
 	}
 
-	public void setNAME_EMPLOYER(String nAME_EMPLOYER) {
-		NAME_EMPLOYER = nAME_EMPLOYER;
+	public void setACCOUNT(Account aCCOUNT) {
+		ACCOUNT = aCCOUNT;
 	}
 
-	public String getID_ADDRESS() {
-		return ID_ADDRESS;
+	public Profile getPROFILE() {
+		return PROFILE;
 	}
 
-	public void setID_ADDRESS(String iD_ADDRESS) {
-		ID_ADDRESS = iD_ADDRESS;
+	public void setPROFILE(Profile pROFILE) {
+		PROFILE = pROFILE;
 	}
-
-	public String getID_ACCOUNT() {
-		return ID_ACCOUNT;
-	}
-
-	public void setID_ACCOUNT(String iD_ACCOUNT) {
-		ID_ACCOUNT = iD_ACCOUNT;
-	}
-
 }

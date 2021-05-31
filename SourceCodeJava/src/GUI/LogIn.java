@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
@@ -19,10 +20,20 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-public class LogIn extends JFrame implements ActionListener {
+import BLL.BLL_LOGIN;
+public class LogIn extends JFrame implements ActionListener
+{
+	
+	private static LogIn Instance;
+	public static LogIn getInstance()
+	{
+		if(Instance == null)
+			Instance= new LogIn("MenuChoise");
+		return Instance;
+	}
 	private int WIDTH = 800, HEIGHT = 500;
+	
 	private JPanel pMenuChoice, pLogIn, pRegister;
-	private JFrame frame;
 	private JTextField txtUsername;
 	private JPasswordField pwdPassword;
 
@@ -43,8 +54,9 @@ public class LogIn extends JFrame implements ActionListener {
 	private JButton btnAdmin, btnJobSeeker, btnEmployer, btnGuest;
 
 	private permission p;
-
-	public LogIn(String title) {
+	
+	public LogIn(String title)
+	{
 		super(title);
 		initialize();
 	}
@@ -71,7 +83,7 @@ public class LogIn extends JFrame implements ActionListener {
 		lbMenuChoice.setBounds(170, 0, 423, 70);
 		p1.add(lbMenuChoice);
 
-		frame.getContentPane().add(pMenuChoice);
+		getContentPane().add(pMenuChoice);
 
 		JPanel p2 = new JPanel();
 		p2.setBackground(new Color(143, 188, 143));
@@ -111,7 +123,7 @@ public class LogIn extends JFrame implements ActionListener {
 		btnGuest.setBounds(235, 217, 315, 50);
 		p2.add(btnGuest);
 
-		frame.setVisible(true);
+		setVisible(true);
 		btnAdmin.addActionListener(this);
 		btnJobSeeker.addActionListener(this);
 		btnEmployer.addActionListener(this);
@@ -119,30 +131,38 @@ public class LogIn extends JFrame implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e)
+	{
 		p = permission.valueOf(e.getActionCommand());
-		switch (p) {
-		case Admin:
-		case Employer:
-		case JobSeeker: {
-			frame.getContentPane().removeAll();
-			frame.getContentPane().repaint();
-			setpLogIn();
-			break;
-		}
-		case Guest: {
-			System.exit(0);
-			break;
-		}
+		switch (p)
+		{
+			case Admin:
+			case Employer:
+			case JobSeeker:
+			{
+				getContentPane().removeAll();
+				getContentPane().repaint();
+				setpLogIn();
+				break;
+			}
+			case Guest:
+			{
+				dispose();
+				Guest f = new Guest();
+				f.setVisible(true);
+				break;
+			}
 		}
 
 	}
 
-	private void setpRegisterJobSeeker(JPanel p1) {
+	private void setpRegisterJobSeeker(JPanel p1)
+	{
 		p1.setVisible(true);
 	}
 
-	private void setpRgisterEmployer(JPanel p1) {
+	private void setpRgisterEmployer(JPanel p1)
+	{
 		p1.setVisible(true);
 	}
 
@@ -152,13 +172,9 @@ public class LogIn extends JFrame implements ActionListener {
 		pRegister.setSize(WIDTH, HEIGHT);
 		pRegister.setLayout(null);
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Employer
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Employer
 		JPanel pER = new JPanel();
 		pER.setBackground(Color.GRAY);
-		// Image backgroundpER =
-		// java.awt.Toolkit.getDefaultToolkit().createImage("C:\\Users\\lehon\\Desktop\\HK4\\PBL3_UngDungTimViecLam\\Image\\Register.jpg");
-		// pER.paint(getGraphics());
-		// pER.set
 		pER.setBounds(0, 0, 450, 461);
 		pRegister.add(pER);
 		pER.setLayout(null);
@@ -209,7 +225,7 @@ public class LogIn extends JFrame implements ActionListener {
 		pER.add(lblDetailER);
 
 		pER.setVisible(false);
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// JobSeeker
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// JobSeeker
 		JPanel pJSR = new JPanel();
 		pJSR.setBackground(Color.GRAY);
 		// Image backgroundpJSR =
@@ -300,7 +316,7 @@ public class LogIn extends JFrame implements ActionListener {
 		pJSR.add(lblDetailJSR);
 
 		pJSR.setVisible(false);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////LogIn
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////LogIn
 		JPanel P2 = new JPanel();
 		P2.setBackground(new Color(160, 82, 45));
 		P2.setBounds(451, 0, 333, 461);
@@ -357,8 +373,8 @@ public class LogIn extends JFrame implements ActionListener {
 		btnBackJSR.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				frame.getContentPane().removeAll();
-				frame.getContentPane().repaint();
+				getContentPane().removeAll();
+				getContentPane().repaint();
 				setpLogIn();
 			}
 		});
@@ -406,15 +422,20 @@ public class LogIn extends JFrame implements ActionListener {
 
 		JButton btnContinueJSR = new JButton("Continue");
 		btnContinueJSR.setBounds(127, 385, 101, 31);
-		btnContinueJSR.addActionListener(new ActionListener() {
+		btnContinueJSR.addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				switch (p) {
-				case JobSeeker:
-					setpRegisterJobSeeker(pJSR);
-					break;
-				case Employer:
-					setpRgisterEmployer(pER);
+			public void actionPerformed(ActionEvent e)
+			{
+				switch (p)
+				{
+					case JobSeeker:
+						setpRegisterJobSeeker(pJSR);
+						break;
+					case Employer:
+						setpRgisterEmployer(pER);
+						break;
+				default:
 					break;
 				}
 
@@ -429,13 +450,8 @@ public class LogIn extends JFrame implements ActionListener {
 		lbRegisterJSR.setFont(new Font("Algerian", Font.PLAIN, 40));
 		lbRegisterJSR.setHorizontalAlignment(SwingConstants.CENTER);
 
-		frame.getContentPane().add(pRegister);
-		frame.setVisible(true);
-		/*
-		 * for(int i = 450; i >= 0; i--) { try { pJSR.setBounds(i, 0, 450, 461);
-		 * Thread.sleep(2); } catch (InterruptedException e) { e.printStackTrace(); } }
-		 */
-
+		getContentPane().add(pRegister);
+		setVisible(true);
 	}
 
 	private void setpLogIn()// set Login
@@ -452,8 +468,31 @@ public class LogIn extends JFrame implements ActionListener {
 		// panel.setLayout(new GridLayout(0, 1, 0, 0));
 		// panel.add(new Label(""));
 
-		Label lbLogin = new Label("Log in");
-		lbLogin.setBounds(141, 77, 162, 66);
+		Label lbLogin = new Label("");
+		switch (p)
+		{
+			case Admin:
+			{
+				setTitle("Admin");
+				lbLogin.setText("Admin Log In");
+				break;
+			}
+			case Employer:
+			{
+				setTitle("Employer");
+				lbLogin.setText("Employer Log In");
+				break;
+			}
+			case JobSeeker:
+			{
+				setTitle("JobSeeker");
+				lbLogin.setText("JobSeeker Log In");
+				break;
+			}
+		default:
+			break;
+		}
+		lbLogin.setBounds(10, 77, 430, 66);
 		lbLogin.setForeground(new Color(0, 255, 0));
 		panel.add(lbLogin);
 		lbLogin.setFont(new Font("Algerian", Font.BOLD | Font.ITALIC, 40));
@@ -504,16 +543,71 @@ public class LogIn extends JFrame implements ActionListener {
 		panel_1.add(lbPassword);
 
 		Button btn_LogIn = new Button("Log In");
+		btn_LogIn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				String name = txtUsername.getText();
+				String pwd = String.valueOf(pwdPassword.getPassword());
+				boolean accesser=false;
+				switch (p)
+				{
+					default:
+						break;
+					case Admin:
+					{
+						if(BLL_LOGIN.getInstance().CheckAdmin_BLL_LOGIN(name,pwd))
+						{
+							dispose();
+							Admin f = new Admin();
+							f.setVisible(true);
+							accesser=true;
+						}
+						break;
+					}
+					case Employer:
+					{
+						if(BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,true))
+						{
+							dispose();
+							Employer f =  new Employer();
+							f.setVisible(true);
+							accesser=true;
+						}
+						break;
+					}
+					case JobSeeker:
+					{
+						if(BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,false))
+						{
+							dispose();
+							JobSeeker f =  new JobSeeker();
+							f.setVisible(true);
+							accesser=true;
+						}
+						break;
+					}
+					
+				}
+				if(!accesser)
+				{
+					JOptionPane.showMessageDialog(null, "Incorrect user or password");
+				}
+			}
+		});
 		btn_LogIn.setFont(new Font("Dialog", Font.BOLD, 12));
 		btn_LogIn.setBounds(130, 270, 93, 27);
 		panel_1.add(btn_LogIn);
 
 		JButton btnRegisterLogin = new JButton("Register");
-		btnRegisterLogin.addActionListener(new ActionListener() {
+		btnRegisterLogin.addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.getContentPane().removeAll();
-				frame.getContentPane().repaint();
+			public void actionPerformed(ActionEvent e)
+			{
+				getContentPane().removeAll();
+				getContentPane().repaint();
 				setpRegister();
 			}
 		});
@@ -526,51 +620,45 @@ public class LogIn extends JFrame implements ActionListener {
 		panel_1.add(btnRegisterLogin);
 
 		JButton btnBackLogin = new JButton("back");
-		btnBackLogin.addActionListener(new ActionListener() {
+		btnBackLogin.addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.getContentPane().removeAll();
-				frame.getContentPane().repaint();
+			public void actionPerformed(ActionEvent e)
+			{
+				setTitle("Menu Choise");
+				getContentPane().removeAll();
+				getContentPane().repaint();
 				setpMenuChoice();
 			}
 		});
 		btnBackLogin.setBounds(268, 11, 63, 23);
 		panel_1.add(btnBackLogin);
 
-		frame.getContentPane().add(pLogIn);
+		getContentPane().add(pLogIn);
 		pLogIn.add(panel);
-		frame.setVisible(true);
+		setVisible(true);
 
 		if (p == permission.Admin)
 			btnRegisterLogin.setEnabled(false);
-//		for (int i = 450; i >= 0; i--)
-//		{
-//			try
-//			{
-//				panel.setBounds(i, 0, 450, 461);
-//				Thread.sleep(2);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-
 	}
 
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, WIDTH, HEIGHT);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		setpLogIn();
-		// setpMenuChoice();
+	private void initialize()
+	{
+		setBounds(100, 100, WIDTH, HEIGHT);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getContentPane().setLayout(null);
+		//setpLogIn();
+		setpMenuChoice();
 		// setpRegister();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		LogIn l = new LogIn("Log in");
 	}
 
-	public static enum permission {
+	public static enum permission
+	{
 		JobSeeker, Employer, Guest, Admin
 	}
 }

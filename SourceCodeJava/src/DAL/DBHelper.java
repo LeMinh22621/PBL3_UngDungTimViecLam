@@ -14,25 +14,24 @@ public class DBHelper
 {
 	private static DBHelper Instance;
 	private Connection Con;
+	private static String url = "jdbc:sqlserver://DESKTOP-0QMTVFB\\LEHONGMINH;databaseName=UngDungTimViecLam;integratedSecurity=true";
 	public static DBHelper getInstance() throws ClassNotFoundException, SQLException
 	{
 		if(Instance == null)
 		{
-			String url = "jdbc:sqlserver://DESKTOP-0QMTVFB\\LEHONGMINH;databaseName=UngDungTimViecLam;integratedSecurity=true";
 			Instance = new DBHelper(url);
 		}
 		return Instance;
 	}
-	
+
 	private DBHelper(String url) throws ClassNotFoundException, SQLException
 	{
 		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		Con = DriverManager.getConnection(url, "", "");
 	}
 	public DefaultTableModel GetRecords(String sql) throws SQLException
 	{
 		DefaultTableModel dataTableModel = new DefaultTableModel();
-		
+		Con = DriverManager.getConnection(url, "", "");
 		Statement statement = Con.createStatement();
 		ResultSet resultSet = statement.executeQuery(sql);
 		
@@ -42,13 +41,6 @@ public class DBHelper
 		{
 			dataTableModel.addColumn(metaData.getColumnLabel(i));
 		}
-		
-		for(int i = 0; i < dataTableModel.getColumnCount(); i++)
-		{
-			System.out.print(dataTableModel.getColumnName(i) + " ");
-		}
-		System.out.println();
-		
 		while(resultSet.next())
 		{
 			Object[] arr = new Object[metaData.getColumnCount()];
@@ -56,7 +48,6 @@ public class DBHelper
 			{
 				arr[i] = resultSet.getObject(i+1);
 			}
-			System.out.println();
 			dataTableModel.addRow(arr);
 		}
 		resultSet.close();
@@ -66,6 +57,7 @@ public class DBHelper
 	}
 	public void ExcuteDB(String sql) throws SQLException
 	{
+		Con = DriverManager.getConnection(url, "", "");
 		PreparedStatement preparedStatement = Con.prepareStatement(sql);
 		preparedStatement.execute();
 		Con.close();
