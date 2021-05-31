@@ -549,8 +549,7 @@ public class LogIn extends JFrame implements ActionListener
 			public void actionPerformed(ActionEvent e)
 			{
 				String name = txtUsername.getText();
-				String pwd = String.valueOf(pwdPassword.getPassword());//.toString();
-				System.out.println(pwd);
+				String pwd = String.valueOf(pwdPassword.getPassword());
 				boolean accesser=false;
 				switch (p)
 				{

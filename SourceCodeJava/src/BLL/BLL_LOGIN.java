@@ -17,7 +17,8 @@ public class BLL_LOGIN {
 	}
 	public boolean CheckAccount_BLL_LOGIN(String name, String pwd,boolean accesser) {
 		// TODO Auto-generated method stub
-		try {
+		try
+		{
 			for(Account i : DAL.getInstance().getListAccounts_DAL())
 			{
 				String s = "";
@@ -29,21 +30,24 @@ public class BLL_LOGIN {
 					return true;
 				}
 			}
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
 			e.printStackTrace();
 		}
 		return false;
 	}
-	public boolean CheckAdmin_BLL_LOGIN(String name, String pwd) {
-		// TODO Auto-generated method stub
-		try {
+	public boolean CheckAdmin_BLL_LOGIN(String name, String pwd)
+	{
+		try
+		{
 			if(DAL.getInstance().CheckAdmin_DAL(name,pwd))
 			{
 				return true;
 			}
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
 			e.printStackTrace();
 		}
 		return false;

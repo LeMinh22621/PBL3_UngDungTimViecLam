@@ -67,14 +67,14 @@ public class DAL
 			account.setID_ACCOUNT(defaultTableModel.getValueAt(i, 0).toString());
 			account.setUSERNAME(defaultTableModel.getValueAt(i, 1).toString());
 			account.setPASSWORD(defaultTableModel.getValueAt(i, 2).toString());
-			if(defaultTableModel.getValueAt(i, 3)==null)
-			{
-				break;
-			}
-			account.setACCESSER(Boolean.parseBoolean(defaultTableModel.getValueAt(i, 3).toString()));
+			if(defaultTableModel.getValueAt(i, 3) != null)
+				account.setACCESSER( (Boolean.parseBoolean(defaultTableModel.getValueAt(i, 3).toString()) == true)?1:0 );
+			else
+				account.setACCESSER(-1);
 			account.setSTATUS(Boolean.parseBoolean(defaultTableModel.getValueAt(i, 4).toString()));
 			
 			list.add(account);
+			
 		}
 		
 		return list;
@@ -93,7 +93,7 @@ public class DAL
 	// category
 	public Category_job getCategory_jobByID_DAL(String ID) throws ClassNotFoundException, SQLException
 	{
-		String query ="select from TB_CATEGORY_JOB where ID_CATEGORY_JOB ='"+ID+"'";
+		String query ="select * from TB_CATEGORY_JOB where ID_CATEGORY_JOB ='"+ID+"'";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
 		Category_job category_job = new Category_job();
 			
@@ -200,57 +200,96 @@ public class DAL
 		String query = "delete from TB_POST where ID_POST ='"+iD+"'";
 		DBHelper.getInstance().ExcuteDB(query);
 	}
-	public void DeleteAccountbyID_DAL(String iD) throws ClassNotFoundException, SQLException {
+	public Employer getEmployerByIDAccount_DAL(String id_account) throws ClassNotFoundException, SQLException
+	{
+		Employer e = new Employer();
 		
-		boolean kt = true;
-		for(Employer i : getListEmployers_DAL())
+		for(Employer i : getAllEmployer_DAL())
 		{
-			System.out.println("for");
-			if(iD.equals(i.getACCOUNT().getID_ACCOUNT()))
+			if(i.getACCOUNT().getID_ACCOUNT().equals(id_account))
 			{
-				String query = "delete from TB_DETAIL_CV_AND_POST where ID_POST='"+getID_POSTByID_EMPLOYER(i.getID_EMPLOYER())+"'";
-				DBHelper.getInstance().ExcuteDB(query);
-				String query1 = "delete from TB_POST where ID_EMPLOYER='"+i.getID_EMPLOYER()+"'";
-				DBHelper.getInstance().ExcuteDB(query1);
-				String query2 = "delete from TB_EMPLOYER where ID_ACCOUNT='"+iD+"'";
-				DBHelper.getInstance().ExcuteDB(query2);
-				String query3 = "delete from TB_PROFILE where ID_PROFILE='"+i.getPROFILE().getID_PROFILE()+"'";
-				DBHelper.getInstance().ExcuteDB(query3);
-				kt = false;
+				e.setACCOUNT(i.getACCOUNT());
+				e.setID_EMPLOYER(i.getID_EMPLOYER());
+				e.setPROFILE(i.getPROFILE());
+				break;
 			}
 		}
-		System.out.println("first hi");
-		if(kt)
+		return e;
+	}
+	public JobSeeker getJobSeekerByIDAccount_DAL(String id_account) throws ClassNotFoundException, SQLException
+	{
+		JobSeeker e = new JobSeeker();
+		
+		for(JobSeeker i : getAllJobSeeker_DAL())
 		{
-			String query2 = "delete from TB_DETAIL_CV_AND_POST where ID_CV='"+getCVByID_JOBSEEKER(getID_JOBSEEKERByID_ACCOUNT(iD)).getID_CV()+"'";
+			
+			if(i.getACCOUNT().getID_ACCOUNT().equals(id_account))
+			{
+				e.setACCOUNT(i.getACCOUNT());
+				e.setAGE(i.getAGE());
+				e.setGENDER(i.getGENDER());
+				e.setID_JOBSEEKER(i.getID_JOBSEEKER());
+				e.setPROFESSIONAL(i.getPROFESSIONAL());
+				e.setPROFILE(i.getPROFILE());
+				break;
+			}
+		}
+		return e;
+	}
+	public void DeleteAccount_DAL(Account acc) throws ClassNotFoundException, SQLException
+	{
+		if(acc.getACCESSER() == 1)
+		{
+			Employer em = new Employer();
+			em = getEmployerByIDAccount_DAL(acc.getID_ACCOUNT());
+			
+			String query = "delete from TB_DETAIL_CV_AND_POST where ID_POST='"+getID_POSTByID_EMPLOYER(em.getID_EMPLOYER())+"'";
+			DBHelper.getInstance().ExcuteDB(query);
+			
+			String query1 = "delete from TB_POST where ID_EMPLOYER='"+em.getID_EMPLOYER()+"'";
+			DBHelper.getInstance().ExcuteDB(query1);
+			
+			String query2 = "delete from TB_EMPLOYER where ID_EMPLOYER='"+em.getID_EMPLOYER()+"'";
 			DBHelper.getInstance().ExcuteDB(query2);
-			String query3 = "delete from TB_CV where ID_JOBSEEKER='"+getID_JOBSEEKERByID_ACCOUNT(iD)+"'";
+			
+			String query3 = "delete from TB_PROFILE where ID_PROFILE='"+em.getPROFILE().getID_PROFILE()+"'";
 			DBHelper.getInstance().ExcuteDB(query3);
-			String query4 = "delete from TB_JOBSEEKER where ID_ACCOUNT='"+iD+"'";
+		}
+		
+		else if(acc.getACCESSER() == 0)
+		{
+			JobSeeker js = new JobSeeker();
+			js = getJobSeekerByIDAccount_DAL(acc.getID_ACCOUNT());
+			
+			String query2 = "delete from TB_DETAIL_CV_AND_POST where ID_CV='"+getCVByID_JOBSEEKER(js.getID_JOBSEEKER()).getID_CV()+"'";
+			DBHelper.getInstance().ExcuteDB(query2);
+			String query3 = "delete from TB_CV where ID_JOBSEEKER='"+js.getID_JOBSEEKER()+"'";
+			DBHelper.getInstance().ExcuteDB(query3);
+			String query4 = "delete from TB_JOBSEEKER where ID_JOBSEEKER='"+js.getID_JOBSEEKER()+"'";
 			DBHelper.getInstance().ExcuteDB(query4);
-			String query5 = "delete from TB_PROFILE where ID_PROFILE='"+getJobSeekerByID(getID_JOBSEEKERByID_ACCOUNT(iD)).getPROFILE().getID_PROFILE()+"'";
+			String query5 = "delete from TB_PROFILE where ID_PROFILE='"+js.getPROFILE().getID_PROFILE()+"'";
 			DBHelper.getInstance().ExcuteDB(query5);
 		}
-		System.out.println("last hi");
-		String query = "delete from TB_ACCOUNT where ID_ACCOUNT='"+iD+"'";
-		DBHelper.getInstance().ExcuteDB(query);
+		
+		String querya = "delete from TB_ACCOUNT where ID_ACCOUNT='"+acc.getID_ACCOUNT()+"'";
+		DBHelper.getInstance().ExcuteDB(querya);
 	}
 
-	public void BlockAccountbyID_Account_DAL(String iD) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+	public void BlockAccountbyID_Account_DAL(String iD) throws ClassNotFoundException, SQLException
+	{
 		String query = "update TB_ACCOUNT set STATUS = 'False' where ID_ACCOUNT='"+iD+"'";
 		DBHelper.getInstance().ExcuteDB(query);
 	}
 
-	public void AcceptPost_DAL(String iD) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+	public void AcceptPost_DAL(String iD) throws ClassNotFoundException, SQLException
+	{
 		String query = "update TB_POST set STATUS = 'True' where ID_POST='"+iD+"'";
 		DBHelper.getInstance().ExcuteDB(query);
 	}
 
-	public Profile getProfileByID_DAL(String id_PROFILE) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-		String query = "select from TB_PROFILE where ID_PROFILE='"+id_PROFILE+"'";
+	public Profile getProfileByID_DAL(String id_PROFILE) throws ClassNotFoundException, SQLException
+	{
+		String query = "select * from TB_PROFILE where ID_PROFILE='"+id_PROFILE+"'";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
 		Profile profile = new Profile();
 			
@@ -260,8 +299,8 @@ public class DAL
 		profile.setCITY(defaultTableModel.getValueAt(0, 3).toString());
 		profile.setPHONENUMBER(defaultTableModel.getValueAt(0, 4).toString());
 		profile.setEMAIL(defaultTableModel.getValueAt(0, 5).toString());
-		profile.setFACEBOOK(defaultTableModel.getValueAt(0, 6).toString());
-		profile.setWEBSITE(defaultTableModel.getValueAt(0, 4).toString());
+		profile.setFACEBOOK((defaultTableModel.getValueAt(0, 6) == null)?"Empty":defaultTableModel.getValueAt(0, 6).toString());
+		profile.setWEBSITE((defaultTableModel.getValueAt(0, 7) == null)?"Empty":defaultTableModel.getValueAt(0, 7).toString());
 		
 		return profile;
 	}
@@ -285,7 +324,24 @@ public class DAL
 			
 			list.add(jobSeeker);
 		}
+		return list;
+	}
+	public List<Employer> getAllEmployer_DAL() throws ClassNotFoundException, SQLException
+	{
+		List<Employer> list = new ArrayList<Employer>();
+		String query = "select * from TB_EMPLOYER";
+		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
 		
+		for(int i = 0; i < defaultTableModel.getRowCount(); i++)
+		{
+			Employer em = new Employer();
+			
+			em.setID_EMPLOYER(defaultTableModel.getValueAt(i, 0).toString());
+			em.setACCOUNT(getAccountByID_DAL(defaultTableModel.getValueAt(i, 1).toString()));
+			em.setPROFILE(getProfileByID_DAL(defaultTableModel.getValueAt(i, 2).toString()));
+			
+			list.add(em);
+		}
 		return list;
 	}
 	public JobSeeker getJobSeekerByID(String ID) throws ClassNotFoundException, SQLException
@@ -301,8 +357,8 @@ public class DAL
 		return null;
 	}
 
-	public boolean CheckAdmin_DAL(String name, String pwd) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+	public boolean CheckAdmin_DAL(String name, String pwd) throws ClassNotFoundException, SQLException
+	{
 		String query="select * from TB_ACCOUNT where USERNAME='"+name + "' and PASSWORD='"+pwd +"' and ACCESSER IS NULL";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
 		if(defaultTableModel.getRowCount()==1)

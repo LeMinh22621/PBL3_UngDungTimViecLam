@@ -75,13 +75,15 @@ public class BLL
 		}
 	}
 	// delete Account
-	public void DeleteAccountbyID_BLL(String ID)
+	public void DeleteAccount_BLL(Account acc)
 	{
-		try {
-			DAL.getInstance().DeleteAccountbyID_DAL(ID);
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		try
+		{
+			DAL.getInstance().DeleteAccount_DAL(acc);
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
 	public void BlockAccountbyID_BLL(String iD) {

@@ -4,7 +4,7 @@ public class Account {
 	private String ID_ACCOUNT;
 	private String USERNAME;
 	private String PASSWORD;
-	private boolean ACCESSER;
+	private int ACCESSER;
 	private boolean STATUS;
 	public String getID_ACCOUNT() {
 		return ID_ACCOUNT;
@@ -38,11 +38,11 @@ public class Account {
 		STATUS = sTATUS;
 	}
 
-	public boolean getACCESSER() {
+	public int getACCESSER() {
 		return ACCESSER;
 	}
 
-	public void setACCESSER(boolean aCCESSER) {
+	public void setACCESSER(int aCCESSER) {
 		ACCESSER = aCCESSER;
 	}
 

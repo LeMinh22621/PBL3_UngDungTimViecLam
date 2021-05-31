@@ -28,15 +28,14 @@ import DTO.Account;
 import DTO.Post;
 
 public class Admin extends JFrame implements ActionListener, WindowListener{
-	public Admin() {
+	public Admin()
+	{
 		initialize();
 	}
-
-
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 800, 500);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	private void initialize()
+	{
+		setBounds(100, 100, 800, 500);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel admin = new JPanel();
 		JTable tableAccountG;
@@ -222,13 +221,13 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 		
 		// Account management
 		// Show
-		btnShowListAccG.addActionListener(new ActionListener() {
-			
+		btnShowListAccG.addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+			public void actionPerformed(ActionEvent e)
+			{
 				DefaultTableModel dtm = (DefaultTableModel) tableAccountG.getModel();
-				dtm.setNumRows(0);
+				dtm.setRowCount(0);
 				for(Account i : BLL.getInstance().getListAccount_BLL())
 				{
 					Object[] row = new Object[dtm.getColumnCount()];
@@ -241,6 +240,7 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 					
 					dtm.addRow(row);
 				}
+				tableAccountG.setModel(dtm);
 			}
 		});
 		
@@ -248,13 +248,20 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 		btnDeleteAccG.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+			public void actionPerformed(ActionEvent e)
+			{
 				for(int i = 0; i < tableAccountG.getSelectedRowCount(); i++)
-					{
-						int index = tableAccountG.getSelectedRows()[i];
-						BLL.getInstance().DeleteAccountbyID_BLL(tableAccountG.getValueAt(index,0).toString());
-					}
+				{
+					int index = tableAccountG.getSelectedRow();
+					Account acc = new Account();
+					acc.setID_ACCOUNT(tableAccountG.getValueAt(index, 0).toString());
+					acc.setUSERNAME(tableAccountG.getValueAt(index, 1).toString());
+					acc.setPASSWORD(tableAccountG.getValueAt(index, 2).toString());
+					acc.setACCESSER(Integer.parseInt(tableAccountG.getValueAt(index, 3).toString()));
+					acc.setSTATUS(Boolean.parseBoolean(tableAccountG.getValueAt(index, 4).toString()));
+					
+					BLL.getInstance().DeleteAccount_BLL(acc);
+				}
 				btnShowListAccG.doClick();
 			}
 		});
@@ -441,12 +448,6 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 	}
 
 	@Override
-	public void windowaccesser(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void windowClosed(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
@@ -472,6 +473,13 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

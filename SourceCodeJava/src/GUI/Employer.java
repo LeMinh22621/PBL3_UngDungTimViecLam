@@ -228,12 +228,6 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 	}
 
 	@Override
-	public void windowaccesser(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void windowClosing(WindowEvent e) 
 	{
 		dispose();
@@ -267,6 +261,12 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
