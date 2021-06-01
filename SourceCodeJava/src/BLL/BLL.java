@@ -60,7 +60,7 @@ public class BLL
 			}
 		} catch (ClassNotFoundException |SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return tmp;
 	}
@@ -70,7 +70,7 @@ public class BLL
 			return DAL.getInstance().getJOB_NAMEByID_POST_DAL(ID);
 		} catch (ClassNotFoundException |SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 			return null;
 		}
 	}
@@ -86,34 +86,53 @@ public class BLL
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
-	public void BlockAccountbyID_BLL(String iD) {
-		// TODO Auto-generated method stub
-		try {
-			DAL.getInstance().BlockAccountbyID_Account_DAL(iD);
-		} catch (ClassNotFoundException |SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public void BanAccountByIDAccount_BLL(String iD)
+	{
+		try
+		{
+			DAL.getInstance().BanAccountByIDAccount_DAL(iD);
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
-	public void AcceptPost_BLL(String iD)  {
-		try {
+	public void ActiveAccountByIDAccount_BLL(String iD)
+	{
+		try
+		{
+			DAL.getInstance().ActiveAccountByIDAccount_DAL(iD);
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+	public void AcceptPost_BLL(String iD) 
+	{
+		try
+		{
 			DAL.getInstance().AcceptPost_DAL(iD);
-		} catch (ClassNotFoundException |SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}
+		catch (ClassNotFoundException |SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
 	public void DeclinePost_BLL(String iD) {
-		try {
-			DAL.getInstance().DeleteTB_POSTbyID_POST_DAL(iD);
-		} catch (ClassNotFoundException |SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		try
+		{
+			DAL.getInstance().DeclinePost_DAL(iD);
+		}
+		catch (ClassNotFoundException |SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
 	public List<Account> SortAccount_BLL(String item) {
 		List<Account> list = new ArrayList<>();
-		try {
+		try
+		{
 			list = DAL.getInstance().getListAccounts_DAL();
 			switch(item) {
 				case "ID_ACCOUNT":
@@ -150,7 +169,7 @@ public class BLL
 					{
 						for(int j=i+1;j<list.size();j++)
 						{
-							if(list.get(i).getACCESSER()!= list.get(j).getACCESSER()&&list.get(i).getACCESSER())
+							if(list.get(i).getACCESSER()!= list.get(j).getACCESSER())
 							{
 								java.util.Collections.swap(list,i,j);
 							}
@@ -175,7 +194,7 @@ public class BLL
 			}
 		} catch (ClassNotFoundException |SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return list;
 	}
@@ -230,7 +249,7 @@ public class BLL
 			}
 		} catch (ClassNotFoundException |SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return list;
 	}

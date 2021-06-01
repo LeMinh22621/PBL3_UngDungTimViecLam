@@ -116,11 +116,11 @@ public class DAL
 			post.setEMPLOYER(getEmployerByID_DAL(defaultTableModel.getValueAt(i, 1).toString()));
 			post.setCATEGORY_JOB(getCategory_jobByID_DAL(defaultTableModel.getValueAt(i, 2).toString()));
 			post.setJOB_NAME(defaultTableModel.getValueAt(i, 3).toString());
-			post.setCOMPANY_NAME(defaultTableModel.getValueAt(i, 4).toString());
+			post.setCOMPANY_NAME((defaultTableModel.getValueAt(i, 4) != null)?defaultTableModel.getValueAt(i, 4).toString():"");
 			post.setCITY(defaultTableModel.getValueAt(i, 5).toString());
-			post.setSALARY(Integer.parseInt(defaultTableModel.getValueAt(i, 6).toString()));
-			post.setDESCIPTION_JOB(defaultTableModel.getValueAt(i, 7).toString());
-			post.setLABOR(Integer.parseInt(defaultTableModel.getValueAt(i, 8).toString()));
+			post.setSALARY((defaultTableModel.getValueAt(i, 6) != null)?Integer.parseInt(defaultTableModel.getValueAt(i, 6).toString()):-1);
+			post.setDESCIPTION_JOB((defaultTableModel.getValueAt(i, 7) != null)?defaultTableModel.getValueAt(i, 7).toString():"");
+			post.setLABOR((defaultTableModel.getValueAt(i, 8) != null)?Integer.parseInt(defaultTableModel.getValueAt(i, 8).toString()):-1);
 			post.setSTATUS(Boolean.parseBoolean(defaultTableModel.getValueAt(i, 9).toString()));
 			
 			list.add(post);
@@ -275,15 +275,25 @@ public class DAL
 		DBHelper.getInstance().ExcuteDB(querya);
 	}
 
-	public void BlockAccountbyID_Account_DAL(String iD) throws ClassNotFoundException, SQLException
+	public void BanAccountByIDAccount_DAL(String iD) throws ClassNotFoundException, SQLException
 	{
 		String query = "update TB_ACCOUNT set STATUS = 'False' where ID_ACCOUNT='"+iD+"'";
+		DBHelper.getInstance().ExcuteDB(query);
+	}
+	public void ActiveAccountByIDAccount_DAL(String iD) throws ClassNotFoundException, SQLException
+	{
+		String query = "update TB_ACCOUNT set STATUS = 'True' where ID_ACCOUNT = '" + iD + "'"; 
 		DBHelper.getInstance().ExcuteDB(query);
 	}
 
 	public void AcceptPost_DAL(String iD) throws ClassNotFoundException, SQLException
 	{
 		String query = "update TB_POST set STATUS = 'True' where ID_POST='"+iD+"'";
+		DBHelper.getInstance().ExcuteDB(query);
+	}
+	public void DeclinePost_DAL(String iD) throws ClassNotFoundException, SQLException
+	{
+		String query = "update TB_POST set STATUS = 'False' where ID_POST='"+iD+"'";
 		DBHelper.getInstance().ExcuteDB(query);
 	}
 

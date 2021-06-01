@@ -33,7 +33,7 @@ public class BLL_LOGIN {
 		}
 		catch (ClassNotFoundException | SQLException e)
 		{
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return false;
 	}
@@ -48,7 +48,7 @@ public class BLL_LOGIN {
 		}
 		catch (ClassNotFoundException | SQLException e)
 		{
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return false;
 	}

@@ -32,7 +32,7 @@ public class BLL_GUEST {
 			return list;
 		} catch (ClassNotFoundException |SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return null;
 	}
@@ -49,7 +49,7 @@ public class BLL_GUEST {
 			return list;
 		} catch (ClassNotFoundException |SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return null;
 		
@@ -60,7 +60,7 @@ public class BLL_GUEST {
 			return DAL.getInstance().getAccountByID_DAL(id_ACCOUNT);
 		} catch (ClassNotFoundException |SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return null;
 	}
@@ -70,7 +70,7 @@ public class BLL_GUEST {
 			DAL.getInstance().getProfileByID_DAL(id_PROFILE);
 		} catch (ClassNotFoundException |SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return null;
 	}

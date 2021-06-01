@@ -27,7 +27,8 @@ import BLL.BLL;
 import DTO.Account;
 import DTO.Post;
 
-public class Admin extends JFrame implements ActionListener, WindowListener{
+public class Admin extends JFrame implements ActionListener, WindowListener
+{
 	public Admin()
 	{
 		initialize();
@@ -48,6 +49,7 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 		pAccMgtG.setBackground(Color.GRAY);
 		pAccMgtG.setPreferredSize(new Dimension( 758,435));
 		pAccMgtG.setLayout(null);
+		
 		JPanel pConsorG = new JPanel();
 		pConsorG.setBackground(Color.GRAY);
 		pConsorG.setForeground(Color.LIGHT_GRAY);
@@ -66,7 +68,6 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 		JScrollPane scrollpAccMgt = new JScrollPane(pAccMgtG);
 		scrollpAccMgt.setBounds(0, 0, 784, 450);
 		scrollpAccMgt.setLayout(new ScrollPaneLayout());
-		
 		scrollpAccMgt.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollpAccMgt.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
@@ -77,7 +78,6 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 		AccountManagementG.setHorizontalAlignment(SwingConstants.CENTER);
 		AccountManagementG.setFont(new Font("Arial", Font.BOLD, 12));
 		menuBar.add(AccountManagementG);
-		
 		
 		CensorContentsG.setHorizontalAlignment(SwingConstants.CENTER);
 		CensorContentsG.setFont(new Font("Arial", Font.BOLD, 12));
@@ -99,8 +99,6 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 		scrollpConsorG.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 		admin.add(scrollpAccMgt,BorderLayout.CENTER);
-		//admin.add(scrollpConsorG,BorderLayout.CENTER);
-		
 		
 		JLabel lbAccMgtG = new JLabel("LIST ACCOUNT");
 		lbAccMgtG.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -114,7 +112,7 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 		DefaultTableModel tmpAcc = new DefaultTableModel();
 		tmpAcc.setColumnIdentifiers(nameOfColumnsAcc);
 		tableAccountG.setModel(tmpAcc);
-		//
+		
 		JScrollPane scrollPane = new JScrollPane(tableAccountG);
 		tableAccountG.setFillsViewportHeight(true);
 		scrollPane.setBounds(25, 100, 730, 287);
@@ -130,10 +128,11 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 		btnDeleteAccG.setBounds(210, 398, 89, 23);
 		pAccMgtG.add(btnDeleteAccG);
 		
-		JButton btnBlockAccG = new JButton("BLOCK");
-		btnBlockAccG.setBackground(new Color(204, 204, 255));
-		btnBlockAccG.setBounds(368, 398, 89, 23);
-		pAccMgtG.add(btnBlockAccG);
+		JButton btnBanAccG = new JButton("BAN");
+		btnBanAccG.setBackground(new Color(204, 204, 255));
+		btnBanAccG.setBounds(368, 398, 89, 23);
+		btnBanAccG.setBackground(Color.RED);
+		pAccMgtG.add(btnBanAccG);
 		
 		JButton btnSortAccG = new JButton("SORT");
 		btnSortAccG.setBackground(new Color(204, 204, 255));
@@ -160,7 +159,6 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 		tmp.setColumnIdentifiers(nameOfColumnsPost);
 		tableContentsG.setModel(tmp);
 		
-		//
 		JScrollPane scrollPane1 = new JScrollPane(tableContentsG);
 		tableContentsG.setFillsViewportHeight(true);
 		scrollPane1.setBounds(25, 100, 718, 287);
@@ -195,23 +193,22 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 		pConsorG.add(btnShowPostG);
 		
 		// Chuc nang
-		
-		AccountManagementG.addActionListener(new ActionListener() {
-			
+		AccountManagementG.addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+			public void actionPerformed(ActionEvent e)
+			{
 				admin.remove(scrollpConsorG);
 				admin.add(scrollpAccMgt,BorderLayout.CENTER);
 				admin.revalidate();
 				admin.repaint();
 			}
 		});
-		CensorContentsG.addActionListener(new ActionListener() {
-			
+		CensorContentsG.addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+			public void actionPerformed(ActionEvent e)
+			{
 				admin.remove(scrollpAccMgt);
 				admin.add(scrollpConsorG,BorderLayout.CENTER);
 				admin.revalidate();
@@ -266,25 +263,36 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 			}
 		});
 		// Block
-		btnBlockAccG.addActionListener(new ActionListener() {
-			
+		btnBanAccG.addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				for(int i = 0; i < tableAccountG.getSelectedRowCount(); i++)
+			public void actionPerformed(ActionEvent e)
+			{
+				if(btnBanAccG.getText() == "BAN")
 				{
-					int index = tableAccountG.getSelectedRows()[i];
-					BLL.getInstance().BlockAccountbyID_BLL(tableAccountG.getValueAt(index,0).toString());
+					for(int i = 0; i < tableAccountG.getSelectedRowCount(); i++)
+					{
+						int index = tableAccountG.getSelectedRows()[i];
+						BLL.getInstance().BanAccountByIDAccount_BLL(tableAccountG.getValueAt(index,0).toString());
+					}
+				}
+				else
+				{
+					for(int i = 0; i < tableAccountG.getSelectedRowCount(); i++)
+					{
+						int index = tableAccountG.getSelectedRows()[i];
+						BLL.getInstance().ActiveAccountByIDAccount_BLL(tableAccountG.getValueAt(index,0).toString());
+					}
 				}
 				btnShowListAccG.doClick();
 			}
 		});
 		// Sort
-		btnSortAccG.addActionListener(new ActionListener() {
-			
+		btnSortAccG.addActionListener(new ActionListener()
+		{	
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+			public void actionPerformed(ActionEvent e)
+			{
 				DefaultTableModel dtm = (DefaultTableModel) tableAccountG.getModel();
 				dtm.setNumRows(0);
 				String item = cbbSortAccG.getSelectedItem().toString();
@@ -302,50 +310,67 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 				}
 			}
 		});
-		// Censor Contents
-		tableContentsG.addMouseListener(new MouseListener() {
-			
+		// tableAccountG
+		tableAccountG.addMouseListener(new MouseListener()
+		{
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+			public void mouseClicked(MouseEvent e)
+			{				
+				int index = tableAccountG.getSelectedRow();
+				if(Boolean.parseBoolean( tableAccountG.getValueAt(index, 4).toString()) )
+				{
+					btnBanAccG.setText("BAN");
+					btnBanAccG.setBackground(Color.RED);
+				}
+				else
+				{
+					btnBanAccG.setText("ACTIVE");
+					btnBanAccG.setBackground(Color.YELLOW);
+				}
 			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+
+			@Override
+			public void mouseExited(MouseEvent e) {}
+		});
+		// table contenstG
+		tableContentsG.addMouseListener(new MouseListener()
+		{
+			@Override
+			public void mousePressed(MouseEvent e) {}
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+			@Override
+			public void mouseExited(MouseEvent e){}
 			
 			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				if(tableContentsG.getSelectedRowCount()>0) {
+			public void mouseClicked(MouseEvent e)
+			{
+				if(tableContentsG.getSelectedRowCount()>0)
+				{
 					btnAcceptG.setVisible(true);
 					btnDeclineG.setVisible(true);
 				}
 			}
 		});
 		// Show
-		btnShowPostG.addActionListener(new ActionListener() {
-			
+		btnShowPostG.addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+			public void actionPerformed(ActionEvent e)
+			{
 				DefaultTableModel dtm = (DefaultTableModel) tableContentsG.getModel();
-				dtm.setNumRows(0);
+				dtm.setRowCount(0);
 				for(Post i : BLL.getInstance().getListPost_BLL())
 				{
 					Object[] row = new Object[dtm.getColumnCount()];
@@ -362,14 +387,15 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 					 
 					dtm.addRow(row);
 				}
+				tableContentsG.setModel(dtm);
 			}
 		});
 		// Accept
-		btnAcceptG.addActionListener(new ActionListener() {
-			
+		btnAcceptG.addActionListener(new ActionListener()
+		{	
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+			public void actionPerformed(ActionEvent e)
+			{
 				for(int i = 0; i < tableContentsG.getSelectedRowCount(); i++)
 				{
 					int index = tableContentsG.getSelectedRows()[i];
@@ -381,15 +407,15 @@ public class Admin extends JFrame implements ActionListener, WindowListener{
 			}
 		});
 		// Decline
-		btnDeclineG.addActionListener(new ActionListener() {
-			
+		btnDeclineG.addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+			public void actionPerformed(ActionEvent e)
+			{
 				for(int i = 0; i < tableContentsG.getSelectedRowCount(); i++)
 				{
 					int index = tableContentsG.getSelectedRows()[i];
-					if(Boolean.parseBoolean(tableContentsG.getValueAt(index,9).toString()) == false)
+					if(Boolean.parseBoolean(tableContentsG.getValueAt(index,9).toString()))
 					{
 						BLL.getInstance().DeclinePost_BLL(tableContentsG.getValueAt(index,0).toString());
 					}
