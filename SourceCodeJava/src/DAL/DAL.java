@@ -375,5 +375,38 @@ public class DAL
 			return true;
 		return false;
 	}
+	public String SelectLastRow_DAL(String query) throws ClassNotFoundException, SQLException
+	{
+		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
+		return (defaultTableModel.getValueAt(0, 0) != null)?defaultTableModel.getValueAt(0, 0).toString():null;
+	}
+	public String SelectLastRowJobSeeker_DAL(String spe) throws ClassNotFoundException, SQLException
+	{
+		String readID = "select top 1 ID_JOBSEEKER\r\n"
+				+ "from TB_JOBSEEKER\r\n"
+				+ "where ID_JOBSEEKER like '" + spe+ "%'\r\n"
+				+ "order by ID_JOBSEEKER desc ";
+		return SelectLastRow_DAL(readID);
+	}
+	public String SelectLastRowAccount_DAL(String spe) throws ClassNotFoundException, SQLException
+	{
+		String readID = "select top 1 ID_ACCOUNT\r\n"
+				+ "from TB_ACCOUNT\r\n"
+				+ "where ID_ACCOUNT like '" + spe+ "%'\r\n"
+				+ "order by ID_ACCOUNT desc ";
+		return SelectLastRow_DAL(readID);
+	}
+	public String SelectLastRowProfile_DAL(String spe) throws ClassNotFoundException, SQLException
+	{
+		String readID = "select top 1 ID_PROFILE\r\n"
+				+ "from TB_PROFILE\r\n"
+				+ "where ID_PROFILE like '" + spe+ "%'\r\n"
+				+ "order by ID_PROFILE desc ";
+		return SelectLastRow_DAL(readID);
+	}
+	public void ExcuteDB(String query) throws ClassNotFoundException, SQLException
+	{
+		DBHelper.getInstance().ExcuteDB(query);
+	}
 
 }
