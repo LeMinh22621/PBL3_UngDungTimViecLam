@@ -1,6 +1,5 @@
 package BLL;
 
-import java.awt.Component;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +20,10 @@ public class BLL_GUEST {
 			Instance = new BLL_GUEST();
 		return Instance;
 	}
-	public List<Post> getListPostByNameAndAddress_BLL_GUEST(String name, String address) {
-		// TODO Auto-generated method stub
-		try {
+	public List<Post> getListPostByNameAndAddress_BLL_GUEST(String name, String address)
+	{
+		try
+		{
 			List<Post> list = new ArrayList<Post>();
 			for(Post i : DAL.getInstance().getListPost_DAL())
 			{

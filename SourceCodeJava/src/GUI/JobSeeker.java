@@ -215,7 +215,7 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String name = cbbJobS.getSelectedItem().toString();
-				String address = cbbAddressS.getSelectedItem().toString();
+				String address = (cbbAddressS.getSelectedItem() != null)?cbbAddressS.getSelectedItem().toString():"";
 				DefaultTableModel dtm = (DefaultTableModel) tableJ.getModel();
 				dtm.setNumRows(0);
 				for(Post i : BLL_GUEST.getInstance().getListPostByNameAndAddress_BLL_GUEST(name,address))

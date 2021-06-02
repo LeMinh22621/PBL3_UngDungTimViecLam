@@ -79,8 +79,8 @@ public class DAL
 		
 		return list;
 	}
-	public Account getAccountByID_DAL(String id_ACCOUNT) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+	public Account getAccountByID_DAL(String id_ACCOUNT) throws ClassNotFoundException, SQLException
+	{
 		for(Account i :getListAccounts_DAL())
 		{
 			if(i.getID_ACCOUNT().equals(id_ACCOUNT))
@@ -304,7 +304,7 @@ public class DAL
 		Profile profile = new Profile();
 			
 		profile.setID_PROFILE(defaultTableModel.getValueAt(0, 0).toString());
-		profile.setIMAGE(defaultTableModel.getValueAt(0, 1).toString());
+		profile.setIMAGE((defaultTableModel.getValueAt(0, 1) != null)?defaultTableModel.getValueAt(0, 1).toString():"");
 		profile.setNAME(defaultTableModel.getValueAt(0, 2).toString());
 		profile.setCITY(defaultTableModel.getValueAt(0, 3).toString());
 		profile.setPHONENUMBER(defaultTableModel.getValueAt(0, 4).toString());
@@ -356,72 +356,71 @@ public class DAL
 	}
 	public JobSeeker getJobSeekerByID(String ID) throws ClassNotFoundException, SQLException
 	{
-		JobSeeker j = new JobSeeker();
 		for(JobSeeker i : getAllJobSeeker_DAL())
-		{
 			if(i.getID_JOBSEEKER().equals(ID))
-			{
 				return i;
-			}
-		}
 		return null;
 	}
-
+	public String SelectLastRow_DAL(String query) throws ClassNotFoundException, SQLException
+	{
+		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
+		return (defaultTableModel.getValueAt(0, 0) != null)?defaultTableModel.getValueAt(0, 0).toString():null;
+	}
+	public boolean checkAccount_DAL(String username) throws ClassNotFoundException, SQLException
+	{
+		String query = "select * from TB_ACCOUNT where USERNAME = '" + username + "'";
+		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
+		if(defaultTableModel.getRowCount() >= 1)
+			return true;
+		return false;
+	}
 	public boolean CheckAdmin_DAL(String name, String pwd) throws ClassNotFoundException, SQLException
 	{
-		String query="select * from TB_ACCOUNT where USERNAME='"+name + "' and PASSWORD='"+pwd +"' and ACCESSER IS NULL";
+		String query="select * from TB_ACCOUNT where USERNAME='"+ name + "' and PASSWORD='"+ pwd +"' and ACCESSER IS NULL";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
 		if(defaultTableModel.getRowCount()==1)
 			return true;
 		return false;
 	}
-	public List<String> getListJobName_DAL() throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+	public List<String> getListJobName_DAL() throws ClassNotFoundException, SQLException
+	{
 		String query = "select CATEGORY_JOB_NAME from TB_CATEGORY_JOB";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
 		List<String> tmp = new ArrayList<String>();
-		for(int i= 0;i<defaultTableModel.getRowCount();i++)
-		{
+		for(int i = 0;i<defaultTableModel.getRowCount();i++)
 			tmp.add(defaultTableModel.getValueAt(i, 0).toString());
-		}
 		return tmp;
 	}
 	
-	public List<String> getListPROFESSIONAL_DAL() throws ClassNotFoundException, SQLException {
-		
+	public List<String> getListPROFESSIONAL_DAL() throws ClassNotFoundException, SQLException
+	{
 		List<String> tmp = new ArrayList<String>();
 		for(JobSeeker i : getAllJobSeeker_DAL())
-		{
 			if(!tmp.contains(i.getPROFESSIONAL()))
-			{
 				tmp.add(i.getPROFESSIONAL());
-			}
-		}
 		return tmp;
 	}
 	public List<String> getListAddressJobSeeker_DAL() throws ClassNotFoundException, SQLException
   {
 		List<String> tmp = new ArrayList<String>();
 		for(JobSeeker i : getAllJobSeeker_DAL())
-		{
 			if(!tmp.contains(i.getPROFILE().getCITY()))
-			{
 				tmp.add(i.getPROFILE().getCITY());
-			}
-		}
 		return tmp;
 	}
-=======
-	public String SelectLastRow_DAL(String query) throws ClassNotFoundException, SQLException
+	public String SelectLastRowEmployer_DAL(String spe) throws ClassNotFoundException, SQLException
 	{
-		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
-		return (defaultTableModel.getValueAt(0, 0) != null)?defaultTableModel.getValueAt(0, 0).toString():null;
+		String readID = "select top 1 ID_EMPLOYER\r\n"
+				+ "from TB_EMPLOYER\r\n"
+				+ "where ID_EMPLOYER like '" + spe + "%'\r\n"
+				+ "order by ID_EMPLOYER desc ";
+		return SelectLastRow_DAL(readID);
 	}
 	public String SelectLastRowJobSeeker_DAL(String spe) throws ClassNotFoundException, SQLException
 	{
 		String readID = "select top 1 ID_JOBSEEKER\r\n"
 				+ "from TB_JOBSEEKER\r\n"
-				+ "where ID_JOBSEEKER like '" + spe+ "%'\r\n"
+				+ "where ID_JOBSEEKER like '" + spe + "%'\r\n"
 				+ "order by ID_JOBSEEKER desc ";
 		return SelectLastRow_DAL(readID);
 	}

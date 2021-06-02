@@ -175,59 +175,59 @@ public class LogIn extends JFrame implements ActionListener
 		pRegister.setLayout(null);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Employer
-//		JPanel pER = new JPanel();
-//		pER.setBackground(Color.GRAY);
-//		pER.setBounds(0, 0, 450, 461);
-//		pRegister.add(pER);
-//		pER.setLayout(null);
-//
-//		txtCityER = new JTextField();
-//		txtCityER.setHorizontalAlignment(SwingConstants.CENTER);
-//		txtCityER.setBounds(219, 233, 135, 31);
-//		pER.add(txtCityER);
-//		txtCityER.setColumns(10);
-//		txtCityER.setBorder(null);
-//		txtCityER.setBackground(Color.GRAY);
-//
-//		JSeparator spCityER = new JSeparator();
-//		spCityER.setBounds(219, 264, 135, 8);
-//		pER.add(spCityER);
-//
-//		JLabel lblCityER = new JLabel("City");
-//		lblCityER.setBounds(71, 231, 109, 31);
-//		pER.add(lblCityER);
-//		lblCityER.setHorizontalAlignment(SwingConstants.CENTER);
-//		lblCityER.setFont(new Font("Cambria", Font.BOLD, 15));
-//
-//		JLabel lbNameER = new JLabel("Name of Company");
-//		lbNameER.setHorizontalAlignment(SwingConstants.CENTER);
-//		lbNameER.setFont(new Font("Cambria", Font.BOLD, 15));
-//		lbNameER.setBounds(56, 141, 152, 31);
-//		pER.add(lbNameER);
-//
-//		txtNameER = new JTextField();
-//		txtNameER.setColumns(10);
-//		txtNameER.setBorder(null);
-//		txtNameER.setBackground(Color.GRAY);
-//		txtNameER.setBounds(218, 141, 135, 31);
-//		pER.add(txtNameER);
-//
-//		JSeparator spNameER = new JSeparator();
-//		spNameER.setBounds(218, 172, 135, 8);
-//		pER.add(spNameER);
-//
-//		JButton btnRegisterER = new JButton("Register");
-//		btnRegisterER.setBounds(175, 378, 101, 31);
-//		pER.add(btnRegisterER);
-//
-//		JLabel lblDetailER = new JLabel("Detail Company");
-//		lblDetailER.setHorizontalAlignment(SwingConstants.CENTER);
-//		lblDetailER.setForeground(Color.GREEN);
-//		lblDetailER.setFont(new Font("Algerian", Font.PLAIN, 40));
-//		lblDetailER.setBounds(44, 36, 370, 77);
-//		pER.add(lblDetailER);
-//
-//		pER.setVisible(false);
+		JPanel pER = new JPanel();
+		pER.setBackground(Color.GRAY);
+		pER.setBounds(0, 0, 450, 461);
+		pRegister.add(pER);
+		pER.setLayout(null);
+
+		txtCityER = new JTextField();
+		txtCityER.setHorizontalAlignment(SwingConstants.CENTER);
+		txtCityER.setBounds(219, 233, 135, 31);
+		pER.add(txtCityER);
+		txtCityER.setColumns(10);
+		txtCityER.setBorder(null);
+		txtCityER.setBackground(Color.GRAY);
+
+		JSeparator spCityER = new JSeparator();
+		spCityER.setBounds(219, 264, 135, 8);
+		pER.add(spCityER);
+
+		JLabel lblCityER = new JLabel("City");
+		lblCityER.setBounds(71, 231, 109, 31);
+		pER.add(lblCityER);
+		lblCityER.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCityER.setFont(new Font("Cambria", Font.BOLD, 15));
+
+		JLabel lbNameER = new JLabel("Name of Company");
+		lbNameER.setHorizontalAlignment(SwingConstants.CENTER);
+		lbNameER.setFont(new Font("Cambria", Font.BOLD, 15));
+		lbNameER.setBounds(56, 141, 152, 31);
+		pER.add(lbNameER);
+
+		txtNameER = new JTextField();
+		txtNameER.setColumns(10);
+		txtNameER.setBorder(null);
+		txtNameER.setBackground(Color.GRAY);
+		txtNameER.setBounds(218, 141, 135, 31);
+		pER.add(txtNameER);
+
+		JSeparator spNameER = new JSeparator();
+		spNameER.setBounds(218, 172, 135, 8);
+		pER.add(spNameER);
+
+		JButton btnRegisterER = new JButton("Register");
+		btnRegisterER.setBounds(175, 378, 101, 31);
+		pER.add(btnRegisterER);
+
+		JLabel lblDetailER = new JLabel("Detail Company");
+		lblDetailER.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDetailER.setForeground(Color.GREEN);
+		lblDetailER.setFont(new Font("Algerian", Font.PLAIN, 40));
+		lblDetailER.setBounds(44, 36, 370, 77);
+		pER.add(lblDetailER);
+
+		pER.setVisible(false);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// JobSeeker
 		JPanel pJSR = new JPanel();
 		pJSR.setBackground(Color.GRAY);
@@ -348,10 +348,36 @@ public class LogIn extends JFrame implements ActionListener
 				String PASSWORD = pwdPasswordR.getText();
 				String CONFIRM = pwdConfirmPassR.getText();
 				
-				BLL_LOGIN.getInstance().Register(NAME, CITY, PHONE, EMAIL, AGE, PROFESSIONAL, GENDER, USERNAME, PASSWORD, CONFIRM);
-				getContentPane().removeAll();
-				getContentPane().repaint();
-				setpLogIn();
+				if(BLL_LOGIN.getInstance().Register(NAME, CITY, PHONE, EMAIL, AGE, PROFESSIONAL, GENDER, USERNAME, PASSWORD, CONFIRM))
+				{
+					getContentPane().removeAll();
+					getContentPane().repaint();
+					setpLogIn();
+				}
+				
+			}
+		});
+		btnRegisterER.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				String NAME = txtNameER.getText();
+				String CITY = txtCityER.getText();
+				String PHONE = txtPhoneR.getText();
+				String EMAIL = txtGmailR.getText();
+				
+				String USERNAME = txtUsernameR.getText();
+				String PASSWORD = pwdPasswordR.getText();
+				String CONFIRM = pwdConfirmPassR.getText();
+			
+				if(BLL_LOGIN.getInstance().Register(NAME, CITY, PHONE, EMAIL, "1", "1", true, USERNAME, PASSWORD, CONFIRM))
+				{
+					getContentPane().removeAll();
+					getContentPane().repaint();
+					setpLogIn();
+				}
+				
 			}
 		});
 		btnRegisterJSR.setBounds(175, 378, 101, 31);
@@ -420,9 +446,11 @@ public class LogIn extends JFrame implements ActionListener
 
 		JButton btnBackR = new JButton("Back");
 		btnBackR.setBounds(250, 11, 73, 23);
-		btnBackR.addActionListener(new ActionListener() {
+		btnBackR.addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				getContentPane().removeAll();
 				getContentPane().repaint();
 				setpLogIn();
@@ -489,7 +517,7 @@ public class LogIn extends JFrame implements ActionListener
 								setpRegisterJobSeeker(pJSR);
 								break;
 							case Employer:
-								//setpRgisterEmployer(pER);
+								setpRgisterEmployer(pER);
 								break;
 							default:
 								break;
@@ -513,68 +541,6 @@ public class LogIn extends JFrame implements ActionListener
 		lbRegisterR.setHorizontalAlignment(SwingConstants.CENTER);
 
 		getContentPane().add(pRegister);
-		// employer
-				btnRegisterER.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// TODO Auto-generated method stub
-						String username = txtUsernameJSR.getText();
-						String password = String.valueOf(pwdPasswordJSR.getPassword());
-						String confirmPwd = String.valueOf(pwdConfirmPassJSR.getPassword());
-						String gmail = txtGmailJSR.getText();
-						String phonenumber = txtPhoneJSR.getText();
-						String NameOfCompany = txtNameER.getText();
-						String address = txtAddressER.getText();
-						if(!username.equals("")&&!password.equals("")&&!gmail.equals("")&&!phonenumber.equals("")&&!NameOfCompany.equals("")&&!address.equals(""))
-						{
-							if(password.equals(confirmPwd))
-							{
-								//BLL_LOGIN.getInstance().RegisterE(username,password,gmail,phonenumber,NameOfCompany,address);
-							}
-							else
-							{
-								JOptionPane.showMessageDialog(null, "Different Password and Confirmpassword");
-							}
-						}
-						else {
-							JOptionPane.showMessageDialog(null, "Please complete all information");
-						}
-					}
-				});
-				
-				// jobseeker
-				btnRegisterJSR.addActionListener(new ActionListener() {
-							
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// TODO Auto-generated method stub
-						String username = txtUsernameJSR.getText();
-						String password = String.valueOf(pwdPasswordJSR.getPassword());
-						String confirmPwd = String.valueOf(pwdConfirmPassJSR.getPassword());
-						String gmail = txtGmailJSR.getText();
-						String phonenumber = txtPhoneJSR.getText();
-						String Name = txtNameJSR.getText();
-						String age = txtAgeJSR.getText();
-						String address = txtAddressER.getText();
-						String professional = txtProfessionalJSR.getText();
-						if(!username.equals("")&&!password.equals("")&&!gmail.equals("")&&!phonenumber.equals("")&&!Name.equals("")
-								&&!age.equals("")&&!address.equals("")&&!professional.equals(""))
-						{
-							if(password.equals(confirmPwd))
-							{
-								
-							}
-							else
-							{
-								JOptionPane.showMessageDialog(null, "Different Password and Confirmpassword");
-							}
-						}
-						else {
-							JOptionPane.showMessageDialog(null, "Please complete all information");
-						}
-					}
-				});
 		setVisible(true);
 	}
 
@@ -675,8 +641,6 @@ public class LogIn extends JFrame implements ActionListener
 				boolean accesser=false;
 				switch (p)
 				{
-					default:
-						break;
 					case Admin:
 					{
 						if(BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,-1))
@@ -710,7 +674,10 @@ public class LogIn extends JFrame implements ActionListener
 						}
 						break;
 					}
-					
+					default:
+					{
+						break;
+					}
 				}
 				if(!accesser)
 				{

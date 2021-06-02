@@ -35,16 +35,6 @@ public class BLL_LOGIN {
 		}
 		return false;
 	}
-	public void RegisterE(String username, String password, String gmail, String phonenumber, String nameOfCompany,
-			String address) {
-		try {
-			DAL.RegisterE(username,password,gmail,phonenumber,nameOfCompany,address);
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
 	
 	public int SelectLastRowProfile_BLL()
 	{
@@ -62,20 +52,29 @@ public class BLL_LOGIN {
 		
 		return result;
 	}
-	public int SelectLastRowJobSeeker_BLL()
+	public int SelectLastRowJobSeekerOrEmployer_BLL()
 	{
 		int result = -1;
 		try
 		{
-			String id = DAL.getInstance().SelectLastRowJobSeeker_DAL("JS");
-			String num = id.replaceAll("JS", "");
-			result = Integer.parseInt(num);
+			if(LogIn.p == permission.Employer)
+			{
+				String id = DAL.getInstance().SelectLastRowEmployer_DAL("EM");
+				String num = id.replaceAll("EM", "");
+				result = Integer.parseInt(num);
+
+			}
+			else if(LogIn.p == permission.JobSeeker)
+			{
+				String id = DAL.getInstance().SelectLastRowJobSeeker_DAL("JS");
+				String num = id.replaceAll("JS", "");
+				result = Integer.parseInt(num);
+			}
 		}
 		catch (ClassNotFoundException | SQLException e)
 		{
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
-		
 		return result;
 	}
 	public int SelectLastRowAccount_BLL()
@@ -116,13 +115,15 @@ public class BLL_LOGIN {
 		}
 		catch(NumberFormatException | NullPointerException e)
 		{
-			
+			JOptionPane.showConfirmDialog(null, "Phone numbers must be numbers");
 		}
 		return false;
 	}
 	public boolean checkEmail(String email)
 	{
-		return email.contains("@")?true:false;
+		if(email.length() >= 0 && email.length() <= 50)
+			return email.contains("@")?true:false;
+		return false;
 	}
 	public boolean checkAge(String age)
 	{
@@ -137,55 +138,122 @@ public class BLL_LOGIN {
 		}
 		return false;
 	}
-	public void Register(String NAME, String CITY, String PHONE, String EMAIL, String AGE, String PROFESSIONAL,boolean GENDER, String USERNAME, String PASSWORD, String CONFIRM)
+	public boolean checkUsername(String username)
 	{
+		if(username.length() < 10)
+			return true;
+		JOptionPane.showMessageDialog(null, "Length of Username must be less 10");
+		return false;
+	}
+	public boolean checkPassword(String password)
+	{
+		if(password.length() < 10)
+			return true;
+		JOptionPane.showMessageDialog(null, "Length of Password must be less 10");
+		return false;
+	}
+	public boolean Register(String NAME, String CITY, String PHONE, String EMAIL, String AGE, String PROFESSIONAL,boolean GENDER, String USERNAME, String PASSWORD, String CONFIRM)
+	{
+			if(!checkUsername(USERNAME))
+				return false;
+			if(!checkPassword(PASSWORD))
+				return false;
+			try
+			{
+				if(DAL.getInstance().checkAccount_DAL(USERNAME))
+				{
+					JOptionPane.showMessageDialog(null, "This Username had register");
+					return false;
+				}
+			}
+			catch (ClassNotFoundException | SQLException e)
+			{
+				JOptionPane.showMessageDialog(null, "Register failed!");
+				return false;
+			}
+
+		
 		int idp = SelectLastRowProfile_BLL() + 1;
 		String IDP = "PF" + idp;
 		
 		int ida = SelectLastRowAccount_BLL() + 1;
-		String IDA = "AJ" + ida;
+		String IDA = "";
 		
-		int idj = SelectLastRowJobSeeker_BLL() + 1;
-		String IDJ = "JS" + idj;
+		if(LogIn.p == permission.JobSeeker)
+			IDA = "AJ" + ida;
+		else if( LogIn.p == LogIn.permission.Employer)
+			IDA = "AE" + ida;
+		
+		String ID = "";
+		int id = SelectLastRowJobSeekerOrEmployer_BLL() + 1;
+		if(LogIn.p == permission.JobSeeker)
+			ID = "JS" + id;
+		else if( LogIn.p == LogIn.permission.Employer)
+			ID = "EM" + id;
 		
 		if(NAME.length() != 0 && CITY.length() != 0 && PHONE.length() != 0 && EMAIL.length() != 0 && AGE.length() != 0 && PROFESSIONAL.length() != 0 && USERNAME.length() != 0 && PASSWORD.length() != 0)
 		{
 			if(PASSWORD.equals(CONFIRM))
 			{
-				if( checkPhone(PHONE) && checkEmail(EMAIL) && checkAge(AGE))
+				if( checkPhone(PHONE) && checkEmail(EMAIL))
 				{
 					String insertP = "Insert into TB_PROFILE (ID_PROFILE, NAME, CITY, PHONE_NUMBER, EMAIL) VALUES ('";
 					String queryP = insertP + IDP + "','" + NAME + "','" + CITY + "','" + PHONE + "','" + EMAIL + "')";
 					
 					boolean accesser,status;
-					accesser = false;
+					accesser = (LogIn.p == LogIn.permission.Employer)?true:false;
 					status = true;
 					String insertA = "Insert into TB_ACCOUNT (ID_ACCOUNT,USERNAME,PASSWORD,ACCESSER,STATUS) VALUES ('";
 					String queryA = insertA + IDA + "','" + USERNAME + "','" + PASSWORD + "','" + accesser + "','" + status + "')";
 					
-					String insertJ = "Insert into TB_JOBSEEKER (ID_JOBSEEKER, ID_ACCOUNT, ID_PROFILE, AGE, GENDER, PROFESSIONAL) VALUES ('";
-					String queryJ = insertJ + IDJ + "','" + IDA + "','" + IDP + "','" + Integer.parseInt(AGE) + "','" + GENDER + "','" + PROFESSIONAL + "')";
+					String insert = "";
+					String query = "";
+					if(LogIn.p == permission.JobSeeker && checkAge(AGE))
+					{
+						insert = "Insert into TB_JOBSEEKER (ID_JOBSEEKER, ID_ACCOUNT, ID_PROFILE, AGE, GENDER, PROFESSIONAL) VALUES ('";
+						query = insert + ID + "','" + IDA + "','" + IDP + "','" + Integer.parseInt(AGE) + "','" + GENDER + "','" + PROFESSIONAL + "')";
+					}
+					else if( LogIn.p == LogIn.permission.Employer)
+					{
+						insert = "Insert into TB_EMPLOYER (ID_EMPLOYER, ID_ACCOUNT, ID_PROFILE) VALUES ('";
+						query = insert + ID +  "','" + IDA + "','" + IDP + "')";
+					}
+					
 					try
 					{
 						DAL.getInstance().ExcuteDB(queryP);
 						DAL.getInstance().ExcuteDB(queryA);
-						DAL.getInstance().ExcuteDB(queryJ);
-						JOptionPane.showMessageDialog(null, "Register success!");
+						DAL.getInstance().ExcuteDB(query);
+						JOptionPane.showMessageDialog(null, "Register Success");
+						
+						return true;
 					}
 					catch (ClassNotFoundException | SQLException e)
 					{
 						JOptionPane.showMessageDialog(null, "Register failed");
+						return false;
 					}
 				}
 				else
-					JOptionPane.showMessageDialog(null, "Wrong data!\n( Email have @ or the number Phone == 10 or 0 < Age < 150 )");
+				{
+					JOptionPane.showMessageDialog(null, "Wrong data!\n( Email must be have @ or the length of Phonenumber == 10 or 0 < Age < 150 )");
+					return false;
+				}
+					
 			}
 			else
+			{
 				JOptionPane.showMessageDialog(null, "Confirm password wrong!");
-			
+				return false;
+			}
+				
 		}
 		else
+		{
 			JOptionPane.showMessageDialog(null, "Please full fill");
+			return false;
+		}
+			
 	}
 	
 }

@@ -36,7 +36,7 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 	private void initialize()
 	{
 		setBounds(100, 100, 800, 500);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel admin = new JPanel();
 		JTable tableAccountG;
@@ -242,8 +242,8 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 		});
 		
 		//Delete
-		btnDeleteAccG.addActionListener(new ActionListener() {
-			
+		btnDeleteAccG.addActionListener(new ActionListener()
+		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -464,10 +464,6 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 	@Override
 	public void windowClosing(WindowEvent e)
 	{
-//		if (JOptionPane.showConfirmDialog(this, "Are you sure you want to close this window?", "Close Window?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
-//		{
-//	            
-//	    }
 		dispose();
         LogIn f = new LogIn("Choise Permission");
         f.setVisible(true);
