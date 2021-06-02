@@ -375,23 +375,6 @@ public class DAL
 			return true;
 		return false;
 	}
-	public static void RegisterE(String username, String password, String gmail, String phonenumber,
-			String nameOfCompany, String address) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-		//int tmp = ;
-		String ID_Account = "AC";
-		String ID_Profile = "PF";
-		String ID_Employer = "EM";
-		String query = "insert into TB_ACCOUNT(ID_ACCOUNT,USERNAME,PASSWORD,ACCESSER,STATUS) values('"+ID_Account+"','"+username+"','"+password+"','True','True')";
-		DBHelper.getInstance().ExcuteDB(query);
-		String query1 = "INSERT INTO TB_PROFILE(ID_PROFILE, IMAGE, NAME, CITY, PHONE_NUMBER, EMAIL, FACEBOOK, WEBSITE) VALUES('"+
-				ID_Profile+"',(SELECT * FROM OPENROWSET(BULK N'C:\\Users\\ADMIN\\Pictures\\download.jpg', SINGLE_BLOB) as IMAGE),'"+
-				nameOfCompany+"','"+address+"','"+phonenumber+"','"+gmail+"',NULL,NULL),";
-		DBHelper.getInstance().ExcuteDB(query1);
-		String query2 = "INSERT INTO TB_EMPLOYER(ID_EMPLOYER, ID_ACCOUNT, ID_PROFILE) VALUES"
-				+ "('EM101', 'A101', 'PF101')";
-	}
-
 	public List<String> getListJobName_DAL() throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		String query = "select CATEGORY_JOB_NAME from TB_CATEGORY_JOB";
@@ -416,8 +399,8 @@ public class DAL
 		}
 		return tmp;
 	}
-	public List<String> getListAddressJobSeeker_DAL() throws ClassNotFoundException, SQLException {
-
+	public List<String> getListAddressJobSeeker_DAL() throws ClassNotFoundException, SQLException
+  {
 		List<String> tmp = new ArrayList<String>();
 		for(JobSeeker i : getAllJobSeeker_DAL())
 		{
@@ -427,6 +410,40 @@ public class DAL
 			}
 		}
 		return tmp;
+	}
+=======
+	public String SelectLastRow_DAL(String query) throws ClassNotFoundException, SQLException
+	{
+		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
+		return (defaultTableModel.getValueAt(0, 0) != null)?defaultTableModel.getValueAt(0, 0).toString():null;
+	}
+	public String SelectLastRowJobSeeker_DAL(String spe) throws ClassNotFoundException, SQLException
+	{
+		String readID = "select top 1 ID_JOBSEEKER\r\n"
+				+ "from TB_JOBSEEKER\r\n"
+				+ "where ID_JOBSEEKER like '" + spe+ "%'\r\n"
+				+ "order by ID_JOBSEEKER desc ";
+		return SelectLastRow_DAL(readID);
+	}
+	public String SelectLastRowAccount_DAL(String spe) throws ClassNotFoundException, SQLException
+	{
+		String readID = "select top 1 ID_ACCOUNT\r\n"
+				+ "from TB_ACCOUNT\r\n"
+				+ "where ID_ACCOUNT like '" + spe+ "%'\r\n"
+				+ "order by ID_ACCOUNT desc ";
+		return SelectLastRow_DAL(readID);
+	}
+	public String SelectLastRowProfile_DAL(String spe) throws ClassNotFoundException, SQLException
+	{
+		String readID = "select top 1 ID_PROFILE\r\n"
+				+ "from TB_PROFILE\r\n"
+				+ "where ID_PROFILE like '" + spe+ "%'\r\n"
+				+ "order by ID_PROFILE desc ";
+		return SelectLastRow_DAL(readID);
+	}
+	public void ExcuteDB(String query) throws ClassNotFoundException, SQLException
+	{
+		DBHelper.getInstance().ExcuteDB(query);
 	}
 
 	public List<String> getListAddressPost_DAL() throws ClassNotFoundException, SQLException {
