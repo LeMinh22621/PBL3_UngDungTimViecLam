@@ -23,6 +23,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import BLL.BLL_LOGIN;
+import DTO.Account;
 public class LogIn extends JFrame implements ActionListener
 {
 	
@@ -643,7 +644,7 @@ public class LogIn extends JFrame implements ActionListener
 				{
 					case Admin:
 					{
-						if(BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,-1))
+						if(BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,-1)!=null)
 						{
 							dispose();
 							Admin f = new Admin();
@@ -654,10 +655,11 @@ public class LogIn extends JFrame implements ActionListener
 					}
 					case Employer:
 					{
-						if(BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,1))
+						Account i=BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,1);
+						if(i!=null)
 						{
 							dispose();
-							Employer f =  new Employer();
+							Employer f =  new Employer(i);
 							f.setVisible(true);
 							accesser=true;
 						}
@@ -665,10 +667,11 @@ public class LogIn extends JFrame implements ActionListener
 					}
 					case JobSeeker:
 					{
-						if(BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,0))
+						Account i=BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,0);
+						if(i!=null)
 						{
 							dispose();
-							JobSeeker f =  new JobSeeker();
+							JobSeeker f =  new JobSeeker(i);
 							f.setVisible(true);
 							accesser=true;
 						}

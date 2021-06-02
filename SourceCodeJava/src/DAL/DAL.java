@@ -336,6 +336,23 @@ public class DAL
 		}
 		return list;
 	}
+	// category
+	public List<Category_job> getListCategory_job_DAL() throws ClassNotFoundException, SQLException
+	{
+		List<Category_job> list = new ArrayList<Category_job>();
+		String query = "select * from TB_CATEGORY_JOB";
+		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
+		
+		for(int i = 0; i < defaultTableModel.getRowCount(); i++)
+		{
+			Category_job category_job = new Category_job();
+			
+			category_job.setID_CATEGORY_JOB(defaultTableModel.getValueAt(i, 0).toString());
+			category_job.setCATEGORY_JOB_NAME(defaultTableModel.getValueAt(i, 1).toString());
+			list.add(category_job);
+		}
+		return list;
+	}
 	public List<Employer> getAllEmployer_DAL() throws ClassNotFoundException, SQLException
 	{
 		List<Employer> list = new ArrayList<Employer>();
@@ -442,6 +459,14 @@ public class DAL
 				+ "order by ID_PROFILE desc ";
 		return SelectLastRow_DAL(readID);
 	}
+	public String SelectLastRowPost_DAL(String spe) throws ClassNotFoundException, SQLException
+	{
+		String readID = "select top 1 ID_POST\r\n"
+				+ "from TB_POST\r\n"
+				+ "where ID_POST like '" + spe+ "%'\r\n"
+				+ "order by ID_POST desc ";
+		return SelectLastRow_DAL(readID);
+	}
 	public void ExcuteDB(String query) throws ClassNotFoundException, SQLException
 	{
 		DBHelper.getInstance().ExcuteDB(query);
@@ -461,4 +486,43 @@ public class DAL
 		}
 		return tmp;
 	}
+
+	public void EditProfileEmployer_DAl(String iD, String name, String city, String phoneNumber, String email) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String query ="update TB_PROFILE set Name ='"+name+"', CITY = '"+city+"', PHONE_NUMBER = '"+phoneNumber+"', EMAIL = '"+email+
+				"' where ID_PROFILE = '"+iD+"'";
+		DBHelper.getInstance().ExcuteDB(query);
+	}
+
+	public void EditProfileJobseeker_DAl(String iDprofile, String iDjobseeker, String name, String age,
+			boolean gender,String phoneNumber, String email,String professional) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String query ="update TB_PROFILE set Name ='"+name+"', PHONE_NUMBER = '"+phoneNumber+"', EMAIL = '"+email+
+				"' where ID_PROFILE = '"+iDprofile+"'";
+		String query2 ="update TB_JOBSEEKER set AGE ="+age+", GENDER ='"+gender+"', PROFESSIONAL = '"+professional+
+				"' where ID_JOBSEEKER = '"+iDjobseeker+"'";
+		DBHelper.getInstance().ExcuteDB(query);
+		DBHelper.getInstance().ExcuteDB(query2);
+		
+	}
+	public String getIDCategoryByName(String category_job_name) throws ClassNotFoundException, SQLException
+	{
+		for(Category_job i: getListCategory_job_DAL())
+		{
+			if(i.getCATEGORY_JOB_NAME().equals(category_job_name))
+			{
+				return i.getID_CATEGORY_JOB();
+			}
+		}
+		return null;
+	}
+	public void Post_DAl(String idP,String iD_Acc,String jobname, String companyname, String city, String salary, String descrip, String labor,
+			String category) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String query = "insert into TB_POST values('"+idP+"','"+getEmployerByIDAccount_DAL(iD_Acc).getID_EMPLOYER()+
+				"','"+getIDCategoryByName(category)+"','"+jobname+"','"+companyname+"','"+city+"',"+salary+",'"+descrip+
+				"',"+labor+",'False')";
+		DBHelper.getInstance().ExcuteDB(query);
+	}
+
 }

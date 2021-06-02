@@ -25,6 +25,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import BLL.BLL_GUEST;
+import DTO.Account;
 import DTO.Post;
 
 public class JobSeeker extends JFrame implements ActionListener, WindowListener
@@ -36,7 +37,7 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 	private JTable tableJ;
 	JobSeekerProfile profile;
 
-	public JobSeeker()
+	public JobSeeker(Account user)
 	{
 		setBounds(100, 100, 800, 500);
 		contentPane = new JPanel();
@@ -108,6 +109,7 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 		DefaultComboBoxModel tmpPost = new DefaultComboBoxModel();
 		tmpPost.addAll(BLL_GUEST.getInstance().getListJobName_BLL_GUEST());
 		cbbJobS.setModel(tmpPost);
+		cbbJobS.setSelectedItem(cbbJobS.getItemAt(0));
 		cbbJobS.setBounds(147, 21, 459, 32);
 		pSearchS.add(cbbJobS);
 		
@@ -115,6 +117,7 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 		DefaultComboBoxModel tmpaddress = new DefaultComboBoxModel();
 		tmpaddress.addAll(BLL_GUEST.getInstance().getListAddressPost_BLL_GUEST());
 		cbbAddressS.setModel(tmpaddress);
+		cbbAddressS.setSelectedItem(cbbAddressS.getItemAt(0));
 		cbbAddressS.setBounds(147, 64, 459, 32);
 		pSearchS.add(cbbAddressS);
 		
@@ -170,7 +173,7 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				profile = JobSeekerProfile.getInstance();
+				profile = new JobSeekerProfile(user);
 				profile.setVisible(true);
 			}
 		});
