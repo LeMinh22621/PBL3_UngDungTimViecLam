@@ -375,6 +375,43 @@ public class DAL
 			return true;
 		return false;
 	}
+	public List<String> getListJobName_DAL() throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String query = "select CATEGORY_JOB_NAME from TB_CATEGORY_JOB";
+		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
+		List<String> tmp = new ArrayList<String>();
+		for(int i= 0;i<defaultTableModel.getRowCount();i++)
+		{
+			tmp.add(defaultTableModel.getValueAt(i, 0).toString());
+		}
+		return tmp;
+	}
+	
+	public List<String> getListPROFESSIONAL_DAL() throws ClassNotFoundException, SQLException {
+		
+		List<String> tmp = new ArrayList<String>();
+		for(JobSeeker i : getAllJobSeeker_DAL())
+		{
+			if(!tmp.contains(i.getPROFESSIONAL()))
+			{
+				tmp.add(i.getPROFESSIONAL());
+			}
+		}
+		return tmp;
+	}
+	public List<String> getListAddressJobSeeker_DAL() throws ClassNotFoundException, SQLException
+  {
+		List<String> tmp = new ArrayList<String>();
+		for(JobSeeker i : getAllJobSeeker_DAL())
+		{
+			if(!tmp.contains(i.getPROFILE().getCITY()))
+			{
+				tmp.add(i.getPROFILE().getCITY());
+			}
+		}
+		return tmp;
+	}
+=======
 	public String SelectLastRow_DAL(String query) throws ClassNotFoundException, SQLException
 	{
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
@@ -409,4 +446,17 @@ public class DAL
 		DBHelper.getInstance().ExcuteDB(query);
 	}
 
+	public List<String> getListAddressPost_DAL() throws ClassNotFoundException, SQLException {
+		String query = "select CITY from TB_POST";
+		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
+		List<String> tmp = new ArrayList<String>();
+		for(int i=0;i<defaultTableModel.getRowCount();i++)
+		{
+			if(!tmp.contains(defaultTableModel.getValueAt(i, 0).toString()))
+			{
+				tmp.add(defaultTableModel.getValueAt(i, 0).toString());
+			}
+		}
+		return tmp;
+	}
 }

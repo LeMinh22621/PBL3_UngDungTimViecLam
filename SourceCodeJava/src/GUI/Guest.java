@@ -32,8 +32,8 @@ import DTO.Post;
 
 public class Guest extends JFrame implements ActionListener, WindowListener
 {
-	private JTextField textName;
-	private JTextField textAddress;
+	private JComboBox cbbName;
+	private JComboBox cbbAddress;
 	private JTable tablepost;
 	private JTable tablejobseeker;
 
@@ -89,18 +89,29 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		lblNewLabel.setBounds(135, 0, 512, 51);
 		guest.add(lblNewLabel);
 		
-		textName = new JTextField();
-		textName.setBounds(147, 81, 459, 32);
-		guest.add(textName);
-		textName.setColumns(10);
+		cbbName = new JComboBox();
+		DefaultComboBoxModel tmpName = new DefaultComboBoxModel();
+		DefaultComboBoxModel tmpProfessional = new DefaultComboBoxModel();
+		cbbName.setModel(tmpName);
+		cbbName.setBounds(147, 81, 459, 32);
+		guest.add(cbbName);
 		
-		textAddress = new JTextField();
-		textAddress.setColumns(10);
-		textAddress.setBounds(147, 124, 459, 32);
-		guest.add(textAddress);
-		
+		cbbAddress = new JComboBox();
+		DefaultComboBoxModel tmpaddressPost = new DefaultComboBoxModel();
+		DefaultComboBoxModel tmpaddressJobseeker = new DefaultComboBoxModel();
+		cbbAddress.setModel(tmpaddressPost);
+		cbbAddress.setBounds(147, 124, 459, 32);
+		guest.add(cbbAddress);
+		// cbb employer
+		tmpProfessional.addAll(BLL_GUEST.getInstance().getListPROFESSIONAL_BLL_GUEST());
+		tmpaddressJobseeker.addAll(BLL_GUEST.getInstance().getListAddressJobseeker_BLL_GUEST());
+		// cbb jobseeker
+		tmpName.addAll(BLL_GUEST.getInstance().getListJobName_BLL_GUEST());
+		tmpaddressPost.addAll(BLL_GUEST.getInstance().getListAddressPost_BLL_GUEST());
+		cbbName.setSelectedItem(cbbName.getItemAt(0));
+		cbbAddress.setSelectedItem(cbbAddress.getItemAt(0));
 		JComboBox cbb = new JComboBox();
-		cbb.setModel(new DefaultComboBoxModel(new Item[] {new Item(0,"JobName"), new Item(1,"SeekerName")}));
+		cbb.setModel(new DefaultComboBoxModel(new Item[] {new Item(0,"CategoryJob"), new Item(1,"SeekerName")}));
 		cbb.setToolTipText("");
 		cbb.setBounds(635, 81, 106, 32);
 		guest.add(cbb);
@@ -109,7 +120,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		btnSearch.setBounds(635, 124, 106, 32);
 		guest.add(btnSearch);
 		
-		JLabel lblName = new JLabel("JOB-NAME");
+		JLabel lblName = new JLabel("CATEGORY_JOB");
 		lblName.setFont(new Font("Segoe UI Black", Font.PLAIN, 16));
 		lblName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblName.setBounds(0, 78, 137, 32);
@@ -163,6 +174,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		tablepost.setModel(tmp);
 		JScrollPane scrollPane = new JScrollPane(tablepost);
 		tablepost.setFillsViewportHeight(true);
+		tablepost.setDefaultEditor(Object.class, null);
 		scrollPane.setBounds(35, 206, 706, 216);
 		guest.add(scrollPane);
 		
@@ -184,6 +196,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		tablejobseeker.setModel(tmpjobseeker);
 		JScrollPane scrollPane1 = new JScrollPane(tablejobseeker);
 		tablejobseeker.setFillsViewportHeight(true);
+		tablejobseeker.setDefaultEditor(Object.class, null);
 		scrollPane1.setBounds(35, 510, 706, 216);
 		guest.add(scrollPane1);
 		
@@ -284,25 +297,34 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				// TODO Auto-generated method stub
-				if(cbb.getSelectedItem().toString().equals("JobName"))
+				if(cbb.getSelectedItem().toString().equals("CategoryJob"))
 				{
-					lblName.setText("JOB-NAME");
+					lblName.setText("CATEGORY_JOB");
+					cbbName.setModel(tmpName);
+					cbbAddress.setModel(tmpaddressPost);
+					cbbName.setSelectedItem(cbbName.getItemAt(0));
+					cbbAddress.setSelectedItem(cbbAddress.getItemAt(0));
 				}
-			else
-			{
-				lblName.setText("PROFESSIONAL");
-			}
+				else
+				{
+					lblName.setText("PROFESSIONAL");
+					cbbName.setModel(tmpProfessional);
+					cbbAddress.setModel(tmpaddressJobseeker);
+					cbbName.setSelectedItem(cbbName.getItemAt(0));
+					cbbAddress.setSelectedItem(cbbAddress.getItemAt(0));
+					
+				}
 			}
 		});
 		// tim kiem
 		btnSearch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String name = textName.getText();
-				String address = textAddress.getText();
+				String name = cbbName.getSelectedItem().toString();
+				String address = cbbAddress.getSelectedItem().toString();
 				switch(cbb.getSelectedItem().toString())
 				{
-				 	case "JobName":
+				 	case "CategoryJob":
 				 	{
 				 		DefaultTableModel dtm = (DefaultTableModel) tablepost.getModel();
 						dtm.setNumRows(0);
@@ -353,7 +375,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		
 	}
 	@Override
-	public void windowaccesser(WindowEvent e) {
+	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
