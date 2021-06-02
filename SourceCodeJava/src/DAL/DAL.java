@@ -366,11 +366,13 @@ public class DAL
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
 		return (defaultTableModel.getValueAt(0, 0) != null)?defaultTableModel.getValueAt(0, 0).toString():null;
 	}
-	public boolean checkAccount_DAL(String username) throws ClassNotFoundException, SQLException
+	public boolean checkAccount_DAL(String username, boolean accesser) throws ClassNotFoundException, SQLException
 	{
-		String query = "select * from TB_ACCOUNT where USERNAME = '" + username + "'";
-		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
-		if(defaultTableModel.getRowCount() >= 1)
+		String query = "select * from TB_ACCOUNT where USERNAME = '" + username + "' and ACCESSER = '" + accesser + "'";
+		DefaultTableModel defaultTableModel = (DBHelper.getInstance().GetRecords(query) != null)?DBHelper.getInstance().GetRecords(query):null;
+		if(defaultTableModel == null)
+			return false;
+		if(defaultTableModel.getRowCount() == 1)
 			return true;
 		return false;
 	}
@@ -436,7 +438,7 @@ public class DAL
 	{
 		String readID = "select top 1 ID_PROFILE\r\n"
 				+ "from TB_PROFILE\r\n"
-				+ "where ID_PROFILE like '" + spe+ "%'\r\n"
+				+ "where ID_PROFILE like '" + spe + "%'\r\n"
 				+ "order by ID_PROFILE desc ";
 		return SelectLastRow_DAL(readID);
 	}
@@ -445,7 +447,8 @@ public class DAL
 		DBHelper.getInstance().ExcuteDB(query);
 	}
 
-	public List<String> getListAddressPost_DAL() throws ClassNotFoundException, SQLException {
+	public List<String> getListAddressPost_DAL() throws ClassNotFoundException, SQLException
+	{
 		String query = "select CITY from TB_POST";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
 		List<String> tmp = new ArrayList<String>();

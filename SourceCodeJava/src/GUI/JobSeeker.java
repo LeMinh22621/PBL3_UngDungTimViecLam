@@ -235,11 +235,11 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 			}
 		});
 		// sent CV
-		btnSentCV.addActionListener(new ActionListener() {
-			
+		btnSentCV.addActionListener(new ActionListener()
+		{
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+			public void actionPerformed(ActionEvent e)
+			{
 				for(int i = 0; i<tableJ.getSelectedRowCount();i++)
 				{
 					int index = tableJ.getSelectedRows()[i];
