@@ -31,20 +31,20 @@ public class TEST_DB extends JFrame
 		list = BLL.getInstance().getListAccount_BLL();
 		
 		
-		for(Account i : list)
-		{
-			Object[] row = new Object[dtm.getColumnCount()];
-			
-			row[0] = i.getID_ACCOUNT();
-			row[1] = i.getUSERNAME();
-			row[2] = i.getPASSWORD();
-			row[3] = i.getEMAIL();
-			row[4] = i.getPHONENUMBER();
-			row[5] = i.getSTATUS();
-			row[6] = i.getCATEGORY();
-			
-			dtm.addRow(row);
-		}
+//		for(Account i : list)
+//		{
+//			Object[] row = new Object[dtm.getColumnCount()];
+//			
+//			row[0] = i.getID_ACCOUNT();
+//			row[1] = i.getUSERNAME();
+//			row[2] = i.getPASSWORD();
+//			row[3] = i.getEMAIL();
+//			row[4] = i.getPHONENUMBER();
+//			row[5] = i.getSTATUS();
+//			row[6] = i.getCATEGORY();
+//			
+//			dtm.addRow(row);
+//		}
 		
 		setVisible(true);
 	}

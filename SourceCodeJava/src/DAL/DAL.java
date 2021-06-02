@@ -375,5 +375,71 @@ public class DAL
 			return true;
 		return false;
 	}
+	public static void RegisterE(String username, String password, String gmail, String phonenumber,
+			String nameOfCompany, String address) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		//int tmp = ;
+		String ID_Account = "AC";
+		String ID_Profile = "PF";
+		String ID_Employer = "EM";
+		String query = "insert into TB_ACCOUNT(ID_ACCOUNT,USERNAME,PASSWORD,ACCESSER,STATUS) values('"+ID_Account+"','"+username+"','"+password+"','True','True')";
+		DBHelper.getInstance().ExcuteDB(query);
+		String query1 = "INSERT INTO TB_PROFILE(ID_PROFILE, IMAGE, NAME, CITY, PHONE_NUMBER, EMAIL, FACEBOOK, WEBSITE) VALUES('"+
+				ID_Profile+"',(SELECT * FROM OPENROWSET(BULK N'C:\\Users\\ADMIN\\Pictures\\download.jpg', SINGLE_BLOB) as IMAGE),'"+
+				nameOfCompany+"','"+address+"','"+phonenumber+"','"+gmail+"',NULL,NULL),";
+		DBHelper.getInstance().ExcuteDB(query1);
+		String query2 = "INSERT INTO TB_EMPLOYER(ID_EMPLOYER, ID_ACCOUNT, ID_PROFILE) VALUES"
+				+ "('EM101', 'A101', 'PF101')";
+	}
 
+	public List<String> getListJobName_DAL() throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String query = "select CATEGORY_JOB_NAME from TB_CATEGORY_JOB";
+		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
+		List<String> tmp = new ArrayList<String>();
+		for(int i= 0;i<defaultTableModel.getRowCount();i++)
+		{
+			tmp.add(defaultTableModel.getValueAt(i, 0).toString());
+		}
+		return tmp;
+	}
+	
+	public List<String> getListPROFESSIONAL_DAL() throws ClassNotFoundException, SQLException {
+		
+		List<String> tmp = new ArrayList<String>();
+		for(JobSeeker i : getAllJobSeeker_DAL())
+		{
+			if(!tmp.contains(i.getPROFESSIONAL()))
+			{
+				tmp.add(i.getPROFESSIONAL());
+			}
+		}
+		return tmp;
+	}
+	public List<String> getListAddressJobSeeker_DAL() throws ClassNotFoundException, SQLException {
+
+		List<String> tmp = new ArrayList<String>();
+		for(JobSeeker i : getAllJobSeeker_DAL())
+		{
+			if(!tmp.contains(i.getPROFILE().getCITY()))
+			{
+				tmp.add(i.getPROFILE().getCITY());
+			}
+		}
+		return tmp;
+	}
+
+	public List<String> getListAddressPost_DAL() throws ClassNotFoundException, SQLException {
+		String query = "select CITY from TB_POST";
+		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
+		List<String> tmp = new ArrayList<String>();
+		for(int i=0;i<defaultTableModel.getRowCount();i++)
+		{
+			if(!tmp.contains(defaultTableModel.getValueAt(i, 0).toString()))
+			{
+				tmp.add(defaultTableModel.getValueAt(i, 0).toString());
+			}
+		}
+		return tmp;
+	}
 }

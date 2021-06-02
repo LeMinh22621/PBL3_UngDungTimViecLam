@@ -15,16 +15,12 @@ public class BLL_LOGIN {
 			Instance = new BLL_LOGIN();
 		return Instance;
 	}
-	public boolean CheckAccount_BLL_LOGIN(String name, String pwd,boolean accesser) {
+	public boolean CheckAccount_BLL_LOGIN(String name, String pwd,int accesser) {
 		// TODO Auto-generated method stub
 		try
 		{
 			for(Account i : DAL.getInstance().getListAccounts_DAL())
 			{
-				String s = "";
-				s += i.getID_ACCOUNT() + " " + i.getUSERNAME() + " " + i.getPASSWORD();
-				JOptionPane.showMessageDialog(null, s);
-				
 				if(i.getUSERNAME().equals(name)&&i.getPASSWORD().equals(pwd)&&i.getACCESSER()==accesser)
 				{
 					return true;
@@ -37,19 +33,14 @@ public class BLL_LOGIN {
 		}
 		return false;
 	}
-	public boolean CheckAdmin_BLL_LOGIN(String name, String pwd)
-	{
-		try
-		{
-			if(DAL.getInstance().CheckAdmin_DAL(name,pwd))
-			{
-				return true;
-			}
+	public void RegisterE(String username, String password, String gmail, String phonenumber, String nameOfCompany,
+			String address) {
+		try {
+			DAL.RegisterE(username,password,gmail,phonenumber,nameOfCompany,address);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		catch (ClassNotFoundException | SQLException e)
-		{
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
-		return false;
+		
 	}
 }

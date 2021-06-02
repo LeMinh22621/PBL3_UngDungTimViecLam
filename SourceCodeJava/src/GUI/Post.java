@@ -143,7 +143,7 @@ public class Post extends JFrame implements ActionListener, WindowListener
 		
 	}
 	@Override
-	public void windowaccesser(WindowEvent e) {
+	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
