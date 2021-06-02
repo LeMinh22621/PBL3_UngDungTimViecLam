@@ -411,7 +411,6 @@ public class DAL
 		}
 		return tmp;
 	}
-=======
 	public String SelectLastRow_DAL(String query) throws ClassNotFoundException, SQLException
 	{
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);

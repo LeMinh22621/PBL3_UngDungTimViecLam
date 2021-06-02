@@ -35,16 +35,6 @@ public class BLL_LOGIN {
 		}
 		return false;
 	}
-	public void RegisterE(String username, String password, String gmail, String phonenumber, String nameOfCompany,
-			String address) {
-		try {
-			DAL.RegisterE(username,password,gmail,phonenumber,nameOfCompany,address);
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
 	
 	public int SelectLastRowProfile_BLL()
 	{

@@ -513,68 +513,7 @@ public class LogIn extends JFrame implements ActionListener
 		lbRegisterR.setHorizontalAlignment(SwingConstants.CENTER);
 
 		getContentPane().add(pRegister);
-		// employer
-				btnRegisterER.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// TODO Auto-generated method stub
-						String username = txtUsernameJSR.getText();
-						String password = String.valueOf(pwdPasswordJSR.getPassword());
-						String confirmPwd = String.valueOf(pwdConfirmPassJSR.getPassword());
-						String gmail = txtGmailJSR.getText();
-						String phonenumber = txtPhoneJSR.getText();
-						String NameOfCompany = txtNameER.getText();
-						String address = txtAddressER.getText();
-						if(!username.equals("")&&!password.equals("")&&!gmail.equals("")&&!phonenumber.equals("")&&!NameOfCompany.equals("")&&!address.equals(""))
-						{
-							if(password.equals(confirmPwd))
-							{
-								//BLL_LOGIN.getInstance().RegisterE(username,password,gmail,phonenumber,NameOfCompany,address);
-							}
-							else
-							{
-								JOptionPane.showMessageDialog(null, "Different Password and Confirmpassword");
-							}
-						}
-						else {
-							JOptionPane.showMessageDialog(null, "Please complete all information");
-						}
-					}
-				});
-				
-				// jobseeker
-				btnRegisterJSR.addActionListener(new ActionListener() {
-							
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// TODO Auto-generated method stub
-						String username = txtUsernameJSR.getText();
-						String password = String.valueOf(pwdPasswordJSR.getPassword());
-						String confirmPwd = String.valueOf(pwdConfirmPassJSR.getPassword());
-						String gmail = txtGmailJSR.getText();
-						String phonenumber = txtPhoneJSR.getText();
-						String Name = txtNameJSR.getText();
-						String age = txtAgeJSR.getText();
-						String address = txtAddressER.getText();
-						String professional = txtProfessionalJSR.getText();
-						if(!username.equals("")&&!password.equals("")&&!gmail.equals("")&&!phonenumber.equals("")&&!Name.equals("")
-								&&!age.equals("")&&!address.equals("")&&!professional.equals(""))
-						{
-							if(password.equals(confirmPwd))
-							{
-								
-							}
-							else
-							{
-								JOptionPane.showMessageDialog(null, "Different Password and Confirmpassword");
-							}
-						}
-						else {
-							JOptionPane.showMessageDialog(null, "Please complete all information");
-						}
-					}
-				});
+		
 		setVisible(true);
 	}
 
