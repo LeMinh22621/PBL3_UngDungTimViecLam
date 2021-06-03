@@ -2,7 +2,6 @@ package BLL;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -35,8 +34,8 @@ public class BLL_GUEST {
 				}
 			}
 			return list;
-		} catch (ClassNotFoundException |SQLException e) {
-			// TODO Auto-generated catch block
+		} catch (ClassNotFoundException |SQLException e)
+		{
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return null;

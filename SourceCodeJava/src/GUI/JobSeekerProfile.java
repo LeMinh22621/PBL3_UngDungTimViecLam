@@ -5,25 +5,28 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
+import BLL.BLL;
 import BLL.BLL_GUEST;
 import BLL.BLL_LOGIN;
 import DTO.Account;
-import DTO.Profile;
 import DTO.JobSeeker;
+import DTO.Profile;
 
 public class JobSeekerProfile extends JFrame
 {
@@ -91,8 +94,37 @@ public class JobSeekerProfile extends JFrame
 		txtPhoneNumber.setBounds(157, 65, 210, 35);
 		pContact.add(txtPhoneNumber);
 		
+		JLabel lbCV = new JLabel("NameCV");
+		lbCV.setHorizontalAlignment(SwingConstants.CENTER);
+		lbCV.setBounds(389, 114, 108, 43);
+		pContact.add(lbCV);
+		
 		JButton btnCV = new JButton("CV");
-		btnCV.setBounds(313, 114, 131, 43);
+		btnCV.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				
+				JFileChooser fc = new JFileChooser();
+				fc.setCurrentDirectory(new File("C:\\Users\\lehon\\Desktop\\HK4\\PBL3_UngDungTimViecLam\\CV"));
+				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				fc.addChoosableFileFilter(new FileNameExtensionFilter("DOC", "doc", "docx", "DOC", "DOCX"));
+				fc.addChoosableFileFilter(new FileNameExtensionFilter("PDF", "PDF", "pdf"));
+				fc.setAcceptAllFileFilterUsed(true);
+				
+				int res = fc.showOpenDialog(btnCV);
+				if(res == JFileChooser.APPROVE_OPTION)
+				{
+					File f = fc.getSelectedFile();
+					String path = f.getAbsolutePath();
+					String name = f.getName();
+					lbCV.setText(name);
+					BLL.getInstance().AddCV_BLL((lbCV.getText() == "NameCV")?true:false,user.getID_ACCOUNT(), path);
+				}
+			}
+		});
+		btnCV.setBounds(313, 114, 66, 43);
 		pContact.add(btnCV);
 		
 		JPanel pAbout = new JPanel();
@@ -173,6 +205,7 @@ public class JobSeekerProfile extends JFrame
 		txtAge.setText(String.valueOf(jobseeker.getAGE()));
 		txtEmail.setText(profile.getEMAIL());
 		txtPhoneNumber.setText(profile.getPHONENUMBER());
+		
 		txtProfessional.setText(jobseeker.getPROFESSIONAL());
 		if(jobseeker.getGENDER())
 		{

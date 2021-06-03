@@ -380,8 +380,8 @@ public class DAL
 	}
 	public String SelectLastRow_DAL(String query) throws ClassNotFoundException, SQLException
 	{
-		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
-		return (defaultTableModel.getValueAt(0, 0) != null)?defaultTableModel.getValueAt(0, 0).toString():null;
+		DefaultTableModel defaultTableModel = (DBHelper.getInstance().GetRecords(query) != null)?DBHelper.getInstance().GetRecords(query):null;
+		return (defaultTableModel != null)?defaultTableModel.getValueAt(0, 0).toString():null;
 	}
 	public boolean checkAccount_DAL(String username, boolean accesser) throws ClassNotFoundException, SQLException
 	{
@@ -467,6 +467,14 @@ public class DAL
 				+ "order by ID_POST desc ";
 		return SelectLastRow_DAL(readID);
 	}
+	public String SelectLastRowCV_DAL(String spe) throws ClassNotFoundException, SQLException
+	{
+		String readID = "select top 1 ID_CV\r\n"
+				+ "from TB_CV\r\n"
+				+ "where ID_CV like '" + spe+ "%'\r\n"
+				+ "order by ID_CV desc ";
+		return SelectLastRow_DAL(readID);
+	}
 	public void ExcuteDB(String query) throws ClassNotFoundException, SQLException
 	{
 		DBHelper.getInstance().ExcuteDB(query);
@@ -522,6 +530,16 @@ public class DAL
 		String query = "insert into TB_POST values('"+idP+"','"+getEmployerByIDAccount_DAL(iD_Acc).getID_EMPLOYER()+
 				"','"+getIDCategoryByName(category)+"','"+jobname+"','"+companyname+"','"+city+"',"+salary+",'"+descrip+
 				"',"+labor+",'False')";
+		DBHelper.getInstance().ExcuteDB(query);
+	}
+	public void AddCV_DAL(String idcv, String idjob, String path) throws ClassNotFoundException, SQLException
+	{
+		String query = "Insert into TB_CV(ID_CV, ID_JOBSEEKER, ADDRESS_CV) values ('" + idcv + "','" + idjob + "','" + path + "')";
+		DBHelper.getInstance().ExcuteDB(query);
+	}
+	public void EditCV_DAL(String idcv, String path) throws ClassNotFoundException, SQLException
+	{
+		String query = "Update TB_CV set ADDRESS_CV = '" + path + "' where ID_CV = '" + idcv + "'";
 		DBHelper.getInstance().ExcuteDB(query);
 	}
 

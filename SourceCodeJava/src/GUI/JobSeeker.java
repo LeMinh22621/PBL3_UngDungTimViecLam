@@ -36,6 +36,7 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 	private JComboBox cbbAddressS;
 	private JTable tableJ;
 	JobSeekerProfile profile;
+	Post viewingPost;
 
 	public JobSeeker(Account user)
 	{
@@ -145,11 +146,6 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 		scrollPaneS.setBounds(35, 44, 717, 210);
 		pListS.add(scrollPaneS);
 		
-		JButton btnSentCV = new JButton("SEND CV");
-		btnSentCV.setVisible(false);
-		btnSentCV.setBounds(663, 258, 89, 23);
-		pListS.add(btnSentCV);
-		
 		JLabel lblTopJob = new JLabel("Top Ranking-job");
 		lblTopJob.setFont(new Font("VNI-Fato", Font.PLAIN, 15));
 		lblTopJob.setForeground(new Color(51, 0, 153));
@@ -203,13 +199,13 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 				// TODO Auto-generated method stub
 				
 			}
-			
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
+			public void mouseClicked(MouseEvent e)
+			{
 				if(tableJ.getSelectedRowCount()>0)
 				{
-					btnSentCV.setVisible(true);
+//					int index = tableJ.getSelectedRow();
+//					String idEmployer = tableJ.getValueAt(index, 0)
 				}
 			}
 		});
@@ -237,21 +233,6 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 				}
 			}
 		});
-		// sent CV
-		btnSentCV.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				for(int i = 0; i<tableJ.getSelectedRowCount();i++)
-				{
-					int index = tableJ.getSelectedRows()[i];
-					String nameE = tableJ.getValueAt(index, 0).toString();
-					//BLL_GUEST.getInstance().SentCV_BLLGUEST(nameE);
-				}
-			}
-		});
-		addWindowListener(this);
 	}
 
 	@Override
