@@ -27,6 +27,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import BLL.BLL_GUEST;
+import DTO.Account;
 import DTO.JobSeeker;
 import GUI.Guest.Item;
 
@@ -39,7 +40,7 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 	Post post;
 	EmployerProfile profile;
 	
-	public Employer()
+	public Employer(Account user)
 	{
 		setBounds(100, 100, 800, 500);
 		contentPane = new JPanel();
@@ -83,7 +84,7 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				profile = EmployerProfile.getInstance();
+				profile = new EmployerProfile(user);
 				profile.setVisible(true);
 			}
 		});
@@ -101,7 +102,7 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				post = Post.getProfile();
+				post = new Post(user);
 				post.setVisible(true);
 			}
 		});

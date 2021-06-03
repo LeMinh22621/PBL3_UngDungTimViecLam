@@ -16,13 +16,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import BLL.BLL_GUEST;
+import BLL.BLL_LOGIN;
+import DTO.Account;
+import DTO.Profile;
+
 public class EmployerProfile extends JFrame
 {
 	private static EmployerProfile Instance;
-	public static EmployerProfile getInstance()
+	public static EmployerProfile getInstance(Account user)
 	{
 		if(Instance == null)
-			Instance = new EmployerProfile();
+			Instance = new EmployerProfile(user);
 		return Instance;
 	}
 	private JTextField txtEmail;
@@ -30,7 +35,7 @@ public class EmployerProfile extends JFrame
 	private JTextField txtName;
 	private JTextField txtCity;
 	
-	public EmployerProfile()
+	public EmployerProfile(Account user)
 	{
 		super("Employer Profile");
 		setBounds(193, 0, 373, 451);
@@ -52,7 +57,7 @@ public class EmployerProfile extends JFrame
 		lbContact.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel lbEmail = new JLabel("Email");
-		lbEmail.setBounds(32, 22, 55, 24);
+		lbEmail.setBounds(32, 22, 84, 24);
 		pContact.add(lbEmail);
 		lbEmail.setHorizontalAlignment(SwingConstants.CENTER);
 		
@@ -62,11 +67,13 @@ public class EmployerProfile extends JFrame
 		lbPhoneNumber.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		txtEmail = new JTextField();
+		txtEmail.setEditable(false);
 		txtEmail.setBounds(141, 24, 160, 20);
 		pContact.add(txtEmail);
 		txtEmail.setColumns(10);
 		
 		txtPhoneNumber = new JTextField();
+		txtPhoneNumber.setEditable(false);
 		txtPhoneNumber.setColumns(10);
 		txtPhoneNumber.setBounds(141, 51, 160, 20);
 		pContact.add(txtPhoneNumber);
@@ -74,25 +81,6 @@ public class EmployerProfile extends JFrame
 		JLabel lbFacebook = new JLabel("facebook");
 		lbFacebook.setBounds(32, 78, 269, 19);
 		pContact.add(lbFacebook);
-		lbFacebook.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				try
-				{
-					Desktop.getDesktop().browse(new URI("https://www.facebook.com/leminh2k1/"));
-				}
-				catch (IOException e1)
-				{
-					e1.printStackTrace();
-				}
-				catch (URISyntaxException e1)
-				{
-					e1.printStackTrace();
-				}
-			}
-		});
 		lbFacebook.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel lblZalo = new JLabel("Zalo");
@@ -112,7 +100,7 @@ public class EmployerProfile extends JFrame
 		
 		JLabel lblName = new JLabel("Name");
 		lblName.setHorizontalAlignment(SwingConstants.CENTER);
-		lblName.setBounds(34, 35, 55, 24);
+		lblName.setBounds(34, 35, 84, 24);
 		pAbout.add(lblName);
 		
 		JLabel lbCity = new JLabel("City");
@@ -121,11 +109,13 @@ public class EmployerProfile extends JFrame
 		pAbout.add(lbCity);
 		
 		txtName = new JTextField();
+		txtName.setEditable(false);
 		txtName.setColumns(10);
 		txtName.setBounds(143, 37, 160, 20);
 		pAbout.add(txtName);
 		
 		txtCity = new JTextField();
+		txtCity.setEditable(false);
 		txtCity.setColumns(10);
 		txtCity.setBounds(143, 64, 160, 20);
 		pAbout.add(txtCity);
@@ -135,6 +125,38 @@ public class EmployerProfile extends JFrame
 		getContentPane().add(btnEdit);
 		
 		JButton btnCancel = new JButton("Cancel");
+		// set infor
+				Profile profile = BLL_GUEST.getInstance().getProfileByID_Account_BLL_GUEST(user.getID_ACCOUNT());
+				txtName.setText(profile.getNAME());
+				txtCity.setText(profile.getCITY());
+				txtEmail.setText(profile.getEMAIL());
+				txtPhoneNumber.setText(profile.getPHONENUMBER());
+		// Edit
+		btnEdit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(btnEdit.getText().equals("Edit"))
+				{
+					btnEdit.setText("OK");
+					txtName.setEditable(true);
+					txtCity.setEditable(true);
+					txtPhoneNumber.setEditable(true);
+					txtEmail.setEditable(true);
+				}
+				else
+				{
+					String ID = profile.getID_PROFILE();
+					String Name = txtName.getText();
+					String City = txtCity.getText();
+					String PhoneNumber = txtPhoneNumber.getText();
+					String Email = txtEmail.getText();
+					BLL_LOGIN.getInstance().EditProfileEmployer_BLL_LOGIN(ID,Name,City,PhoneNumber,Email);
+				}
+			}
+		});
+		//Cancel
 		btnCancel.addActionListener(new ActionListener()
 		{
 			@Override
@@ -144,6 +166,49 @@ public class EmployerProfile extends JFrame
 			}
 		});
 		btnCancel.setBounds(209, 382, 75, 28);
+		
+		lbFacebook.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				try
+				{
+					if(!profile.getFACEBOOK().equals("Empty")) {
+						Desktop.getDesktop().browse(new URI(profile.getFACEBOOK()));//"https://www.facebook.com/leminh2k1/"
+					}
+				}
+				catch (IOException e1)
+				{
+					e1.printStackTrace();
+				}
+				catch (URISyntaxException e1)
+				{
+					e1.printStackTrace();
+				}
+			}
+		});
+		lblZalo.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				try
+				{
+					if(!profile.getWEBSITE().equals("Empty")) {
+						Desktop.getDesktop().browse(new URI(profile.getWEBSITE()));//"https://www.facebook.com/leminh2k1/"
+					}
+				}
+				catch (IOException e1)
+				{
+					e1.printStackTrace();
+				}
+				catch (URISyntaxException e1)
+				{
+					e1.printStackTrace();
+				}
+			}
+		});
 		getContentPane().add(btnCancel);		
 	}
 }

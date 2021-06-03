@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -18,20 +19,26 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import BLL.BLL_GUEST;
+import BLL.BLL_LOGIN;
+import DTO.Account;
+import DTO.Profile;
+import DTO.JobSeeker;
+
 public class JobSeekerProfile extends JFrame
 {
 	private static JobSeekerProfile Instance;
-	public static JobSeekerProfile getInstance()
+	public static JobSeekerProfile getInstance(Account user)
 	{
 		if(Instance == null)
-			Instance = new JobSeekerProfile();
+			Instance = new JobSeekerProfile(user);
 		return Instance;
 	}
 	private JTextField txtName;
 	private JTextField txtAge;
 	private JTextField txtEmail;
 	private JTextField txtPhoneNumber;
-	private JobSeekerProfile()
+	public JobSeekerProfile(Account user)
 	{
 		super("JobSeeker Profile");
 		setBounds(193, 0, 800, 500);
@@ -65,25 +72,6 @@ public class JobSeekerProfile extends JFrame
 		JLabel lbFacebook = new JLabel("facebook");
 		lbFacebook.setBounds(428, 22, 279, 35);
 		pContact.add(lbFacebook);
-		lbFacebook.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				try
-				{
-					Desktop.getDesktop().browse(new URI("https://www.facebook.com/leminh2k1/"));
-				}
-				catch (IOException e1)
-				{
-					e1.printStackTrace();
-				}
-				catch (URISyntaxException e1)
-				{
-					e1.printStackTrace();
-				}
-			}
-		});
 		lbFacebook.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel lbWebsite = new JLabel("Website");
@@ -92,11 +80,13 @@ public class JobSeekerProfile extends JFrame
 		pContact.add(lbWebsite);
 		
 		txtEmail = new JTextField();
+		txtEmail.setEditable(false);
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(157, 22, 210, 35);
 		pContact.add(txtEmail);
 		
 		txtPhoneNumber = new JTextField();
+		txtPhoneNumber.setEditable(false);
 		txtPhoneNumber.setColumns(10);
 		txtPhoneNumber.setBounds(157, 65, 210, 35);
 		pContact.add(txtPhoneNumber);
@@ -126,11 +116,13 @@ public class JobSeekerProfile extends JFrame
 		pAbout.add(lbAge);
 		
 		txtName = new JTextField();
+		txtName.setEditable(false);
 		txtName.setColumns(10);
 		txtName.setBounds(162, 30, 210, 35);
 		pAbout.add(txtName);
 		
 		txtAge = new JTextField();
+		txtAge.setEditable(false);
 		txtAge.setColumns(10);
 		txtAge.setBounds(162, 73, 210, 35);
 		pAbout.add(txtAge);
@@ -145,19 +137,21 @@ public class JobSeekerProfile extends JFrame
 		lblProfessional.setBounds(399, 73, 111, 35);
 		pAbout.add(lblProfessional);
 		
-		JComboBox cbProfessional = new JComboBox();
-		cbProfessional.setBounds(520, 73, 185, 35);
-		pAbout.add(cbProfessional);
+		JTextField txtProfessional = new JTextField();
+		txtProfessional.setEditable(false);
+		txtProfessional.setBounds(520, 73, 185, 35);
+		pAbout.add(txtProfessional);
 		
-		JRadioButton rbbtnMale = new JRadioButton("Male");
-		rbbtnMale.setSelected(true);
-		rbbtnMale.setBounds(516, 30, 84, 35);
-		pAbout.add(rbbtnMale);
+		ButtonGroup group = new ButtonGroup();
+		JRadioButton rdbtnMale = new JRadioButton("Male");
+		rdbtnMale.setBounds(516, 30, 84, 35);
+		pAbout.add(rdbtnMale);
 		
 		JRadioButton rdbtnFemale = new JRadioButton("Female");
 		rdbtnFemale.setBounds(621, 30, 84, 35);
 		pAbout.add(rdbtnFemale);
-		
+		group.add(rdbtnFemale);
+		group.add(rdbtnMale);
 		JButton btnEdit = new JButton("Edit");
 		btnEdit.setBounds(218, 422, 75, 28);
 		getContentPane().add(btnEdit);
@@ -172,6 +166,93 @@ public class JobSeekerProfile extends JFrame
 			}
 		});
 		btnCancel.setBounds(564, 422, 75, 28);
+		// set infor
+		Profile profile = BLL_GUEST.getInstance().getProfileJobByID_Account_BLL_GUEST(user.getID_ACCOUNT());
+		JobSeeker jobseeker = BLL_GUEST.getInstance().getJobseekerByID_Profile_BLL_GUEST(profile.getID_PROFILE());
+		txtName.setText(profile.getNAME());
+		txtAge.setText(String.valueOf(jobseeker.getAGE()));
+		txtEmail.setText(profile.getEMAIL());
+		txtPhoneNumber.setText(profile.getPHONENUMBER());
+		txtProfessional.setText(jobseeker.getPROFESSIONAL());
+		if(jobseeker.getGENDER())
+		{
+			rdbtnMale.setSelected(true);
+		}
+		else
+		{
+			rdbtnFemale.setSelected(true);
+		}
+		lbFacebook.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				try
+				{
+					if(!profile.getFACEBOOK().equals("Empty")) {
+						Desktop.getDesktop().browse(new URI(profile.getFACEBOOK()));//"https://www.facebook.com/leminh2k1/"
+					}
+				}
+				catch (IOException e1)
+				{
+					e1.printStackTrace();
+				}
+				catch (URISyntaxException e1)
+				{
+					e1.printStackTrace();
+				}
+			}
+		});
+		lbWebsite.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				try
+				{
+					if(!profile.getWEBSITE().equals("Empty")) {
+						Desktop.getDesktop().browse(new URI(profile.getWEBSITE()));//"https://www.facebook.com/leminh2k1/"
+					}
+				}
+				catch (IOException e1)
+				{
+					e1.printStackTrace();
+				}
+				catch (URISyntaxException e1)
+				{
+					e1.printStackTrace();
+				}
+			}
+		});
+		//edit
+		btnEdit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(btnEdit.getText().equals("Edit"))
+				{
+					btnEdit.setText("OK");
+					txtName.setEditable(true);
+					txtAge.setEditable(true);
+					txtPhoneNumber.setEditable(true);
+					txtEmail.setEditable(true);
+					txtProfessional.setEditable(true);
+				}
+				else
+				{
+					String IDprofile = profile.getID_PROFILE();
+					String IDjobseeker = profile.getID_PROFILE();
+					String Name = txtName.getText();
+					String Age = txtAge.getText();
+					String PhoneNumber = txtPhoneNumber.getText();
+					String Email = txtEmail.getText();
+					String Professional = txtProfessional.getText();
+					boolean Gender = rdbtnMale.isSelected();
+					BLL_LOGIN.getInstance().EditProfileJobseeker_BLL_LOGIN(IDprofile,IDjobseeker,Name,Age,Gender,PhoneNumber,Email,Professional);
+				}
+			}
+		});
 		getContentPane().add(btnCancel);
 	}
 }

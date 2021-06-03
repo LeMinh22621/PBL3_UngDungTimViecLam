@@ -17,7 +17,7 @@ public class BLL_LOGIN {
 			Instance = new BLL_LOGIN();
 		return Instance;
 	}
-	public boolean CheckAccount_BLL_LOGIN(String name, String pwd,int accesser)
+	public Account CheckAccount_BLL_LOGIN(String name, String pwd,int accesser)
 	{
 		try
 		{
@@ -25,7 +25,7 @@ public class BLL_LOGIN {
 			{
 				if(i.getUSERNAME().equals(name)&&i.getPASSWORD().equals(pwd)&&i.getACCESSER()==accesser)
 				{
-					return true;
+					return i;
 				}
 			}
 		}
@@ -33,7 +33,7 @@ public class BLL_LOGIN {
 		{
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
-		return false;
+		return null;
 	}
 	
 	public int SelectLastRowProfile_BLL()
@@ -176,6 +176,44 @@ public class BLL_LOGIN {
 		}
 		else
 			JOptionPane.showMessageDialog(null, "Please full fill");
+	}
+	public void EditProfileEmployer_BLL_LOGIN(String iD, String name, String city, String phoneNumber, String email) {
+		if(name.length() != 0 && city.length() != 0 && phoneNumber.length() != 0 && email.length() != 0)
+		{
+			if( checkPhone(phoneNumber) && checkEmail(email))
+			{
+				try {
+					DAL.getInstance().EditProfileEmployer_DAl(iD,name,city,phoneNumber,email);
+					JOptionPane.showMessageDialog(null, "Edit success!");
+				} catch (ClassNotFoundException | SQLException e) {
+					JOptionPane.showMessageDialog(null, "Edit failed");
+				}
+			}
+			else
+				JOptionPane.showMessageDialog(null, "Wrong data!\n( Email have @ or the number Phone == 10");
+		}
+		else
+			JOptionPane.showMessageDialog(null, "Please full fill");
+	}
+	public void EditProfileJobseeker_BLL_LOGIN(String iDprofile, String iDjobseeker, String name, String age,
+			boolean gender,String phoneNumber, String email,String professional) {
+		if(name.length() != 0 && age.length() != 0 && phoneNumber.length() != 0 && email.length() != 0)
+		{
+			if( checkPhone(phoneNumber) && checkEmail(email) && checkAge(age))
+			{
+				try {
+					DAL.getInstance().EditProfileJobseeker_DAl(iDprofile,iDjobseeker,name,age,gender,phoneNumber,email,professional);
+					JOptionPane.showMessageDialog(null, "Edit success!");
+				} catch (ClassNotFoundException | SQLException e) {
+					JOptionPane.showMessageDialog(null, "Edit failed");
+				}
+			}
+			else
+				JOptionPane.showMessageDialog(null, "Wrong data!\n( Email have @ or the number Phone == 10 or 0 < Age < 150 )");
+		}
+		else
+			JOptionPane.showMessageDialog(null, "Please full fill");
+		
 	}
 	
 }

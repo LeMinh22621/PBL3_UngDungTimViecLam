@@ -115,7 +115,6 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		cbb.setToolTipText("");
 		cbb.setBounds(635, 81, 106, 32);
 		guest.add(cbb);
-		
 		JButton btnSearch = new JButton("SEARCH");
 		btnSearch.setBounds(635, 124, 106, 32);
 		guest.add(btnSearch);
@@ -137,20 +136,10 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		guest.add(menuBar);
 		
 		JMenu mnNewMenu = new JMenu("GUEST");
+		mnNewMenu.setHorizontalAlignment(SwingConstants.CENTER);
 		//ImageIcon imageIcon = new ImageIcon(new ImageIcon("C:\\Users\\ADMIN\\Pictures\\download1.jpg").getImage().getScaledInstance(20, 30, Image.SCALE_DEFAULT));
 		//mnNewMenu.setIcon(imageIcon);
 		menuBar.add(mnNewMenu);
-		
-		JButton btnProfile = new JButton("Post ");
-		btnProfile.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				
-			}
-		});
-		mnNewMenu.add(btnProfile);
-		
 		JButton btnLogin = new JButton("Log-in ");
 		mnNewMenu.add(btnLogin);
 		
