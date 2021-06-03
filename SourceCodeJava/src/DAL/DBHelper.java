@@ -14,7 +14,7 @@ public class DBHelper
 {
 	private static DBHelper Instance;
 	private Connection Con;
-	private static String url = "jdbc:sqlserver://DESKTOP-1GG0LVP\\SQLEXPRESS;databaseName=UngDungTimViecLam;integratedSecurity=true";
+	private static String url = "jdbc:sqlserver://DESKTOP-0QMTVFB\\LEHONGMINH;databaseName=UngDungTimViecLam;integratedSecurity=true";
 	public static DBHelper getInstance() throws ClassNotFoundException, SQLException
 	{
 		if(Instance == null)
