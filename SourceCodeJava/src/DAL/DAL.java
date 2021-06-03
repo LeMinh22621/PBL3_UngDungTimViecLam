@@ -522,4 +522,10 @@ public class DAL
 		DBHelper.getInstance().ExcuteDB(query);
 	}
 
+	public void DeletePostByID_DAL(String iD) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String query = "delete TB_POST where ID_POST ='"+iD+"'";
+		DBHelper.getInstance().ExcuteDB(query);
+	}
+
 }

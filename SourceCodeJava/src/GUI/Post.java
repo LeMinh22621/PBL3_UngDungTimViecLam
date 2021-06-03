@@ -34,37 +34,6 @@ public class Post extends JFrame implements ActionListener, WindowListener
 			Instance = new Post(user);
 		return Instance;
 	}
-//	class Item
-//	{
-//		private String ID;
-//		private String Name;
-//		public Item(String iD,String name)
-//		{
-//			ID = iD;
-//			Name = name;
-//		}
-//		@Override
-//		public String toString()
-//		{
-//			return Text;
-//		};
-//		public void setValue(int value)
-//		{
-//			Value = value;
-//		}
-//		public int getValue()
-//		{
-//			return Value;
-//		}
-//		public void setText(String text)
-//		{
-//			Text = text;
-//		}
-//		public String getText()
-//		{
-//			return Text;
-//		}
-//	}
 	private JTextField txtJobTilte;
 	private JTextField txtCompanyName;
 	private JTextField txtAddress;
@@ -152,6 +121,7 @@ public class Post extends JFrame implements ActionListener, WindowListener
 		DefaultComboBoxModel tmpCategory = new DefaultComboBoxModel();
 		cbbCategory.setModel(tmpCategory);
 		tmpCategory.addAll(BLL_GUEST.getInstance().getListCategoryJobName_BLL_GUEST());
+		cbbCategory.setSelectedItem(cbbCategory.getItemAt(0));
 		pPost.add(cbbCategory);
 		JButton btnOK = new JButton("OK");
 		btnOK.addActionListener(new ActionListener()
@@ -167,8 +137,14 @@ public class Post extends JFrame implements ActionListener, WindowListener
 				String Descrip = txtAJobDescription.getText();
 				String Labor = String.valueOf(spinHires.getValue());
 				String Category = cbbCategory.getSelectedItem().toString();
-				BLL_GUEST.getInstance().Post_BLL_GUEST(ID_Acc,Jobname,Companyname,City,Salary,Descrip,Labor,Category);
-				JOptionPane.showMessageDialog(null, "OK");
+				if(BLL_GUEST.getInstance().Post_BLL_GUEST(ID_Acc,Jobname,Companyname,City,Salary,Descrip,Labor,Category));
+				{
+					txtJobTilte.setText("");
+					txtCompanyName.setText("");
+					txtAddress.setText("");
+					txtSalary.setText("");
+					txtAJobDescription.setText("");
+				}
 			}
 		});
 		btnOK.setBounds(129, 439, 74, 31);
