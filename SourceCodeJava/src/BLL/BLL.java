@@ -253,4 +253,41 @@ public class BLL
 		}
 		return list;
 	}
+	public int SelectLastRowCV_BLL()
+	{
+		int result = 1;
+		try
+		{
+			String id = DAL.getInstance().SelectLastRowCV_DAL("CV");
+			String num = id.replaceAll("CV", "");
+			result = Integer.parseInt(num);
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		
+		return result;
+	}
+	public void AddCV_BLL(boolean isAdd, String idAccount, String path)
+	{
+		try
+		{
+			
+			String idCV = "CV" + SelectLastRowCV_BLL();
+			if(isAdd)
+			{
+				String idJobSeeker = DAL.getInstance().getID_JOBSEEKERByID_ACCOUNT(idAccount);
+				DAL.getInstance().AddCV_DAL(idCV, idJobSeeker, path);
+			}
+			else
+			{
+				DAL.getInstance().EditCV_DAL(idCV, path);
+			}
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
 }

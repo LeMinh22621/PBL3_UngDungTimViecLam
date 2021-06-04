@@ -60,6 +60,7 @@ public class DBHelper
 		Con = DriverManager.getConnection(url, "", "");
 		PreparedStatement preparedStatement = Con.prepareStatement(sql);
 		preparedStatement.execute();
+		preparedStatement.close();
 		Con.close();
 	}
 }

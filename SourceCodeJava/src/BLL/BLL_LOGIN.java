@@ -160,7 +160,7 @@ public class BLL_LOGIN {
 				return false;
 			try
 			{
-				if(DAL.getInstance().checkAccount_DAL(USERNAME))
+				if(DAL.getInstance().checkAccount_DAL(USERNAME, (LogIn.p == LogIn.permission.Employer)?true:false))
 				{
 					JOptionPane.showMessageDialog(null, "This Username had register");
 					return false;
@@ -178,7 +178,6 @@ public class BLL_LOGIN {
 		
 		int ida = SelectLastRowAccount_BLL() + 1;
 		String IDA = "";
-		
 		if(LogIn.p == permission.JobSeeker)
 			IDA = "AJ" + ida;
 		else if( LogIn.p == LogIn.permission.Employer)
@@ -221,6 +220,7 @@ public class BLL_LOGIN {
 					
 					try
 					{
+						JOptionPane.showMessageDialog(null, queryP + "\n" + queryA + "\n" + query);
 						DAL.getInstance().ExcuteDB(queryP);
 						DAL.getInstance().ExcuteDB(queryA);
 						DAL.getInstance().ExcuteDB(query);
