@@ -55,6 +55,7 @@ public class DBHelper
 		Con.close();
 		return dataTableModel;
 	}
+	
 	public void ExcuteDB(String sql) throws SQLException
 	{
 		Con = DriverManager.getConnection(url, "", "");

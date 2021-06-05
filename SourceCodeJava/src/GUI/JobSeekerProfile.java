@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Desktop;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -11,10 +12,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -47,7 +50,9 @@ public class JobSeekerProfile extends JFrame
 		setBounds(193, 0, 800, 500);
 		getContentPane().setLayout(null);
 		
-		JLabel lbImage = new JLabel("Image");
+		JLabel lbImage = new JLabel();
+//		ImageIcon imageIcon = new ImageIcon(new ImageIcon("C:\\Users\\ADMIN\\Pictures\\download1.jpg").getImage().getScaledInstance(20, 30, Image.SCALE_DEFAULT));
+//		lbImage.setIcon(imageIcon);
 		lbImage.setHorizontalAlignment(SwingConstants.CENTER);
 		lbImage.setBounds(327, 11, 136, 111);
 		getContentPane().add(lbImage);
@@ -77,10 +82,20 @@ public class JobSeekerProfile extends JFrame
 		pContact.add(lbFacebook);
 		lbFacebook.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lbWebsite = new JLabel("Website");
-		lbWebsite.setHorizontalAlignment(SwingConstants.CENTER);
-		lbWebsite.setBounds(428, 68, 279, 35);
-		pContact.add(lbWebsite);
+		JTextField txtFacebook = new JTextField();
+		txtFacebook.setBounds(428, 22, 279, 35);
+		pContact.add(txtFacebook);
+		txtFacebook.setVisible(false);
+		
+		JLabel lbZalo= new JLabel("Zalo");
+		lbZalo.setHorizontalAlignment(SwingConstants.CENTER);
+		lbZalo.setBounds(428, 68, 279, 35);
+		pContact.add(lbZalo);
+		
+		JTextField txtZalo = new JTextField();
+		txtZalo.setBounds(428, 68, 279, 35);
+		txtZalo.setVisible(false);
+		pContact.add(txtZalo);
 		
 		txtEmail = new JTextField();
 		txtEmail.setEditable(false);
@@ -205,6 +220,7 @@ public class JobSeekerProfile extends JFrame
 		txtAge.setText(String.valueOf(jobseeker.getAGE()));
 		txtEmail.setText(profile.getEMAIL());
 		txtPhoneNumber.setText(profile.getPHONENUMBER());
+		System.out.println(profile.getIMAGE());
 		
 		txtProfessional.setText(jobseeker.getPROFESSIONAL());
 		if(jobseeker.getGENDER())
@@ -222,38 +238,49 @@ public class JobSeekerProfile extends JFrame
 			{
 				try
 				{
-					if(!profile.getFACEBOOK().equals("Empty")) {
-						Desktop.getDesktop().browse(new URI(profile.getFACEBOOK()));//"https://www.facebook.com/leminh2k1/"
+					if(btnEdit.getText().equals("OK"))
+					{
+						lbFacebook.setVisible(false);
+						txtFacebook.setVisible(true);
+						txtFacebook.setText(profile.getFACEBOOK());
+					}
+					else
+					{
+						if(!profile.getFACEBOOK().equals("Empty")) {
+							Desktop.getDesktop().browse(new URI(profile.getFACEBOOK()));
+						}
 					}
 				}
-				catch (IOException e1)
+				catch (IOException | URISyntaxException e1)
 				{
-					e1.printStackTrace();
-				}
-				catch (URISyntaxException e1)
-				{
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "No Facebook linked yet");
 				}
 			}
 		});
-		lbWebsite.addMouseListener(new MouseAdapter()
+		lbZalo.addMouseListener(new MouseAdapter()
 		{
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
 				try
 				{
-					if(!profile.getWEBSITE().equals("Empty")) {
-						Desktop.getDesktop().browse(new URI(profile.getWEBSITE()));//"https://www.facebook.com/leminh2k1/"
+
+					if(btnEdit.getText().equals("OK"))
+					{
+						lbZalo.setVisible(false);
+						txtZalo.setVisible(true);
+						txtZalo.setText(profile.getWEBSITE());
+					}
+					else
+					{
+						if(!profile.getWEBSITE().equals("Empty")) {
+							Desktop.getDesktop().browse(new URI(profile.getWEBSITE()));//"https://www.facebook.com/leminh2k1/"
+						}
 					}
 				}
-				catch (IOException e1)
+				catch (IOException | URISyntaxException e1)
 				{
-					e1.printStackTrace();
-				}
-				catch (URISyntaxException e1)
-				{
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "No Zalo linked yet");
 				}
 			}
 		});
@@ -282,7 +309,15 @@ public class JobSeekerProfile extends JFrame
 					String Email = txtEmail.getText();
 					String Professional = txtProfessional.getText();
 					boolean Gender = rdbtnMale.isSelected();
-					BLL_LOGIN.getInstance().EditProfileJobseeker_BLL_LOGIN(IDprofile,IDjobseeker,Name,Age,Gender,PhoneNumber,Email,Professional);
+					String linkFacebook = txtFacebook.getText();
+					String linkZalo = txtZalo.getText();
+					if(BLL_LOGIN.getInstance().EditProfileJobseeker_BLL_LOGIN(IDprofile,IDjobseeker
+							,Name,Age,Gender,PhoneNumber,Email,Professional,linkFacebook,linkZalo))
+					{
+						dispose();
+						JobSeekerProfile profile = new JobSeekerProfile(user);
+						profile.setVisible(true);
+					}
 				}
 			}
 		});

@@ -372,6 +372,7 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 					int index = tablepost.getSelectedRows()[i];
 					BLL_GUEST.getInstance().DeletePostByID_BLL_GUEST(tablepost.getValueAt(index, 6).toString());
 				}
+				btnDeletePost.setVisible(false);
 				btnShowPost.doClick();
 			}
 		});

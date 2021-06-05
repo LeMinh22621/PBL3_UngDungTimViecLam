@@ -1,4 +1,6 @@
 package GUI;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import BLL.BLL;
+import DAL.DBHelper;
 import DTO.Account;
 
 public class TEST_DB extends JFrame
@@ -50,6 +53,13 @@ public class TEST_DB extends JFrame
 	}
 	public static void main(String[] args)
 	{
-		new TEST_DB("This is test");;
+//		String query = "select * from TB_PROFILE where ID_PROFILE='PF1'";
+//		try {
+//			DBHelper.getInstance().GetRecordProfile(query);
+//			//System.out.println(defaultTableModel.getValueAt(0, 1));
+//		} catch (ClassNotFoundException | SQLException | IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 };

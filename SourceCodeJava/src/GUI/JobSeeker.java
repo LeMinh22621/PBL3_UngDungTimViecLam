@@ -93,17 +93,17 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 		seeker_login.add(pSearchS);
 		pSearchS.setLayout(null);
 		
-		JLabel lblJobS = new JLabel("JOB-NAME");
+		JLabel lblJobS = new JLabel("CATEGORY_JOB_NAME");
 		lblJobS.setForeground(new Color(0, 0, 102));
 		lblJobS.setFont(new Font("Segoe UI Black", Font.PLAIN, 16));
-		lblJobS.setBounds(27, 27, 110, 14);
+		lblJobS.setBounds(10, 23, 182, 23);
 		pSearchS.add(lblJobS);
 		
 		JLabel lblAdressS = new JLabel("ADDRESS");
 		lblAdressS.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAdressS.setForeground(new Color(0, 0, 102));
 		lblAdressS.setFont(new Font("Segoe UI Black", Font.PLAIN, 16));
-		lblAdressS.setBounds(13, 70, 124, 14);
+		lblAdressS.setBounds(37, 70, 124, 14);
 		pSearchS.add(lblAdressS);
 		
 		cbbJobS = new JComboBox();
@@ -111,7 +111,7 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 		tmpPost.addAll(BLL_GUEST.getInstance().getListJobName_BLL_GUEST());
 		cbbJobS.setModel(tmpPost);
 		cbbJobS.setSelectedItem(cbbJobS.getItemAt(0));
-		cbbJobS.setBounds(147, 21, 459, 32);
+		cbbJobS.setBounds(205, 21, 459, 32);
 		pSearchS.add(cbbJobS);
 		
 		cbbAddressS = new JComboBox();
@@ -119,14 +119,14 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 		tmpaddress.addAll(BLL_GUEST.getInstance().getListAddressPost_BLL_GUEST());
 		cbbAddressS.setModel(tmpaddress);
 		cbbAddressS.setSelectedItem(cbbAddressS.getItemAt(0));
-		cbbAddressS.setBounds(147, 64, 459, 32);
+		cbbAddressS.setBounds(205, 64, 459, 32);
 		pSearchS.add(cbbAddressS);
 		
 		JButton btnSearchS = new JButton("SEARCH");
 		btnSearchS.setFont(new Font("Segoe UI Black", Font.PLAIN, 14));
 		btnSearchS.setBackground(Color.YELLOW);
 		btnSearchS.setForeground(Color.RED);
-		btnSearchS.setBounds(619, 44, 100, 27);
+		btnSearchS.setBounds(674, 44, 100, 27);
 		pSearchS.add(btnSearchS);
 		
 		JPanel pListS = new JPanel();
@@ -145,6 +145,11 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 		tableJ.setDefaultEditor(Object.class, null);
 		scrollPaneS.setBounds(35, 44, 717, 210);
 		pListS.add(scrollPaneS);
+		
+		JButton btnSentCV = new JButton("SEND CV");
+		btnSentCV.setVisible(false);
+		btnSentCV.setBounds(663, 258, 89, 23);
+		pListS.add(btnSentCV);
 		
 		JLabel lblTopJob = new JLabel("Top Ranking-job");
 		lblTopJob.setFont(new Font("VNI-Fato", Font.PLAIN, 15));
@@ -204,8 +209,7 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 			{
 				if(tableJ.getSelectedRowCount()>0)
 				{
-//					int index = tableJ.getSelectedRow();
-//					String idEmployer = tableJ.getValueAt(index, 0)
+					btnSentCV.setVisible(true);
 				}
 			}
 		});
