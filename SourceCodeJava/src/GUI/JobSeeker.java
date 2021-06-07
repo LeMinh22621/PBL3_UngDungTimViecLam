@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -28,15 +29,15 @@ import BLL.BLL_GUEST;
 import DTO.Account;
 import DTO.Post;
 
-public class JobSeeker extends JFrame implements ActionListener, WindowListener
+public class JobSeeker extends JFrame implements WindowListener
 {
-	
+	private List<Post> list;
 	private JPanel contentPane;
 	private JComboBox cbbJobS;
 	private JComboBox cbbAddressS;
 	private JTable tableJ;
 	JobSeekerProfile profile;
-	Post viewingPost;
+	GUI.Post viewingPost;
 
 	public JobSeeker(Account user)
 	{
@@ -173,42 +174,6 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 				profile.setVisible(true);
 			}
 		});
-		// SK
-		tableJ.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				if(tableJ.getSelectedRowCount()>0)
-				{
-//					int index = tableJ.getSelectedRow();
-//					String idEmployer = tableJ.getValueAt(index, 0)
-				}
-			}
-		});
 		// search
 		btnSearchS.addActionListener(new ActionListener() {
 			@Override
@@ -217,7 +182,8 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 				String address = (cbbAddressS.getSelectedItem() != null)?cbbAddressS.getSelectedItem().toString():"";
 				DefaultTableModel dtm = (DefaultTableModel) tableJ.getModel();
 				dtm.setNumRows(0);
-				for(Post i : BLL_GUEST.getInstance().getListPostByNameAndAddress_BLL_GUEST(name,address))
+				list = BLL_GUEST.getInstance().getListPostByNameAndAddress_BLL_GUEST(name,address);
+				for(Post i : list)
 				{
 					Object[] row = new Object[dtm.getColumnCount()];
 					row[0] = i.getEMPLOYER().getPROFILE().getNAME();
@@ -231,6 +197,44 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 					 
 					dtm.addRow(row);
 				}
+			}
+		});
+		tableJ.addMouseListener(new MouseListener()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				if(tableJ.getSelectedRowCount() > 0)
+				{
+					int index = tableJ.getSelectedRow();
+					String idJobSeeker = BLL.BLL.getInstance().getIdJobSeekerByIdAccount_BLL(user.getID_ACCOUNT());
+					viewingPost = GUI.Post.getPost(list.get(index),idJobSeeker);
+					viewingPost.setVisible(true);
+				}
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 	}
@@ -272,13 +276,6 @@ public class JobSeeker extends JFrame implements ActionListener, WindowListener
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public void windowOpened(WindowEvent e) {
 		// TODO Auto-generated method stub

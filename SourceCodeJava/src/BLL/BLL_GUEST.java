@@ -140,9 +140,12 @@ public class BLL_GUEST {
 		return null;
 	}
 	public Profile getProfileJobByID_Account_BLL_GUEST(String id_ACCOUNT) {
-		try {
+		try
+		{
 			return DAL.getInstance().getJobSeekerByIDAccount_DAL(id_ACCOUNT).getPROFILE();
-		} catch (ClassNotFoundException | SQLException e) {
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return null;
@@ -180,16 +183,18 @@ public class BLL_GUEST {
 		else
 			JOptionPane.showMessageDialog(null, "Please full fill");
 	}
-	public List<String> getListCategoryJobName_BLL_GUEST() {
-		// TODO Auto-generated method stub
+	public List<String> getListCategoryJobName_BLL_GUEST()
+	{
 		List<String> list = new ArrayList<String>();
-		try {
+		try
+		{
 			for(Category_job i: DAL.getInstance().getListCategory_job_DAL())
 			{
 				list.add(i.getCATEGORY_JOB_NAME());
 			}
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return list;

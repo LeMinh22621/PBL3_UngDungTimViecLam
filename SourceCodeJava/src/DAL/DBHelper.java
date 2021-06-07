@@ -53,7 +53,7 @@ public class DBHelper
 		resultSet.close();
 		statement.close();
 		Con.close();
-		return dataTableModel;
+		return (dataTableModel.getRowCount() != 0)?dataTableModel:null;
 	}
 	public void ExcuteDB(String sql) throws SQLException
 	{

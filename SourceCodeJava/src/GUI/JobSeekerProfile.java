@@ -205,7 +205,6 @@ public class JobSeekerProfile extends JFrame
 		txtAge.setText(String.valueOf(jobseeker.getAGE()));
 		txtEmail.setText(profile.getEMAIL());
 		txtPhoneNumber.setText(profile.getPHONENUMBER());
-		
 		txtProfessional.setText(jobseeker.getPROFESSIONAL());
 		if(jobseeker.getGENDER())
 		{

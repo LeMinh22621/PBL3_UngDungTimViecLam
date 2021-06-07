@@ -71,7 +71,6 @@ public class LogIn extends JFrame implements ActionListener
 		pMenuChoice.setLocation(0, 0);
 		pMenuChoice.setSize(782, 460);
 		pMenuChoice.setLayout(null);
-		pMenuChoice.setLayout(null);
 
 		JPanel p1 = new JPanel();
 		p1.setBackground(new Color(143, 188, 143));

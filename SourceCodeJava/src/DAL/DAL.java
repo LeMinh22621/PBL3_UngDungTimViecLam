@@ -168,16 +168,17 @@ public class DAL
 		}
 		return null;
 	}
-	public String getID_JOBSEEKERByID_ACCOUNT(String ID) throws ClassNotFoundException, SQLException
+	public String getIdJobSeekerByIdAccount_DAL(String ID) throws ClassNotFoundException, SQLException
 	{
+		String idJobSeeker = "";
 		for(JobSeeker i : getAllJobSeeker_DAL())
 		{
 			if(i.getACCOUNT().getID_ACCOUNT().equals(ID))
 			{
-				return i.getACCOUNT().getID_ACCOUNT();
+				idJobSeeker = i.getID_JOBSEEKER();
 			}
 		}
-		return null;
+		return idJobSeeker;
 	}
 	
 	public CV getCVByID_JOBSEEKER(String ID) throws ClassNotFoundException, SQLException
@@ -542,5 +543,16 @@ public class DAL
 		String query = "Update TB_CV set ADDRESS_CV = '" + path + "' where ID_CV = '" + idcv + "'";
 		DBHelper.getInstance().ExcuteDB(query);
 	}
-
+	public void AddCVToPost_DAL(String idPost, String idCV) throws ClassNotFoundException, SQLException
+	{
+		String query = "Insert TB_DETAIL_CV_AND_POST(ID_POST, ID_CV) VALUES ('" + idPost + "','" + idCV + "')";
+		DBHelper.getInstance().ExcuteDB(query);
+	}
+	public String getIdCVByIdJobSeeker_DAL(String idJobSeeker) throws ClassNotFoundException, SQLException
+	{
+		String query = "Select ID_CV from TB_CV where ID_JOBSEEKER = '" + idJobSeeker + "'";
+		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
+		
+		return (defaultTableModel != null)?defaultTableModel.getValueAt(0, 0).toString():"";
+	}
 }

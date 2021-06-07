@@ -273,11 +273,10 @@ public class BLL
 	{
 		try
 		{
-			
 			String idCV = "CV" + SelectLastRowCV_BLL();
 			if(isAdd)
 			{
-				String idJobSeeker = DAL.getInstance().getID_JOBSEEKERByID_ACCOUNT(idAccount);
+				String idJobSeeker = DAL.getInstance().getIdJobSeekerByIdAccount_DAL(idAccount);
 				DAL.getInstance().AddCV_DAL(idCV, idJobSeeker, path);
 			}
 			else
@@ -289,5 +288,42 @@ public class BLL
 		{
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
+	}
+	public String getIdCVByIdJobSeeker_BLL(String idJobSeeker)
+	{
+		String idCV = "";
+		try
+		{
+			idCV = DAL.getInstance().getIdCVByIdJobSeeker_DAL(idJobSeeker);
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return idCV;
+	}
+	public void AddCVToPost_BLL(String idPost, String idCV)
+	{
+		try
+		{
+			DAL.getInstance().AddCVToPost_DAL(idPost, idCV);
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+	public String getIdJobSeekerByIdAccount_BLL(String idAccount)
+	{
+		String idJobSeeker = "";
+		try
+		{
+			idJobSeeker = DAL.getInstance().getIdJobSeekerByIdAccount_DAL(idAccount);
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return idJobSeeker;
 	}
 }
