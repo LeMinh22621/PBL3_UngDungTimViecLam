@@ -249,7 +249,7 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 			{
 				for(int i = 0; i < tableAccountG.getSelectedRowCount(); i++)
 				{
-					int index = tableAccountG.getSelectedRow();
+					int index = tableAccountG.getSelectedRows()[i];
 					Account acc = new Account();
 					acc.setID_ACCOUNT(tableAccountG.getValueAt(index, 0).toString());
 					acc.setUSERNAME(tableAccountG.getValueAt(index, 1).toString());

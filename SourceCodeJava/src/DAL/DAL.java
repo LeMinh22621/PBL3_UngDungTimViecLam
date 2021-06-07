@@ -496,18 +496,35 @@ public class DAL
 		return tmp;
 	}
 
-	public void EditProfileEmployer_DAl(String iD, String name, String city, String phoneNumber, String email) throws ClassNotFoundException, SQLException {
+	public void EditProfileEmployer_DAl(String iD, String name, String city, String phoneNumber, String email,String linkFacebook
+			,String linkZalo) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
-		String query ="update TB_PROFILE set Name ='"+name+"', CITY = '"+city+"', PHONE_NUMBER = '"+phoneNumber+"', EMAIL = '"+email+
-				"' where ID_PROFILE = '"+iD+"'";
+		String query ="update TB_PROFILE set Name ='"+name+"', CITY = '"+city+"', PHONE_NUMBER = '"+phoneNumber+"', EMAIL = '"+email+"'";
+		if(!linkFacebook.equals("Empty"))
+		{
+			query += ", FACEBOOK='"+linkFacebook+"'";
+		}
+		if(!linkZalo.equals("Empty"))
+		{
+			query += ", WEBSITE='"+linkZalo+"'";
+		}
+		query += " where ID_PROFILE = '"+iD+"'";
 		DBHelper.getInstance().ExcuteDB(query);
 	}
 
 	public void EditProfileJobseeker_DAl(String iDprofile, String iDjobseeker, String name, String age,
-			boolean gender,String phoneNumber, String email,String professional) throws ClassNotFoundException, SQLException {
+			boolean gender,String phoneNumber, String email,String professional,String linkFacebook,String linkZalo) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
-		String query ="update TB_PROFILE set Name ='"+name+"', PHONE_NUMBER = '"+phoneNumber+"', EMAIL = '"+email+
-				"' where ID_PROFILE = '"+iDprofile+"'";
+		String query ="update TB_PROFILE set Name ='"+name+"', PHONE_NUMBER = '"+phoneNumber+"', EMAIL = '"+email+"'";
+		if(!linkFacebook.equals("Empty")||!linkFacebook.equals(""))
+		{
+			query += ", FACEBOOK='"+linkFacebook+"'";
+		}
+		if(!linkZalo.equals("Empty")||!linkZalo.equals(""))
+		{
+			query += ", WEBSITE='"+linkZalo+"'";
+		}
+		query += " where ID_PROFILE = '"+iDprofile+"'";
 		String query2 ="update TB_JOBSEEKER set AGE ="+age+", GENDER ='"+gender+"', PROFESSIONAL = '"+professional+
 				"' where ID_JOBSEEKER = '"+iDjobseeker+"'";
 		DBHelper.getInstance().ExcuteDB(query);
@@ -554,5 +571,10 @@ public class DAL
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
 		
 		return (defaultTableModel != null)?defaultTableModel.getValueAt(0, 0).toString():"";
+	}
+	public void DeletePostByID_DAL(String iD) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String query = "delete TB_POST where ID_POST ='"+iD+"'";
+		DBHelper.getInstance().ExcuteDB(query);
 	}
 }

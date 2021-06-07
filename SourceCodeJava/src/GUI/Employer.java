@@ -97,15 +97,6 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 		mnItemPost.setBackground(new Color(255, 204, 51));
 		mnItemPost.setFont(new Font("Segoe UI Black", Font.PLAIN, 14));
 		mnItemPost.setForeground(Color.BLUE);
-		mnItemPost.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				post = new Post(user);
-				post.setVisible(true);
-			}
-		});
 		mnEmployer.add(mnItemPost);
 		JMenuItem mnItemLogOut = new JMenuItem("Log Out");
 		mnItemLogOut.setBackground(new Color(255, 204, 51));
@@ -171,6 +162,35 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 		scrollPaneE.setBounds(35, 44, 717, 210);
 		pListE.add(scrollPaneE);
 		
+		// table xem nhung bai post da dang
+		JTable tablepost = new JTable();
+		String[] nameOfColumnsPost = {"JOB_NAME","COMPANY_NAME","CITY","SALARY","DESCIPTION_JOB","LABOR","ID_POST"};
+		DefaultTableModel tmppost = new DefaultTableModel();
+		tmppost.setColumnIdentifiers(nameOfColumnsPost);
+		tablepost.setModel(tmppost);
+		JScrollPane scrollPanePost = new JScrollPane(tablepost);
+		tablepost.setFillsViewportHeight(true);
+		tablepost.setDefaultEditor(Object.class, null);
+		scrollPanePost.setBounds(35, 44, 717, 210);
+		scrollPanePost.setVisible(false);
+		pListE.add(scrollPanePost);
+		
+		JButton btnPost = new JButton("POST");
+		btnPost.setVisible(false);
+		btnPost.setBounds(350, 258, 103, 23);
+		pListE.add(btnPost);
+		
+		JButton btnShowPost = new JButton("Show");
+		btnShowPost.setVisible(false);
+		btnShowPost.setBounds(100, 258, 103, 23);
+		pListE.add(btnShowPost);
+		
+		JButton btnDeletePost = new JButton("DELETE");
+		btnDeletePost.setVisible(false);
+		btnDeletePost.setBounds(620, 258, 103, 23);
+		pListE.add(btnDeletePost);
+		
+		//
 		JLabel lblTopSeeker = new JLabel("Top Seeker");
 		lblTopSeeker.setFont(new Font("VNI-Fato", Font.PLAIN, 15));
 		lblTopSeeker.setForeground(new Color(255, 51, 0));
@@ -181,6 +201,19 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 		btnSentMessage.setVisible(false);
 		btnSentMessage.setBounds(619, 258, 133, 23);
 		pListE.add(btnSentMessage);
+		mnItemPost.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				scrollPaneE.setVisible(false);
+				lblTopSeeker.setVisible(false);
+				btnSentMessage.setVisible(false);
+				scrollPanePost.setVisible(true);
+				btnPost.setVisible(true);
+				btnShowPost.setVisible(true);
+			}
+		});
 		// logout
 		mnItemLogOut.addActionListener(new ActionListener()
 		{
@@ -236,6 +269,12 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 				String address = cbbAddressE.getSelectedItem().toString();
 				DefaultTableModel dtm = (DefaultTableModel) tableE.getModel();
 				dtm.setNumRows(0);
+				scrollPaneE.setVisible(true);
+				lblTopSeeker.setVisible(true);
+				scrollPanePost.setVisible(false);
+				btnPost.setVisible(false);
+				btnShowPost.setVisible(false);
+				btnDeletePost.setVisible(false);
 				for(JobSeeker i : BLL_GUEST.getInstance().GetlistJobSeeker_BLL_GUEST(name,address))
 				{
 					Object[] row = new Object[dtm.getColumnCount()];
@@ -250,7 +289,93 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 				}
 		}
 		});
+		
+		// POST
+		// set SK
+		tablepost.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+						
+			}
+					
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+						
+			}
+					
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+						
+			}
+					
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+						
+			}
 				
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if(tablepost.getSelectedRowCount()>0)
+				{
+					btnDeletePost.setVisible(true);
+				}
+			}
+		});
+		// Show
+		btnShowPost.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				DefaultTableModel dtm = (DefaultTableModel) tablepost.getModel();
+				dtm.setNumRows(0);
+				String IDEMployer = BLL_GUEST.getInstance().getIDEMployerByIDAccount_BLL_GUEST(user.getID_ACCOUNT());
+				for(DTO.Post i : BLL_GUEST.getInstance().getListPostByIDEmployer_BLL_GUEST(IDEMployer))
+				{
+					Object[] row = new Object[dtm.getColumnCount()];
+					row[0] = i.getJOB_NAME();
+					row[1] = i.getCOMPANY_NAME();
+					row[2] = i.getCITY();
+					row[3] = i.getSALARY();
+					row[4] = i.getDESCIPTION_JOB();
+					row[5] = i.getLABOR();
+					row[6] = i.getID_POST(); 
+					dtm.addRow(row);
+				}
+			}
+		});
+		// post
+		btnPost.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				post = new Post(user);
+				post.setVisible(true);
+				btnShowPost.doClick();
+			}
+		});
+		//delete
+		btnDeletePost.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				for(int i=0;i<tablepost.getSelectedRowCount();i++)
+				{
+					int index = tablepost.getSelectedRows()[i];
+					BLL_GUEST.getInstance().DeletePostByID_BLL_GUEST(tablepost.getValueAt(index, 6).toString());
+				}
+				btnDeletePost.setVisible(false);
+				btnShowPost.doClick();
+			}
+		});
 		addWindowListener(this);
 	}
 

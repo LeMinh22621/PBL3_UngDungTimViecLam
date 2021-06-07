@@ -166,7 +166,7 @@ public class BLL_GUEST {
 		
 		return result;
 	}
-	public void Post_BLL_GUEST(String iD_Acc, String jobname, String companyname, String city, String salary,
+	public boolean Post_BLL_GUEST(String iD_Acc, String jobname, String companyname, String city, String salary,
 			String descrip, String labor,String category) {
 		// TODO Auto-generated method stub
 		if(jobname.length() != 0 && companyname.length() != 0 && city.length() != 0 && descrip.length() != 0 && salary.length() != 0)
@@ -176,12 +176,15 @@ public class BLL_GUEST {
 					String IDP = "P" + idp;
 					DAL.getInstance().Post_DAl(IDP,iD_Acc,jobname,companyname,city,salary,descrip,labor,category);
 					JOptionPane.showMessageDialog(null, "Post success!");
+					return true;
 				} catch (ClassNotFoundException | SQLException e) {
 					JOptionPane.showMessageDialog(null, "Post failed");
+					return false;
 				}
 		}
 		else
 			JOptionPane.showMessageDialog(null, "Please full fill");
+		return false;
 	}
 	public List<String> getListCategoryJobName_BLL_GUEST()
 	{
@@ -198,5 +201,41 @@ public class BLL_GUEST {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return list;
+	}
+	public List<Post> getListPostByIDEmployer_BLL_GUEST(String iDEmployer) {
+		// TODO Auto-generated method stub
+		List<Post> list = new ArrayList<Post>();
+		try {
+			for(Post i : DAL.getInstance().getListPost_DAL())
+			{
+				if(i.getEMPLOYER().getID_EMPLOYER().equals(iDEmployer))
+				{
+					list.add(i);
+				}
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return list;
+	}
+	public String getIDEMployerByIDAccount_BLL_GUEST(String id_ACCOUNT) {
+		// TODO Auto-generated method stub
+		try {
+			return DAL.getInstance().getEmployerByIDAccount_DAL(id_ACCOUNT).getID_EMPLOYER();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return null;
+	}
+	public void DeletePostByID_BLL_GUEST(String iD) {
+		// TODO Auto-generated method stub
+		try {
+			DAL.getInstance().DeletePostByID_DAL(iD);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
 	}
 }

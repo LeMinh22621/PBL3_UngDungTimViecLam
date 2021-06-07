@@ -83,10 +83,20 @@ public class EmployerProfile extends JFrame
 		pContact.add(lbFacebook);
 		lbFacebook.setHorizontalAlignment(SwingConstants.CENTER);
 		
+		JTextField txtFacebook = new JTextField();
+		txtFacebook.setBounds(32, 78, 269, 19);
+		pContact.add(txtFacebook);
+		txtFacebook.setVisible(false);
+		
 		JLabel lblZalo = new JLabel("Zalo");
 		lblZalo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblZalo.setBounds(32, 108, 269, 19);
 		pContact.add(lblZalo);
+		
+		JTextField txtZalo = new JTextField();
+		txtZalo.setBounds(32, 108, 269, 19);
+		txtZalo.setVisible(false);
+		pContact.add(txtZalo);
 		
 		JPanel pAbout = new JPanel();
 		pAbout.setLayout(null);
@@ -126,11 +136,11 @@ public class EmployerProfile extends JFrame
 		
 		JButton btnCancel = new JButton("Cancel");
 		// set infor
-				Profile profile = BLL_GUEST.getInstance().getProfileByID_Account_BLL_GUEST(user.getID_ACCOUNT());
-				txtName.setText(profile.getNAME());
-				txtCity.setText(profile.getCITY());
-				txtEmail.setText(profile.getEMAIL());
-				txtPhoneNumber.setText(profile.getPHONENUMBER());
+		Profile profile = BLL_GUEST.getInstance().getProfileByID_Account_BLL_GUEST(user.getID_ACCOUNT());
+		txtName.setText(profile.getNAME());
+		txtCity.setText(profile.getCITY());
+		txtEmail.setText(profile.getEMAIL());
+		txtPhoneNumber.setText(profile.getPHONENUMBER());
 		// Edit
 		btnEdit.addActionListener(new ActionListener() {
 			
@@ -152,7 +162,14 @@ public class EmployerProfile extends JFrame
 					String City = txtCity.getText();
 					String PhoneNumber = txtPhoneNumber.getText();
 					String Email = txtEmail.getText();
-					BLL_LOGIN.getInstance().EditProfileEmployer_BLL_LOGIN(ID,Name,City,PhoneNumber,Email);
+					String linkFacebook = txtFacebook.getText();
+					String linkZalo = txtZalo.getText();
+					if(BLL_LOGIN.getInstance().EditProfileEmployer_BLL_LOGIN(ID,Name,City,PhoneNumber,Email,linkFacebook,linkZalo))
+					{
+						dispose();
+						EmployerProfile profile = new EmployerProfile(user);
+						profile.setVisible(true);
+					}
 				}
 			}
 		});
@@ -174,8 +191,17 @@ public class EmployerProfile extends JFrame
 			{
 				try
 				{
-					if(!profile.getFACEBOOK().equals("Empty")) {
-						Desktop.getDesktop().browse(new URI(profile.getFACEBOOK()));//"https://www.facebook.com/leminh2k1/"
+					if(btnEdit.getText().equals("OK"))
+					{
+						lbFacebook.setVisible(false);
+						txtFacebook.setVisible(true);
+						txtFacebook.setText(profile.getFACEBOOK());
+					}
+					else
+					{
+						if(!profile.getFACEBOOK().equals("Empty")) {
+							Desktop.getDesktop().browse(new URI(profile.getFACEBOOK()));
+						}
 					}
 				}
 				catch (IOException e1)
@@ -195,8 +221,17 @@ public class EmployerProfile extends JFrame
 			{
 				try
 				{
-					if(!profile.getWEBSITE().equals("Empty")) {
-						Desktop.getDesktop().browse(new URI(profile.getWEBSITE()));//"https://www.facebook.com/leminh2k1/"
+					if(btnEdit.getText().equals("OK"))
+					{
+						lblZalo.setVisible(false);
+						txtZalo.setVisible(true);
+						txtZalo.setText(profile.getWEBSITE());
+					}
+					else
+					{
+						if(!profile.getWEBSITE().equals("Empty")) {
+							Desktop.getDesktop().browse(new URI(profile.getWEBSITE()));//"https://www.facebook.com/leminh2k1/"
+						}
 					}
 				}
 				catch (IOException e1)
