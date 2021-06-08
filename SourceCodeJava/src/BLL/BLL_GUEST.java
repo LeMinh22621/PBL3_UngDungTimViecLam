@@ -238,4 +238,90 @@ public class BLL_GUEST {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
+	public List<JobSeeker> SortJobseeker_BLL(String item, String name, String address) {
+		// TODO Auto-generated method stub
+		List<JobSeeker> list = new ArrayList<JobSeeker>();
+		list = GetlistJobSeeker_BLL_GUEST(name,address);
+		switch(item) {
+			case "JOBSEEKER_NAME":
+			{
+				for(int i=0; i<list.size()-1;i++)
+				{
+					for(int j=i+1;j<list.size();j++)
+					{
+						if(list.get(i).getPROFILE().getNAME().compareTo(list.get(j).getPROFILE().getNAME())>=0)
+						{
+							java.util.Collections.swap(list,i,j);
+						}
+					}
+				}
+				break;
+			}
+			case "AGE":
+			{
+				for(int i=0; i<list.size()-1;i++)
+				{
+					for(int j=i+1;j<list.size();j++)
+					{
+						if(list.get(i).getAGE()>list.get(j).getAGE())
+						{
+							java.util.Collections.swap(list,i,j);
+						}
+					}
+				}
+				break;
+			}
+		}
+		return list;
+	}
+	public List<Post> getListSort_BLL_GUEST(String item, String name, String address) {
+		// TODO Auto-generated method stub
+		List<Post> list = new ArrayList<Post>();
+		list = getListPostByNameAndAddress_BLL_GUEST(name,address);
+		switch(item) {
+			case "CATEGORY_JOB_NAME":
+			{
+				for(int i=0; i<list.size()-1;i++)
+				{
+					for(int j=i+1;j<list.size();j++)
+					{
+						if(list.get(i).getCATEGORY_JOB().getCATEGORY_JOB_NAME().compareTo(list.get(j).getCATEGORY_JOB().getCATEGORY_JOB_NAME())>=0)
+						{
+							java.util.Collections.swap(list,i,j);
+						}
+					}
+				}
+				break;
+			}
+			case "COMPANY_NAME":
+			{
+				for(int i=0; i<list.size()-1;i++)
+				{
+					for(int j=i+1;j<list.size();j++)
+					{
+						if(list.get(i).getCOMPANY_NAME().compareTo(list.get(j).getCOMPANY_NAME())>=0)
+						{
+							java.util.Collections.swap(list,i,j);
+						}
+					}
+				}
+				break;
+			}
+			case "SALARY":
+			{
+				for(int i=0; i<list.size()-1;i++)
+				{
+					for(int j=i+1;j<list.size();j++)
+					{
+						if(list.get(i).getSALARY()>list.get(j).getSALARY())
+						{
+							java.util.Collections.swap(list,i,j);
+						}
+					}
+				}
+				break;
+			}
+		}
+		return list;
+	}
 }

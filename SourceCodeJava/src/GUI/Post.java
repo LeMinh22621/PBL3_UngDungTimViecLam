@@ -179,7 +179,7 @@ public class Post extends JFrame
 			{
 				String idCV = "";
 				idCV = BLL.getInstance().getIdCVByIdJobSeeker_BLL(idJobSeeker);
-JOptionPane.showMessageDialog(null, idCV);
+				JOptionPane.showMessageDialog(null, idCV);
 				BLL.getInstance().AddCVToPost_BLL(idCV, post.getID_POST());
 			}
 		});
@@ -189,7 +189,7 @@ JOptionPane.showMessageDialog(null, idCV);
 	/**
 	 * @wbp.parser.constructor
 	 */
-	private Post(Account user)
+	public Post(Account user)
 	{
 		initial();
 		

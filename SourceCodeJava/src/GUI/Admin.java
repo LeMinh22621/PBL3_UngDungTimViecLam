@@ -44,7 +44,18 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 		admin.setLayout(new BorderLayout());
 		JButton AccountManagementG = new JButton("ACCOUNT MANAGEMENT");
 		JButton CensorContentsG = new JButton("CENSOR CONTENTS");
-		
+		JButton logout = new JButton("LOG-OUT");
+		logout.setFont(new Font("Arial", Font.BOLD, 12));
+		logout.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				dispose();
+				LogIn f = new LogIn("Choise Permission");
+				f.setVisible(true);
+			}
+		});
 		JPanel pAccMgtG = new JPanel();
 		pAccMgtG.setBackground(Color.GRAY);
 		pAccMgtG.setPreferredSize(new Dimension( 758,435));
@@ -83,6 +94,8 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 		CensorContentsG.setFont(new Font("Arial", Font.BOLD, 12));
 		menuBar.add(CensorContentsG);
 		pConsorG.setLayout(null);
+		
+		menuBar.add(logout);
 		
 		JLabel lblNewLabel1 = new JLabel("JOBS-SEEKING APP FOR DESKTOP");
 		lblNewLabel1.setForeground(Color.YELLOW);
@@ -356,10 +369,15 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				if(tableContentsG.getSelectedRowCount()>0)
+				if(tableContentsG.getSelectedRowCount()>0&& !Boolean.parseBoolean(tableContentsG.getValueAt(tableContentsG.getSelectedRow(),9).toString()))
 				{
 					btnAcceptG.setVisible(true);
 					btnDeclineG.setVisible(true);
+				}
+				else
+				{
+					btnAcceptG.setVisible(false);
+					btnDeclineG.setVisible(false);
 				}
 			}
 		});

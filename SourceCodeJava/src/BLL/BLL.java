@@ -130,7 +130,7 @@ public class BLL
 		}
 	}
 	public List<Account> SortAccount_BLL(String item) {
-		List<Account> list = new ArrayList<>();
+		List<Account> list = new ArrayList<Account>();
 		try
 		{
 			list = DAL.getInstance().getListAccounts_DAL();
