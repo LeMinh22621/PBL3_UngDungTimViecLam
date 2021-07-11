@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import BLL.BLL_GUEST;
 import DTO.JobSeeker;
 import DTO.Post;
+import java.awt.Color;
 
 public class Guest extends JFrame implements ActionListener, WindowListener
 {
@@ -79,6 +80,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		getContentPane().setLayout(null);
 		
 		JPanel guest =new JPanel();
+		guest.setBackground(new Color(51, 204, 153));
 		guest.setPreferredSize(new Dimension( 750,750));
 		guest.setLayout(null);
 		
@@ -132,21 +134,14 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		guest.add(lblAddress);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 83, 32);
+		menuBar.setBounds(0, 0, 47, 32);
 		guest.add(menuBar);
 		
 		JMenu mnNewMenu = new JMenu("GUEST");
 		mnNewMenu.setHorizontalAlignment(SwingConstants.CENTER);
-		//ImageIcon imageIcon = new ImageIcon(new ImageIcon("C:\\Users\\ADMIN\\Pictures\\download1.jpg").getImage().getScaledInstance(20, 30, Image.SCALE_DEFAULT));
-		//mnNewMenu.setIcon(imageIcon);
 		menuBar.add(mnNewMenu);
 		JButton btnLogin = new JButton("Log-in ");
 		mnNewMenu.add(btnLogin);
-		
-		JButton btnSentCV = new JButton("SEND CV");
-		btnSentCV.setVisible(false);
-		btnSentCV.setBounds(652, 422, 89, 23);
-		guest.add(btnSentCV);
 		
 		JLabel lbseeker = new JLabel("Top-Ranking Jobs");
 		lbseeker.setFont(new Font("VNI-Fato", Font.PLAIN, 15));
@@ -156,6 +151,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		
 		// bang jobname
 		tablepost = new JTable();
+		tablepost.setDefaultEditor(Object.class, null);
 		String[] nameOfColumnsPost = {"EMPLOYER_NAME","CATEGORY_JOB_NAME","JOB_NAME","COMPANY_NAME","CITY",
 				"SALARY","DESCIPTION_JOB","LABOR"};
 		DefaultTableModel tmp = new DefaultTableModel();
@@ -167,10 +163,10 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		scrollPane.setBounds(35, 206, 706, 216);
 		guest.add(scrollPane);
 		
-		JButton btnSentMessage = new JButton("SEND MESSAGE");
-		btnSentMessage.setVisible(false);
-		btnSentMessage.setBounds(612, 726, 129, 23);
-		guest.add(btnSentMessage);
+//		JButton btnSentMessage = new JButton("SEND MESSAGE");
+//		btnSentMessage.setVisible(false);
+//		btnSentMessage.setBounds(612, 726, 129, 23);
+//		guest.add(btnSentMessage);
 		
 		JLabel lbemployer = new JLabel("Top-Seeker");
 		lbemployer.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -179,6 +175,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 		guest.add(lbemployer);
 		
 		tablejobseeker = new JTable();
+		tablejobseeker.setDefaultEditor(Object.class, null);
 		String[] nameOfColumnsjobseeker = {"JOBSEEKER_NAME","CITY","PHONENUMBER","AGE","PROFESSIONAL"};
 		DefaultTableModel tmpjobseeker = new DefaultTableModel();
 		tmpjobseeker.setColumnIdentifiers(nameOfColumnsjobseeker);
@@ -229,10 +226,6 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				if(tablepost.getSelectedRowCount()>0)
-				{
-					btnSentCV.setVisible(true);
-				}
 			}
 		});
 		// set SK bang Top-Seeker
@@ -267,7 +260,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener
 				// TODO Auto-generated method stub
 				if(tablejobseeker.getSelectedRowCount()>0)
 				{
-					btnSentMessage.setVisible(true);
+					//btnSentMessage.setVisible(true);
 				}
 			}
 		});

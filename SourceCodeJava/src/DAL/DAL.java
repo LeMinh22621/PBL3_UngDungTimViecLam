@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import DTO.Account;
@@ -30,17 +31,18 @@ public class DAL
 		List<Employer> list = new ArrayList<Employer>();
 		String query = "Select * from TB_EMPLOYER";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
-		
-		for(int i = 0; i < defaultTableModel.getRowCount(); i++)
+		if(defaultTableModel != null)
 		{
-			Employer employer = new Employer();
-			
-			employer.setID_EMPLOYER(defaultTableModel.getValueAt(i, 0).toString());
-			employer.setACCOUNT(getAccountByID_DAL(defaultTableModel.getValueAt(i, 1).toString()));
-			employer.setPROFILE(getProfileByID_DAL(defaultTableModel.getValueAt(i, 2).toString()));
-			list.add(employer);
+			for(int i = 0; i < defaultTableModel.getRowCount(); i++)
+			{
+				Employer employer = new Employer();
+				
+				employer.setID_EMPLOYER(defaultTableModel.getValueAt(i, 0).toString());
+				employer.setACCOUNT(getAccountByID_DAL(defaultTableModel.getValueAt(i, 1).toString()));
+				employer.setPROFILE(getProfileByID_DAL(defaultTableModel.getValueAt(i, 2).toString()));
+				list.add(employer);
+			}
 		}
-		
 		return list;
 	}
 	public Employer getEmployerByID_DAL(String ID) throws ClassNotFoundException, SQLException
@@ -59,24 +61,25 @@ public class DAL
 		List<Account> list = new ArrayList<Account>();
 		String query = "Select * from TB_ACCOUNT";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
-
-		for(int i = 0; i < defaultTableModel.getRowCount(); i++)
+		if(defaultTableModel != null)
 		{
-			Account account = new Account();
-			
-			account.setID_ACCOUNT(defaultTableModel.getValueAt(i, 0).toString());
-			account.setUSERNAME(defaultTableModel.getValueAt(i, 1).toString());
-			account.setPASSWORD(defaultTableModel.getValueAt(i, 2).toString());
-			if(defaultTableModel.getValueAt(i, 3) != null)
-				account.setACCESSER( (Boolean.parseBoolean(defaultTableModel.getValueAt(i, 3).toString()) == true)?1:0 );
-			else
-				account.setACCESSER(-1);
-			account.setSTATUS(Boolean.parseBoolean(defaultTableModel.getValueAt(i, 4).toString()));
-			
-			list.add(account);
-			
+			for(int i = 0; i < defaultTableModel.getRowCount(); i++)
+			{
+				Account account = new Account();
+				
+				account.setID_ACCOUNT(defaultTableModel.getValueAt(i, 0).toString());
+				account.setUSERNAME(defaultTableModel.getValueAt(i, 1).toString());
+				account.setPASSWORD(defaultTableModel.getValueAt(i, 2).toString());
+				if(defaultTableModel.getValueAt(i, 3) != null)
+					account.setACCESSER( (Boolean.parseBoolean(defaultTableModel.getValueAt(i, 3).toString()) == true)?1:0 );
+				else
+					account.setACCESSER(-1);
+				account.setSTATUS(Boolean.parseBoolean(defaultTableModel.getValueAt(i, 4).toString()));
+				
+				list.add(account);
+				
+			}
 		}
-		
 		return list;
 	}
 	public Account getAccountByID_DAL(String id_ACCOUNT) throws ClassNotFoundException, SQLException
@@ -107,25 +110,26 @@ public class DAL
 		List<Post> list = new ArrayList<Post>();
 		String query = "Select * from TB_POST";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
-		
-		for(int i = 0; i < defaultTableModel.getRowCount(); i++)
+		if(defaultTableModel != null)
 		{
-			Post post = new Post();
-			
-			post.setID_POST(defaultTableModel.getValueAt(i, 0).toString());
-			post.setEMPLOYER(getEmployerByID_DAL(defaultTableModel.getValueAt(i, 1).toString()));
-			post.setCATEGORY_JOB(getCategory_jobByID_DAL(defaultTableModel.getValueAt(i, 2).toString()));
-			post.setJOB_NAME(defaultTableModel.getValueAt(i, 3).toString());
-			post.setCOMPANY_NAME((defaultTableModel.getValueAt(i, 4) != null)?defaultTableModel.getValueAt(i, 4).toString():"");
-			post.setCITY(defaultTableModel.getValueAt(i, 5).toString());
-			post.setSALARY((defaultTableModel.getValueAt(i, 6) != null)?Integer.parseInt(defaultTableModel.getValueAt(i, 6).toString()):-1);
-			post.setDESCIPTION_JOB((defaultTableModel.getValueAt(i, 7) != null)?defaultTableModel.getValueAt(i, 7).toString():"");
-			post.setLABOR((defaultTableModel.getValueAt(i, 8) != null)?Integer.parseInt(defaultTableModel.getValueAt(i, 8).toString()):-1);
-			post.setSTATUS(Boolean.parseBoolean(defaultTableModel.getValueAt(i, 9).toString()));
-			
-			list.add(post);
+			for(int i = 0; i < defaultTableModel.getRowCount(); i++)
+			{
+				Post post = new Post();
+				
+				post.setID_POST(defaultTableModel.getValueAt(i, 0).toString());
+				post.setEMPLOYER(getEmployerByID_DAL(defaultTableModel.getValueAt(i, 1).toString()));
+				post.setCATEGORY_JOB(getCategory_jobByID_DAL(defaultTableModel.getValueAt(i, 2).toString()));
+				post.setJOB_NAME(defaultTableModel.getValueAt(i, 3).toString());
+				post.setCOMPANY_NAME((defaultTableModel.getValueAt(i, 4) != null)?defaultTableModel.getValueAt(i, 4).toString():"");
+				post.setCITY(defaultTableModel.getValueAt(i, 5).toString());
+				post.setSALARY((defaultTableModel.getValueAt(i, 6) != null)?Integer.parseInt(defaultTableModel.getValueAt(i, 6).toString()):-1);
+				post.setDESCIPTION_JOB((defaultTableModel.getValueAt(i, 7) != null)?defaultTableModel.getValueAt(i, 7).toString():"");
+				post.setLABOR((defaultTableModel.getValueAt(i, 8) != null)?Integer.parseInt(defaultTableModel.getValueAt(i, 8).toString()):-1);
+				post.setSTATUS(Boolean.parseBoolean(defaultTableModel.getValueAt(i, 9).toString()));
+				
+				list.add(post);
+			}
 		}
-		
 		return list;
 	}
 	public Post getPostByID_DAL(String ID) throws ClassNotFoundException, SQLException
@@ -186,11 +190,14 @@ public class DAL
 		String query = "select * from TB_CV where ID_JOBSEEKER ='"+ID+"'";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
 		CV cv = new CV();
+		if(defaultTableModel !=null)
+		{
 		if(defaultTableModel.getRowCount()==1)
 		{
 			cv.setID_CV(defaultTableModel.getValueAt(0, 0).toString());
 			cv.setJOBSEEKER(getJobSeekerByID(defaultTableModel.getValueAt(0, 1).toString()));
 			cv.setADDRESS_CV(defaultTableModel.getValueAt(0, 2).toString());
+		}
 		}
 		return cv;
 		
@@ -294,7 +301,7 @@ public class DAL
 	}
 	public void DeclinePost_DAL(String iD) throws ClassNotFoundException, SQLException
 	{
-		String query = "update TB_POST set STATUS = 'False' where ID_POST='"+iD+"'";
+		String query = "delete from TB_POST where ID_POST='"+iD+"'";
 		DBHelper.getInstance().ExcuteDB(query);
 	}
 
@@ -305,7 +312,8 @@ public class DAL
 		Profile profile = new Profile();
 			
 		profile.setID_PROFILE(defaultTableModel.getValueAt(0, 0).toString());
-		profile.setIMAGE((defaultTableModel.getValueAt(0, 1) != null)?defaultTableModel.getValueAt(0, 1).toString():"");
+		//profile.setIMAGE((defaultTableModel.getValueAt(0, 1) != null)?defaultTableModel.getValueAt(0, 1).toString():"");
+		profile.setIMAGE(DBHelper.getInstance().GetImageProfile(query));
 		profile.setNAME(defaultTableModel.getValueAt(0, 2).toString());
 		profile.setCITY(defaultTableModel.getValueAt(0, 3).toString());
 		profile.setPHONENUMBER(defaultTableModel.getValueAt(0, 4).toString());
@@ -321,19 +329,21 @@ public class DAL
 		List<JobSeeker> list = new ArrayList<JobSeeker>();
 		String query = "select * from TB_JOBSEEKER";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
-		
-		for(int i = 0; i < defaultTableModel.getRowCount(); i++)
+		if(defaultTableModel != null)
 		{
-			JobSeeker jobSeeker = new JobSeeker();
-			
-			jobSeeker.setID_JOBSEEKER(defaultTableModel.getValueAt(i, 0).toString());
-			jobSeeker.setACCOUNT(getAccountByID_DAL(defaultTableModel.getValueAt(i, 1).toString()));
-			jobSeeker.setPROFILE(getProfileByID_DAL(defaultTableModel.getValueAt(i, 2).toString()));
-			jobSeeker.setAGE(Integer.parseInt(defaultTableModel.getValueAt(i, 3).toString()));
-			jobSeeker.setGENDER(Boolean.parseBoolean(defaultTableModel.getValueAt(i, 4).toString()));
-			jobSeeker.setPROFESSIONAL(defaultTableModel.getValueAt(i, 5).toString());
-			
-			list.add(jobSeeker);
+			for(int i = 0; i < defaultTableModel.getRowCount(); i++)
+			{
+				JobSeeker jobSeeker = new JobSeeker();
+				
+				jobSeeker.setID_JOBSEEKER(defaultTableModel.getValueAt(i, 0).toString());
+				jobSeeker.setACCOUNT(getAccountByID_DAL(defaultTableModel.getValueAt(i, 1).toString()));
+				jobSeeker.setPROFILE(getProfileByID_DAL(defaultTableModel.getValueAt(i, 2).toString()));
+				jobSeeker.setAGE(Integer.parseInt(defaultTableModel.getValueAt(i, 3).toString()));
+				jobSeeker.setGENDER(Boolean.parseBoolean(defaultTableModel.getValueAt(i, 4).toString()));
+				jobSeeker.setPROFESSIONAL(defaultTableModel.getValueAt(i, 5).toString());
+				
+				list.add(jobSeeker);
+			}
 		}
 		return list;
 	}
@@ -343,14 +353,16 @@ public class DAL
 		List<Category_job> list = new ArrayList<Category_job>();
 		String query = "select * from TB_CATEGORY_JOB";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
-		
-		for(int i = 0; i < defaultTableModel.getRowCount(); i++)
+		if(defaultTableModel != null)
 		{
-			Category_job category_job = new Category_job();
-			
-			category_job.setID_CATEGORY_JOB(defaultTableModel.getValueAt(i, 0).toString());
-			category_job.setCATEGORY_JOB_NAME(defaultTableModel.getValueAt(i, 1).toString());
-			list.add(category_job);
+			for(int i = 0; i < defaultTableModel.getRowCount(); i++)
+			{
+				Category_job category_job = new Category_job();
+				
+				category_job.setID_CATEGORY_JOB(defaultTableModel.getValueAt(i, 0).toString());
+				category_job.setCATEGORY_JOB_NAME(defaultTableModel.getValueAt(i, 1).toString());
+				list.add(category_job);
+			}
 		}
 		return list;
 	}
@@ -359,16 +371,18 @@ public class DAL
 		List<Employer> list = new ArrayList<Employer>();
 		String query = "select * from TB_EMPLOYER";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
-		
-		for(int i = 0; i < defaultTableModel.getRowCount(); i++)
+		if(defaultTableModel != null)
 		{
-			Employer em = new Employer();
-			
-			em.setID_EMPLOYER(defaultTableModel.getValueAt(i, 0).toString());
-			em.setACCOUNT(getAccountByID_DAL(defaultTableModel.getValueAt(i, 1).toString()));
-			em.setPROFILE(getProfileByID_DAL(defaultTableModel.getValueAt(i, 2).toString()));
-			
-			list.add(em);
+			for(int i = 0; i < defaultTableModel.getRowCount(); i++)
+			{
+				Employer em = new Employer();
+				
+				em.setID_EMPLOYER(defaultTableModel.getValueAt(i, 0).toString());
+				em.setACCOUNT(getAccountByID_DAL(defaultTableModel.getValueAt(i, 1).toString()));
+				em.setPROFILE(getProfileByID_DAL(defaultTableModel.getValueAt(i, 2).toString()));
+				
+				list.add(em);
+			}
 		}
 		return list;
 	}
@@ -486,11 +500,14 @@ public class DAL
 		String query = "select CITY from TB_POST";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
 		List<String> tmp = new ArrayList<String>();
-		for(int i=0;i<defaultTableModel.getRowCount();i++)
+		if(defaultTableModel != null)
 		{
-			if(!tmp.contains(defaultTableModel.getValueAt(i, 0).toString()))
+			for(int i=0;i<defaultTableModel.getRowCount();i++)
 			{
-				tmp.add(defaultTableModel.getValueAt(i, 0).toString());
+				if(!tmp.contains(defaultTableModel.getValueAt(i, 0).toString()))
+				{
+					tmp.add(defaultTableModel.getValueAt(i, 0).toString());
+				}
 			}
 		}
 		return tmp;
@@ -562,7 +579,7 @@ public class DAL
 	}
 	public void AddCVToPost_DAL(String idPost, String idCV) throws ClassNotFoundException, SQLException
 	{
-		String query = "Insert TB_DETAIL_CV_AND_POST(ID_POST, ID_CV) VALUES ('" + idPost + "','" + idCV + "')";
+		String query = "Insert into TB_DETAIL_CV_AND_POST VALUES ('" + idPost + "','" + idCV + "')";
 		DBHelper.getInstance().ExcuteDB(query);
 	}
 	public String getIdCVByIdJobSeeker_DAL(String idJobSeeker) throws ClassNotFoundException, SQLException
@@ -576,5 +593,13 @@ public class DAL
 		// TODO Auto-generated method stub
 		String query = "delete TB_POST where ID_POST ='"+iD+"'";
 		DBHelper.getInstance().ExcuteDB(query);
+	}
+
+	public boolean checkApply(String idPost, String idCV) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String query = "Select * from TB_DETAIL_CV_AND_POST where ID_POST = '" + idPost + "'and ID_CV = '"+idCV+"'";
+		if(DBHelper.getInstance().GetRecords(query)!=null)
+			return true;
+		return false;
 	}
 }

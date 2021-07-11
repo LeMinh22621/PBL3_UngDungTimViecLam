@@ -156,7 +156,13 @@ public class BLL_GUEST {
 		try
 		{
 			String id = DAL.getInstance().SelectLastRowPost_DAL("P");
-			String num = id.replaceAll("P", "");
+			String num;
+			if(id==null)
+			{
+				num="0";
+			}
+			else
+				num = id.replaceAll("P", "");
 			result = Integer.parseInt(num);
 		}
 		catch (ClassNotFoundException | SQLException e)
@@ -169,7 +175,7 @@ public class BLL_GUEST {
 	public boolean Post_BLL_GUEST(String iD_Acc, String jobname, String companyname, String city, String salary,
 			String descrip, String labor,String category) {
 		// TODO Auto-generated method stub
-		if(jobname.length() != 0 && companyname.length() != 0 && city.length() != 0 && descrip.length() != 0 && salary.length() != 0)
+		if(jobname.length() != 0 && companyname.length() != 0 && city.length() != 0 && salary.length() != 0)
 		{
 			try {
 					int idp = SelectLastRowPost_BLL() + 1;
@@ -182,9 +188,10 @@ public class BLL_GUEST {
 					return false;
 				}
 		}
-		else
+		else {
 			JOptionPane.showMessageDialog(null, "Please full fill");
-		return false;
+			return false;
+		}
 	}
 	public List<String> getListCategoryJobName_BLL_GUEST()
 	{

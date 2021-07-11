@@ -302,11 +302,28 @@ public class BLL
 		}
 		return idCV;
 	}
+	public boolean CheckApply(String idPost, String idCV)
+	{
+		try {
+			if(DAL.getInstance().checkApply(idPost,idCV))
+			{
+				return true;
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return false;
+	}
 	public void AddCVToPost_BLL(String idPost, String idCV)
 	{
 		try
 		{
-			DAL.getInstance().AddCVToPost_DAL(idPost, idCV);
+			if(!CheckApply(idPost,idCV))
+			{
+				DAL.getInstance().AddCVToPost_DAL(idPost, idCV);
+				JOptionPane.showMessageDialog(null, "successfully applied");
+			}
 		}
 		catch (ClassNotFoundException | SQLException e)
 		{

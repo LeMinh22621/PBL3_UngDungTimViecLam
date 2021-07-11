@@ -11,6 +11,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -28,6 +29,9 @@ import BLL.BLL_LOGIN;
 import DTO.Account;
 import DTO.JobSeeker;
 import DTO.Profile;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
 
 public class JobSeekerProfile extends JFrame
 {
@@ -76,7 +80,10 @@ public class JobSeekerProfile extends JFrame
 		lbPhoneNumber.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel lbFacebook = new JLabel("facebook");
-		lbFacebook.setBounds(428, 22, 279, 35);
+		lbFacebook.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbFacebook.setForeground(new Color(255, 204, 0));
+		lbFacebook.setBackground(Color.WHITE);
+		lbFacebook.setBounds(518, 22, 95, 35);
 		pContact.add(lbFacebook);
 		lbFacebook.setHorizontalAlignment(SwingConstants.CENTER);
 		
@@ -86,8 +93,11 @@ public class JobSeekerProfile extends JFrame
 		txtFacebook.setVisible(false);
 		
 		JLabel lbZalo= new JLabel("Zalo");
+		lbZalo.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbZalo.setForeground(new Color(255, 204, 0));
+		lbZalo.setBackground(Color.RED);
 		lbZalo.setHorizontalAlignment(SwingConstants.CENTER);
-		lbZalo.setBounds(428, 68, 279, 35);
+		lbZalo.setBounds(518, 68, 98, 35);
 		pContact.add(lbZalo);
 		
 		JTextField txtZalo = new JTextField();
@@ -218,7 +228,11 @@ public class JobSeekerProfile extends JFrame
 		txtAge.setText(String.valueOf(jobseeker.getAGE()));
 		txtEmail.setText(profile.getEMAIL());
 		txtPhoneNumber.setText(profile.getPHONENUMBER());
-		
+		if(profile.getIMAGE()!=null)
+		{
+		ImageIcon imageIcon = new ImageIcon(new ImageIcon(profile.getIMAGE()).getImage().getScaledInstance(136, 111, Image.SCALE_DEFAULT));
+		lbImage.setIcon(imageIcon);
+		}
 		txtProfessional.setText(jobseeker.getPROFESSIONAL());
 		if(jobseeker.getGENDER())
 		{
@@ -248,7 +262,7 @@ public class JobSeekerProfile extends JFrame
 						}
 					}
 				}
-				catch (IOException | URISyntaxException e1)
+				catch (Exception e1)
 				{
 					JOptionPane.showMessageDialog(null, "No Facebook linked yet");
 				}

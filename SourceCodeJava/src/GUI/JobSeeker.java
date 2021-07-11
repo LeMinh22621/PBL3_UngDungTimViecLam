@@ -131,6 +131,7 @@ public class JobSeeker extends JFrame implements WindowListener
 		pSearchS.add(btnSearchS);
 		
 		JPanel pListS = new JPanel();
+		pListS.setBackground(new Color(51, 204, 153));
 		pListS.setBounds(0, 169, 784, 292);
 		seeker_login.add(pListS);
 		pListS.setLayout(null);
@@ -156,11 +157,6 @@ public class JobSeeker extends JFrame implements WindowListener
 		JComboBox cbbSortPost = new JComboBox(itemsPost);
 		cbbSortPost.setBounds(593, 258, 159, 23);
 		pListS.add(cbbSortPost);
-		
-		JButton btnSentCV = new JButton("SEND CV");
-		btnSentCV.setVisible(false);
-		btnSentCV.setBounds(35, 258, 89, 23);
-		pListS.add(btnSentCV);
 		
 		JLabel lblTopJob = new JLabel("Top Ranking-job");
 		lblTopJob.setFont(new Font("VNI-Fato", Font.PLAIN, 15));
@@ -213,41 +209,6 @@ public class JobSeeker extends JFrame implements WindowListener
 			{
 				profile = new JobSeekerProfile(user);
 				profile.setVisible(true);
-			}
-		});
-		// SK
-		tableJ.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				if(tableJ.getSelectedRowCount()>0)
-				{
-					btnSentCV.setVisible(true);
-				}
 			}
 		});
 		// search

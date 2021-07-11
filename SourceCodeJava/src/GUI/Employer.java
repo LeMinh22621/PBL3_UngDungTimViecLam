@@ -148,6 +148,7 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 		pSearchE.add(btnSearchE);	
 
 		JPanel pListE = new JPanel();
+		pListE.setBackground(new Color(51, 204, 153));
 		pListE.setBounds(0, 169, 784, 292);
 		Employer_login.add(pListE);
 		pListE.setLayout(null);
@@ -220,6 +221,8 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 				scrollPaneE.setVisible(false);
 				lblTopSeeker.setVisible(false);
 				btnSentMessage.setVisible(false);
+				cbbSortSeekerName.setVisible(false);
+				btnSortSeekerName.setVisible(false);
 				scrollPanePost.setVisible(true);
 				btnPost.setVisible(true);
 				btnShowPost.setVisible(true);
@@ -258,7 +261,7 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 			public void actionPerformed(ActionEvent e)
 			{
 				dispose();
-				LogIn f = new LogIn("Choise Permission");
+				LogIn f = new LogIn("Choose Permission");
 				f.setVisible(true);
 			}
 		});
@@ -308,6 +311,8 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 				dtm.setNumRows(0);
 				scrollPaneE.setVisible(true);
 				lblTopSeeker.setVisible(true);
+				cbbSortSeekerName.setVisible(true);
+				btnSortSeekerName.setVisible(true);
 				scrollPanePost.setVisible(false);
 				btnPost.setVisible(false);
 				btnShowPost.setVisible(false);
@@ -395,7 +400,6 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 				// TODO Auto-generated method stub
 				post = new Post(user);
 				post.setVisible(true);
-				btnShowPost.doClick();
 			}
 		});
 		//delete
