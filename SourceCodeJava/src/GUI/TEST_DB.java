@@ -1,53 +1,46 @@
 package GUI;
+import java.awt.Image;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import BLL.BLL;
 import DAL.DBHelper;
 import DTO.Account;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class TEST_DB extends JFrame
 {
-	private JTable table;
-	public TEST_DB(String title)
+	private JPanel jpanel;
+	private JTextField textField;
+	public TEST_DB(String title,byte[] imageData)
 	{
 		super(title);
 		getContentPane().setLayout(null);
 		setBounds(300, 200, 600, 400);
 		
-		table = new JTable();
-		table.setBounds(57, 60, 475, 253);
-		getContentPane().add(table);
+		jpanel = new JPanel();
+		getContentPane().add(jpanel);
+		jpanel.setLayout(null);
 		
-		DefaultTableModel dtm = new DefaultTableModel();
-		String[] nameOfColumns = {"ID","USER","PASS","EMAIL","PHONE","STATUS","CATEGORY"};
-		dtm.setColumnIdentifiers(nameOfColumns);
-		table.setModel(dtm);
+		JLabel lblNewLabel = new JLabel();
+		ImageIcon imageIcon = new ImageIcon(new ImageIcon(imageData).getImage().getScaledInstance(190, 113, Image.SCALE_DEFAULT));
+		lblNewLabel.setIcon(imageIcon);
+		lblNewLabel.setBounds(23, 29, 190, 113);
+		getContentPane().add(lblNewLabel);
 		
-		List<Account> list = new ArrayList<Account>();
-		list = BLL.getInstance().getListAccount_BLL();
-		
-		
-//		for(Account i : list)
-//		{
-//			Object[] row = new Object[dtm.getColumnCount()];
-//			
-//			row[0] = i.getID_ACCOUNT();
-//			row[1] = i.getUSERNAME();
-//			row[2] = i.getPASSWORD();
-//			row[3] = i.getEMAIL();
-//			row[4] = i.getPHONENUMBER();
-//			row[5] = i.getSTATUS();
-//			row[6] = i.getCATEGORY();
-//			
-//			dtm.addRow(row);
-//		}
+		textField = new JTextField("TEST");
+		textField.setBounds(256, 25, 198, 117);
+		getContentPane().add(textField);
+		textField.setColumns(10);
 		
 		setVisible(true);
 	}
@@ -55,9 +48,10 @@ public class TEST_DB extends JFrame
 	{
 //		String query = "select * from TB_PROFILE where ID_PROFILE='PF1'";
 //		try {
-//			DBHelper.getInstance().GetRecordProfile(query);
+//			byte[] imageData = DBHelper.getInstance().GetImageProfile(query);
+//			TEST_DB test = new TEST_DB("HI",imageData);
 //			//System.out.println(defaultTableModel.getValueAt(0, 1));
-//		} catch (ClassNotFoundException | SQLException | IOException e) {
+//		} catch (ClassNotFoundException | SQLException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}

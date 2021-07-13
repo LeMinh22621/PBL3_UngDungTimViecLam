@@ -144,7 +144,7 @@ public class LogIn extends JFrame implements ActionListener
 			{
 				getContentPane().removeAll();
 				getContentPane().repaint();
-				setpLogIn();
+				setpLogIn("","");
 				break;
 			}
 			case Guest:
@@ -352,7 +352,7 @@ public class LogIn extends JFrame implements ActionListener
 				{
 					getContentPane().removeAll();
 					getContentPane().repaint();
-					setpLogIn();
+					setpLogIn(USERNAME,PASSWORD);
 				}
 				
 			}
@@ -375,7 +375,7 @@ public class LogIn extends JFrame implements ActionListener
 				{
 					getContentPane().removeAll();
 					getContentPane().repaint();
-					setpLogIn();
+					setpLogIn(USERNAME,PASSWORD);
 				}
 				
 			}
@@ -453,7 +453,7 @@ public class LogIn extends JFrame implements ActionListener
 			{
 				getContentPane().removeAll();
 				getContentPane().repaint();
-				setpLogIn();
+				setpLogIn("","");
 			}
 		});
 		P2.add(btnBackR);
@@ -544,7 +544,7 @@ public class LogIn extends JFrame implements ActionListener
 		setVisible(true);
 	}
 
-	private void setpLogIn()// set Login
+	private void setpLogIn(String USERNAME, String PASSWORD)// set Login
 	{
 		pLogIn = new JPanel();
 		pLogIn.setSize(WIDTH, HEIGHT);
@@ -593,7 +593,7 @@ public class LogIn extends JFrame implements ActionListener
 		pLogIn.add(panel_1);
 		panel_1.setLayout(null);
 
-		txtUsername = new JTextField();
+		txtUsername = new JTextField(USERNAME);
 		txtUsername.setHorizontalAlignment(SwingConstants.CENTER);
 		txtUsername.setBorder(null);
 		txtUsername.setBackground(new Color(160, 82, 45));
@@ -601,7 +601,7 @@ public class LogIn extends JFrame implements ActionListener
 		panel_1.add(txtUsername);
 		txtUsername.setColumns(10);
 
-		pwdPassword = new JPasswordField();
+		pwdPassword = new JPasswordField(PASSWORD);
 		pwdPassword.setHorizontalAlignment(SwingConstants.CENTER);
 		pwdPassword.setBorder(null);
 		pwdPassword.setBackground(new Color(160, 82, 45));

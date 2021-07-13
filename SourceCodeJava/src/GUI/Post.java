@@ -9,7 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -22,6 +21,7 @@ import BLL.BLL;
 import BLL.BLL_GUEST;
 import DTO.Account;
 
+@SuppressWarnings("serial")
 public class Post extends JFrame
 {
 	private static Post Instance_U;
@@ -52,7 +52,7 @@ public class Post extends JFrame
 	private JLabel lbJobDescription;
 	private JTextArea txtAJobDescription;
 	private JSpinner spinHires;
-	private JComboBox cbbCategory;
+	private JComboBox<String> cbbCategory;
 	private JButton btnCancel;
 	private JScrollPane scrollPanePostJobDescription;
 	private JLabel lbCategoryName;
@@ -64,10 +64,14 @@ public class Post extends JFrame
 		txtAddress.setText(post.getCITY());txtAddress.setEditable(false);
 		txtSalary.setText(Integer.toString(post.getSALARY()));txtSalary.setEditable(false);
 		txtAJobDescription.setText(post.getDESCIPTION_JOB());txtAJobDescription.setEditable(false);
-		cbbCategory.setSelectedItem(post.getCATEGORY_JOB());
+		cbbCategory.removeAllItems();
+		cbbCategory.addItem(post.getCATEGORY_JOB().getCATEGORY_JOB_NAME());//cbbCategory.setEditable(false);
+		cbbCategory.setSelectedItem(cbbCategory.getItemAt(0));
+		//cbbCategory.setEnabled(false);
 		spinHires.setValue(post.getLABOR());
 		spinHires.setEnabled(false);
 	}
+	@SuppressWarnings("deprecation")
 	private void initial()
 	{
 		getContentPane().setLayout(null);
@@ -145,13 +149,16 @@ public class Post extends JFrame
 		spinHires.setBounds(348, 261, 38, 31);
 		pPost.add(spinHires);
 		
-		cbbCategory = new JComboBox();
+		cbbCategory = new JComboBox<String>();
 		cbbCategory.setSize(197, 31);
 		cbbCategory.setLocation(189, 200);
-		DefaultComboBoxModel tmpCategory = new DefaultComboBoxModel();
+		DefaultComboBoxModel<String> tmpCategory = new DefaultComboBoxModel<String>();
 		cbbCategory.setModel(tmpCategory);
+		if(cbbCategory.getSelectedItem()==null)
+		{
 		tmpCategory.addAll(BLL_GUEST.getInstance().getListCategoryJobName_BLL_GUEST());
 		cbbCategory.setSelectedItem(cbbCategory.getItemAt(0));
+		}
 		pPost.add(cbbCategory);
 		
 		scrollPanePostJobDescription = new JScrollPane(txtAJobDescription);
@@ -179,8 +186,7 @@ public class Post extends JFrame
 			{
 				String idCV = "";
 				idCV = BLL.getInstance().getIdCVByIdJobSeeker_BLL(idJobSeeker);
-				JOptionPane.showMessageDialog(null, idCV);
-				BLL.getInstance().AddCVToPost_BLL(idCV, post.getID_POST());
+				BLL.getInstance().AddCVToPost_BLL(post.getID_POST(),idCV);
 			}
 		});
 		btnApply.setBounds(168, 435, 81, 23);
@@ -207,7 +213,7 @@ public class Post extends JFrame
 				String Descrip = txtAJobDescription.getText();
 				String Labor = String.valueOf(spinHires.getValue());
 				String Category = cbbCategory.getSelectedItem().toString();
-				if(BLL_GUEST.getInstance().Post_BLL_GUEST(ID_Acc,Jobname,Companyname,City,Salary,Descrip,Labor,Category));
+				if(BLL_GUEST.getInstance().Post_BLL_GUEST(ID_Acc,Jobname,Companyname,City,Salary,Descrip,Labor,Category))
 				{
 					txtJobTilte.setText("");
 					txtCompanyName.setText("");

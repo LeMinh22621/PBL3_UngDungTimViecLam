@@ -26,6 +26,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import BLL.BLL;
 import BLL.BLL_GUEST;
 import DTO.Account;
 import DTO.JobSeeker;
@@ -147,6 +148,7 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 		pSearchE.add(btnSearchE);	
 
 		JPanel pListE = new JPanel();
+		pListE.setBackground(new Color(51, 204, 153));
 		pListE.setBounds(0, 169, 784, 292);
 		Employer_login.add(pListE);
 		pListE.setLayout(null);
@@ -177,18 +179,28 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 		
 		JButton btnPost = new JButton("POST");
 		btnPost.setVisible(false);
-		btnPost.setBounds(350, 258, 103, 23);
+		btnPost.setBounds(357, 258, 103, 23);
 		pListE.add(btnPost);
 		
 		JButton btnShowPost = new JButton("Show");
 		btnShowPost.setVisible(false);
-		btnShowPost.setBounds(100, 258, 103, 23);
+		btnShowPost.setBounds(65, 258, 103, 23);
 		pListE.add(btnShowPost);
 		
 		JButton btnDeletePost = new JButton("DELETE");
 		btnDeletePost.setVisible(false);
-		btnDeletePost.setBounds(620, 258, 103, 23);
+		btnDeletePost.setBounds(649, 258, 103, 23);
 		pListE.add(btnDeletePost);
+		
+		JButton btnSortSeekerName = new JButton("SORT");
+		btnSortSeekerName.setBackground(new Color(204, 204, 255));
+		btnSortSeekerName.setBounds(499, 258, 103, 23);
+		pListE.add(btnSortSeekerName);
+		
+		String[] itemsSeekerName = {"JOBSEEKER_NAME","AGE"};
+		JComboBox cbbSortSeekerName = new JComboBox(itemsSeekerName);
+		cbbSortSeekerName.setBounds(612, 258, 140, 23);
+		pListE.add(cbbSortSeekerName);
 		
 		//
 		JLabel lblTopSeeker = new JLabel("Top Seeker");
@@ -199,7 +211,7 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 		
 		JButton btnSentMessage = new JButton("SEND MESSAGE");
 		btnSentMessage.setVisible(false);
-		btnSentMessage.setBounds(619, 258, 133, 23);
+		btnSentMessage.setBounds(35, 258, 133, 23);
 		pListE.add(btnSentMessage);
 		mnItemPost.addActionListener(new ActionListener()
 		{
@@ -209,9 +221,37 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 				scrollPaneE.setVisible(false);
 				lblTopSeeker.setVisible(false);
 				btnSentMessage.setVisible(false);
+				cbbSortSeekerName.setVisible(false);
+				btnSortSeekerName.setVisible(false);
 				scrollPanePost.setVisible(true);
 				btnPost.setVisible(true);
 				btnShowPost.setVisible(true);
+			}
+		});
+		// Sort
+		btnSortSeekerName.addActionListener(new ActionListener()
+		{	
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				DefaultTableModel dtm = (DefaultTableModel) tableE.getModel();
+				dtm.setNumRows(0);
+				String name = cbbJobE.getSelectedItem().toString();
+				String address = cbbAddressE.getSelectedItem().toString();
+				String item = cbbSortSeekerName.getSelectedItem().toString();
+				for(JobSeeker i : BLL_GUEST.getInstance().SortJobseeker_BLL(item,name,address))
+				{
+					Object[] row = new Object[dtm.getColumnCount()];
+					row[0] = i.getPROFILE().getNAME();
+					row[1] = i.getPROFILE().getCITY();
+					row[2] = i.getPROFILE().getPHONENUMBER();
+					row[3] = i.getAGE();
+					row[4] = i.getPROFESSIONAL();
+					row[5] = i.getPROFILE().getEMAIL();
+					 
+					dtm.addRow(row);
+					
+				}
 			}
 		});
 		// logout
@@ -221,7 +261,7 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 			public void actionPerformed(ActionEvent e)
 			{
 				dispose();
-				LogIn f = new LogIn("Choise Permission");
+				LogIn f = new LogIn("Choose Permission");
 				f.setVisible(true);
 			}
 		});
@@ -271,6 +311,8 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 				dtm.setNumRows(0);
 				scrollPaneE.setVisible(true);
 				lblTopSeeker.setVisible(true);
+				cbbSortSeekerName.setVisible(true);
+				btnSortSeekerName.setVisible(true);
 				scrollPanePost.setVisible(false);
 				btnPost.setVisible(false);
 				btnShowPost.setVisible(false);
@@ -358,7 +400,6 @@ public class Employer extends JFrame implements ActionListener, WindowListener
 				// TODO Auto-generated method stub
 				post = new Post(user);
 				post.setVisible(true);
-				btnShowPost.doClick();
 			}
 		});
 		//delete

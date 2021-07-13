@@ -55,7 +55,26 @@ public class DBHelper
 		Con.close();
 		return (dataTableModel.getRowCount() > 0)?dataTableModel:null;
 	}
-	
+	// test image
+	public byte[] GetImageProfile(String sql) throws SQLException
+	{
+		DefaultTableModel dataTableModel = new DefaultTableModel();
+		Con = DriverManager.getConnection(url, "", "");
+		Statement statement = Con.createStatement();
+		ResultSet resultSet = statement.executeQuery(sql);
+		
+		//ResultSetMetaData metaData = resultSet.getMetaData();
+		byte[] imageData = null;
+		if(resultSet.next())
+		{
+			imageData = resultSet.getBytes("IMAGE");
+		}
+		resultSet.close();
+		statement.close();
+		Con.close();
+		return imageData;
+	}
+	//
 	public void ExcuteDB(String sql) throws SQLException
 	{
 		Con = DriverManager.getConnection(url, "", "");

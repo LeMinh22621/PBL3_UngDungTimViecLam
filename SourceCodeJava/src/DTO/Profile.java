@@ -2,7 +2,7 @@ package DTO;
 
 public class Profile {
 	private String ID_PROFILE;
-	private String IMAGE;
+	private byte[] IMAGE;
 	private String NAME;
 	private String CITY;
 	private String PHONENUMBER;
@@ -17,11 +17,11 @@ public class Profile {
 	public void setID_PROFILE(String iD_PROFILE) {
 		ID_PROFILE = iD_PROFILE;
 	}
-	public String getIMAGE() {
+	public byte[] getIMAGE() {
 		return IMAGE;
 	}
 
-	public void setIMAGE(String iMAGE) {
+	public void setIMAGE(byte[] iMAGE) {
 		IMAGE = iMAGE;
 	}
 	public String getNAME() {

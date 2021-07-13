@@ -44,7 +44,18 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 		admin.setLayout(new BorderLayout());
 		JButton AccountManagementG = new JButton("ACCOUNT MANAGEMENT");
 		JButton CensorContentsG = new JButton("CENSOR CONTENTS");
-		
+		JButton logout = new JButton("LOG-OUT");
+		logout.setFont(new Font("Arial", Font.BOLD, 12));
+		logout.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				dispose();
+				LogIn f = new LogIn("Choise Permission");
+				f.setVisible(true);
+			}
+		});
 		JPanel pAccMgtG = new JPanel();
 		pAccMgtG.setBackground(Color.GRAY);
 		pAccMgtG.setPreferredSize(new Dimension( 758,435));
@@ -84,6 +95,8 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 		menuBar.add(CensorContentsG);
 		pConsorG.setLayout(null);
 		
+		menuBar.add(logout);
+		
 		JLabel lblNewLabel1 = new JLabel("JOBS-SEEKING APP FOR DESKTOP");
 		lblNewLabel1.setForeground(Color.YELLOW);
 		lblNewLabel1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -99,6 +112,7 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 		scrollpConsorG.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 		admin.add(scrollpAccMgt,BorderLayout.CENTER);
+		//admin.add(scrollpConsorG,BorderLayout.CENTER);
 		
 		JLabel lbAccMgtG = new JLabel("LIST ACCOUNT");
 		lbAccMgtG.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -108,6 +122,7 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 		
 		//bang account
 		tableAccountG = new JTable();
+		tableAccountG.setDefaultEditor(Object.class, null);
 		String[] nameOfColumnsAcc = {"ID_ACCOUNT","USERNAME","PASSWORD","ACCESSER","STATUS"};
 		DefaultTableModel tmpAcc = new DefaultTableModel();
 		tmpAcc.setColumnIdentifiers(nameOfColumnsAcc);
@@ -119,28 +134,33 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 		pAccMgtG.add(scrollPane);
 		
 		JButton btnShowListAccG = new JButton("SHOW");
+		btnShowListAccG.setForeground(Color.BLACK);
 		btnShowListAccG.setBackground(new Color(204, 204, 255));
 		btnShowListAccG.setBounds(52, 398, 89, 23);
 		pAccMgtG.add(btnShowListAccG);
 		
 		JButton btnDeleteAccG = new JButton("DELETE");
+		btnDeleteAccG.setForeground(Color.BLACK);
 		btnDeleteAccG.setBackground(new Color(204, 204, 255));
 		btnDeleteAccG.setBounds(210, 398, 89, 23);
 		pAccMgtG.add(btnDeleteAccG);
 		
 		JButton btnBanAccG = new JButton("BAN");
+		btnBanAccG.setForeground(Color.BLACK);
 		btnBanAccG.setBackground(new Color(204, 204, 255));
 		btnBanAccG.setBounds(368, 398, 89, 23);
 		btnBanAccG.setBackground(Color.RED);
 		pAccMgtG.add(btnBanAccG);
 		
 		JButton btnSortAccG = new JButton("SORT");
+		btnSortAccG.setForeground(Color.BLACK);
 		btnSortAccG.setBackground(new Color(204, 204, 255));
 		btnSortAccG.setBounds(517, 398, 89, 23);
 		pAccMgtG.add(btnSortAccG);
 		
 		String[] itemsacc = {"ID_ACCOUNT","USERNAME","ACCESSER","STATUS"};
 		JComboBox cbbSortAccG = new JComboBox(itemsacc);
+		cbbSortAccG.setForeground(Color.BLACK);
 		cbbSortAccG.setBounds(627, 398, 109, 22);
 		pAccMgtG.add(cbbSortAccG);
 		
@@ -152,6 +172,7 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 		
 		// bang post
 		tableContentsG = new JTable();
+		tableContentsG.setDefaultEditor(Object.class, null);
 		// dua du lieu vao bang list contents
 		String[] nameOfColumnsPost = {"ID_POST","EMPLOYER_NAME","CATEGORY_JOB_NAME","JOB_NAME","COMPANY_NAME","CITY",
 				"SALARY","DESCIPTION_JOB","LABOR","STATUS"};
@@ -167,30 +188,42 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 		tableContentsG.setFillsViewportHeight(true);
 		
 		JButton btnAcceptG = new JButton("ACCEPT");
+		btnAcceptG.setForeground(Color.BLACK);
 		btnAcceptG.setVisible(false);
-		btnAcceptG.setBackground(new Color(204, 204, 255));
+		btnAcceptG.setBackground(Color.GREEN);
 		btnAcceptG.setBounds(220, 398, 89, 23);
 		pConsorG.add(btnAcceptG);
 		
 		JButton btnDeclineG = new JButton("DECLINE");
+		btnDeclineG.setForeground(Color.BLACK);
 		btnDeclineG.setVisible(false);
-		btnDeclineG.setBackground(new Color(204, 204, 255));
+		btnDeclineG.setBackground(Color.RED);
 		btnDeclineG.setBounds(389, 398, 89, 23);
 		pConsorG.add(btnDeclineG);
 		
 		JButton btnSortCensorG = new JButton("SORT");
+		btnSortCensorG.setForeground(Color.BLACK);
 		btnSortCensorG.setBackground(new Color(204, 204, 204));
 		btnSortCensorG.setBounds(558, 398, 69, 23);
 		pConsorG.add(btnSortCensorG);
 		
 		String[] itemspost = {"ID_POST","EMPLOYER_NAME","STATUS"};
 		JComboBox cbbSortCensorG = new JComboBox(itemspost);
+		cbbSortCensorG.setForeground(Color.BLACK);
 		cbbSortCensorG.setBounds(637, 398, 106, 22);
 		pConsorG.add(cbbSortCensorG);
 		
 		JButton btnShowPostG = new JButton("SHOW");
+		btnShowPostG.setForeground(Color.BLACK);
 		btnShowPostG.setBounds(49, 398, 89, 23);
 		pConsorG.add(btnShowPostG);
+		
+		JButton btnDeleteCensorG = new JButton("DELETE");
+		btnDeleteCensorG.setVisible(false);
+		btnDeleteCensorG.setBackground(Color.RED);
+		btnDeleteCensorG.setForeground(Color.BLACK);
+		btnDeleteCensorG.setBounds(304, 398, 89, 23);
+		pConsorG.add(btnDeleteCensorG);
 		
 		// Chuc nang
 		AccountManagementG.addActionListener(new ActionListener()
@@ -273,7 +306,11 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 					for(int i = 0; i < tableAccountG.getSelectedRowCount(); i++)
 					{
 						int index = tableAccountG.getSelectedRows()[i];
-						BLL.getInstance().BanAccountByIDAccount_BLL(tableAccountG.getValueAt(index,0).toString());
+						String iD = tableAccountG.getValueAt(index,0).toString();
+						if(!iD.equals("AA"))
+						{
+							BLL.getInstance().BanAccountByIDAccount_BLL(iD);
+						}
 					}
 				}
 				else
@@ -356,10 +393,17 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				if(tableContentsG.getSelectedRowCount()>0)
+				if(tableContentsG.getSelectedRowCount()>0&& !Boolean.parseBoolean(tableContentsG.getValueAt(tableContentsG.getSelectedRow(),9).toString()))
 				{
 					btnAcceptG.setVisible(true);
 					btnDeclineG.setVisible(true);
+					btnDeleteCensorG.setVisible(false);
+				}
+				else
+				{
+					btnAcceptG.setVisible(false);
+					btnDeclineG.setVisible(false);
+					btnDeleteCensorG.setVisible(true);
 				}
 			}
 		});
@@ -415,7 +459,7 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 				for(int i = 0; i < tableContentsG.getSelectedRowCount(); i++)
 				{
 					int index = tableContentsG.getSelectedRows()[i];
-					if(Boolean.parseBoolean(tableContentsG.getValueAt(index,9).toString()))
+					if(!Boolean.parseBoolean(tableContentsG.getValueAt(index,9).toString()))
 					{
 						BLL.getInstance().DeclinePost_BLL(tableContentsG.getValueAt(index,0).toString());
 					}
@@ -423,6 +467,20 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 				btnShowPostG.doClick();
 				btnAcceptG.setVisible(false);
 				btnDeclineG.setVisible(false);
+			}
+		});
+		btnDeleteCensorG.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				for(int i = 0; i < tableContentsG.getSelectedRowCount(); i++)
+				{
+					int index = tableContentsG.getSelectedRows()[i];
+					BLL.getInstance().DeclinePost_BLL(tableContentsG.getValueAt(index,0).toString());
+				}
+				btnShowPostG.doClick();
+				btnDeleteCensorG.setVisible(false);
 			}
 		});
 		// Sort

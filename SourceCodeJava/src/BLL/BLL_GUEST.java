@@ -156,7 +156,13 @@ public class BLL_GUEST {
 		try
 		{
 			String id = DAL.getInstance().SelectLastRowPost_DAL("P");
-			String num = id.replaceAll("P", "");
+			String num;
+			if(id==null)
+			{
+				num="0";
+			}
+			else
+				num = id.replaceAll("P", "");
 			result = Integer.parseInt(num);
 		}
 		catch (ClassNotFoundException | SQLException e)
@@ -169,7 +175,7 @@ public class BLL_GUEST {
 	public boolean Post_BLL_GUEST(String iD_Acc, String jobname, String companyname, String city, String salary,
 			String descrip, String labor,String category) {
 		// TODO Auto-generated method stub
-		if(jobname.length() != 0 && companyname.length() != 0 && city.length() != 0 && descrip.length() != 0 && salary.length() != 0)
+		if(jobname.length() != 0 && companyname.length() != 0 && city.length() != 0 && salary.length() != 0)
 		{
 			try {
 					int idp = SelectLastRowPost_BLL() + 1;
@@ -182,9 +188,10 @@ public class BLL_GUEST {
 					return false;
 				}
 		}
-		else
+		else {
 			JOptionPane.showMessageDialog(null, "Please full fill");
-		return false;
+			return false;
+		}
 	}
 	public List<String> getListCategoryJobName_BLL_GUEST()
 	{
@@ -237,5 +244,91 @@ public class BLL_GUEST {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
+	}
+	public List<JobSeeker> SortJobseeker_BLL(String item, String name, String address) {
+		// TODO Auto-generated method stub
+		List<JobSeeker> list = new ArrayList<JobSeeker>();
+		list = GetlistJobSeeker_BLL_GUEST(name,address);
+		switch(item) {
+			case "JOBSEEKER_NAME":
+			{
+				for(int i=0; i<list.size()-1;i++)
+				{
+					for(int j=i+1;j<list.size();j++)
+					{
+						if(list.get(i).getPROFILE().getNAME().compareTo(list.get(j).getPROFILE().getNAME())>=0)
+						{
+							java.util.Collections.swap(list,i,j);
+						}
+					}
+				}
+				break;
+			}
+			case "AGE":
+			{
+				for(int i=0; i<list.size()-1;i++)
+				{
+					for(int j=i+1;j<list.size();j++)
+					{
+						if(list.get(i).getAGE()>list.get(j).getAGE())
+						{
+							java.util.Collections.swap(list,i,j);
+						}
+					}
+				}
+				break;
+			}
+		}
+		return list;
+	}
+	public List<Post> getListSort_BLL_GUEST(String item, String name, String address) {
+		// TODO Auto-generated method stub
+		List<Post> list = new ArrayList<Post>();
+		list = getListPostByNameAndAddress_BLL_GUEST(name,address);
+		switch(item) {
+			case "CATEGORY_JOB_NAME":
+			{
+				for(int i=0; i<list.size()-1;i++)
+				{
+					for(int j=i+1;j<list.size();j++)
+					{
+						if(list.get(i).getCATEGORY_JOB().getCATEGORY_JOB_NAME().compareTo(list.get(j).getCATEGORY_JOB().getCATEGORY_JOB_NAME())>=0)
+						{
+							java.util.Collections.swap(list,i,j);
+						}
+					}
+				}
+				break;
+			}
+			case "COMPANY_NAME":
+			{
+				for(int i=0; i<list.size()-1;i++)
+				{
+					for(int j=i+1;j<list.size();j++)
+					{
+						if(list.get(i).getCOMPANY_NAME().compareTo(list.get(j).getCOMPANY_NAME())>=0)
+						{
+							java.util.Collections.swap(list,i,j);
+						}
+					}
+				}
+				break;
+			}
+			case "SALARY":
+			{
+				for(int i=0; i<list.size()-1;i++)
+				{
+					for(int j=i+1;j<list.size();j++)
+					{
+						if(list.get(i).getSALARY()>list.get(j).getSALARY())
+						{
+							java.util.Collections.swap(list,i,j);
+						}
+					}
+				}
+				break;
+			}
+		}
+		return list;
 	}
 }

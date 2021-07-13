@@ -82,13 +82,13 @@ public class BLL_LOGIN {
 		int result = -1;
 		try
 		{
-			if(LogIn.p == permission.JobSeeker)
+			if(LogIn.p == permission.Employer)
 			{
 				String id = DAL.getInstance().SelectLastRowAccount_DAL("AE");
 				String num = id.replaceAll("AE", "");
 				result = Integer.parseInt(num);
 			}
-			else if(LogIn.p == permission.Employer)
+			else if(LogIn.p == permission.JobSeeker)
 			{
 				String id = DAL.getInstance().SelectLastRowAccount_DAL("AJ");
 				String num = id.replaceAll("AJ", "");
@@ -142,14 +142,14 @@ public class BLL_LOGIN {
 	{
 		if(username.length() < 10)
 			return true;
-		JOptionPane.showMessageDialog(null, "Length of Username must be less 10");
+		JOptionPane.showMessageDialog(null, "Length of Username must be less than 10");
 		return false;
 	}
 	public boolean checkPassword(String password)
 	{
-		if(password.length() < 10)
+		if(password.length() >4&&password.length() < 10)
 			return true;
-		JOptionPane.showMessageDialog(null, "Length of Password must be less 10");
+		JOptionPane.showMessageDialog(null, "Length of Password must be between 4 and 10");
 		return false;
 	}
 	public boolean Register(String NAME, String CITY, String PHONE, String EMAIL, String AGE, String PROFESSIONAL,boolean GENDER, String USERNAME, String PASSWORD, String CONFIRM)
@@ -162,7 +162,7 @@ public class BLL_LOGIN {
 			{
 				if(DAL.getInstance().checkAccount_DAL(USERNAME, (LogIn.p == LogIn.permission.Employer)?true:false))
 				{
-					JOptionPane.showMessageDialog(null, "This Username had register");
+					JOptionPane.showMessageDialog(null, "This Username had been registered");
 					return false;
 				}
 			}
@@ -210,7 +210,7 @@ public class BLL_LOGIN {
 					if(LogIn.p == permission.JobSeeker && checkAge(AGE))
 					{
 						insert = "Insert into TB_JOBSEEKER (ID_JOBSEEKER, ID_ACCOUNT, ID_PROFILE, AGE, GENDER, PROFESSIONAL) VALUES ('";
-						query = insert + ID + "','" + IDA + "','" + IDP + "','" + Integer.parseInt(AGE) + "','" + GENDER + "','" + PROFESSIONAL + "')";
+						query = insert + ID + "','" + IDA + "','" + IDP + "'," + Integer.parseInt(AGE) + ",'" + GENDER + "','" + PROFESSIONAL + "')";
 					}
 					else if( LogIn.p == LogIn.permission.Employer)
 					{
@@ -220,7 +220,6 @@ public class BLL_LOGIN {
 					
 					try
 					{
-						JOptionPane.showMessageDialog(null, queryP + "\n" + queryA + "\n" + query);
 						DAL.getInstance().ExcuteDB(queryP);
 						DAL.getInstance().ExcuteDB(queryA);
 						DAL.getInstance().ExcuteDB(query);

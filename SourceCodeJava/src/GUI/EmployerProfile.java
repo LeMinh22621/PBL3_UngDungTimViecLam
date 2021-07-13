@@ -1,6 +1,9 @@
 package GUI;
 
+import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -9,6 +12,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -41,7 +45,7 @@ public class EmployerProfile extends JFrame
 		setBounds(193, 0, 373, 451);
 		getContentPane().setLayout(null);
 		
-		JLabel lbImage = new JLabel("Image");
+		JLabel lbImage = new JLabel();
 		lbImage.setHorizontalAlignment(SwingConstants.CENTER);
 		lbImage.setBounds(110, 11, 136, 111);
 		getContentPane().add(lbImage);
@@ -79,6 +83,8 @@ public class EmployerProfile extends JFrame
 		pContact.add(txtPhoneNumber);
 		
 		JLabel lbFacebook = new JLabel("facebook");
+		lbFacebook.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbFacebook.setForeground(new Color(255, 204, 0));
 		lbFacebook.setBounds(32, 78, 269, 19);
 		pContact.add(lbFacebook);
 		lbFacebook.setHorizontalAlignment(SwingConstants.CENTER);
@@ -89,6 +95,8 @@ public class EmployerProfile extends JFrame
 		txtFacebook.setVisible(false);
 		
 		JLabel lblZalo = new JLabel("Zalo");
+		lblZalo.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblZalo.setForeground(new Color(255, 204, 0));
 		lblZalo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblZalo.setBounds(32, 108, 269, 19);
 		pContact.add(lblZalo);
@@ -141,6 +149,11 @@ public class EmployerProfile extends JFrame
 		txtCity.setText(profile.getCITY());
 		txtEmail.setText(profile.getEMAIL());
 		txtPhoneNumber.setText(profile.getPHONENUMBER());
+		if(profile.getIMAGE()!=null)
+		{
+		ImageIcon imageIcon = new ImageIcon(new ImageIcon(profile.getIMAGE()).getImage().getScaledInstance(136, 111, Image.SCALE_DEFAULT));
+		lbImage.setIcon(imageIcon);
+		}
 		// Edit
 		btnEdit.addActionListener(new ActionListener() {
 			
@@ -230,7 +243,7 @@ public class EmployerProfile extends JFrame
 					else
 					{
 						if(!profile.getWEBSITE().equals("Empty")) {
-							Desktop.getDesktop().browse(new URI(profile.getWEBSITE()));//"https://www.facebook.com/leminh2k1/"
+							Desktop.getDesktop().browse(new URI(profile.getWEBSITE()));
 						}
 					}
 				}

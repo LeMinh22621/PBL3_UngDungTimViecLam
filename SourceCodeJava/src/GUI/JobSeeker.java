@@ -131,6 +131,7 @@ public class JobSeeker extends JFrame implements WindowListener
 		pSearchS.add(btnSearchS);
 		
 		JPanel pListS = new JPanel();
+		pListS.setBackground(new Color(51, 204, 153));
 		pListS.setBounds(0, 169, 784, 292);
 		seeker_login.add(pListS);
 		pListS.setLayout(null);
@@ -147,10 +148,15 @@ public class JobSeeker extends JFrame implements WindowListener
 		scrollPaneS.setBounds(35, 44, 717, 210);
 		pListS.add(scrollPaneS);
 		
-		JButton btnSentCV = new JButton("SEND CV");
-		btnSentCV.setVisible(false);
-		btnSentCV.setBounds(663, 258, 89, 23);
-		pListS.add(btnSentCV);
+		JButton btnSortPost = new JButton("SORT");
+		btnSortPost.setBackground(new Color(204, 204, 255));
+		btnSortPost.setBounds(480, 258, 103, 23);
+		pListS.add(btnSortPost);
+		
+		String[] itemsPost = {"CATEGORY_JOB_NAME","COMPANY_NAME","SALARY"};
+		JComboBox cbbSortPost = new JComboBox(itemsPost);
+		cbbSortPost.setBounds(593, 258, 159, 23);
+		pListS.add(cbbSortPost);
 		
 		JLabel lblTopJob = new JLabel("Top Ranking-job");
 		lblTopJob.setFont(new Font("VNI-Fato", Font.PLAIN, 15));
@@ -158,6 +164,32 @@ public class JobSeeker extends JFrame implements WindowListener
 		lblTopJob.setBounds(35, 11, 155, 22);
 		pListS.add(lblTopJob);
 		getContentPane().add(contentPane);
+		//Sort
+		btnSortPost.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String name = cbbJobS.getSelectedItem().toString();
+				String address = (cbbAddressS.getSelectedItem() != null)?cbbAddressS.getSelectedItem().toString():"";
+				DefaultTableModel dtm = (DefaultTableModel) tableJ.getModel();
+				dtm.setNumRows(0);
+				String item = cbbSortPost.getSelectedItem().toString();
+				list = BLL_GUEST.getInstance().getListSort_BLL_GUEST(item,name,address);
+				for(Post i : list)
+				{
+					Object[] row = new Object[dtm.getColumnCount()];
+					row[0] = i.getEMPLOYER().getPROFILE().getNAME();
+					row[1] = i.getCATEGORY_JOB().getCATEGORY_JOB_NAME();
+					row[2] = i.getJOB_NAME();
+					row[3] = i.getCOMPANY_NAME();
+					row[4] = i.getCITY();
+					row[5] = i.getSALARY();
+					row[6] = i.getDESCIPTION_JOB();
+					row[7] = i.getLABOR();
+					 
+					dtm.addRow(row);
+				}
+			}
+		});
 		//logout
 		mnItemLogOut.addActionListener(new ActionListener()
 		{
@@ -177,41 +209,6 @@ public class JobSeeker extends JFrame implements WindowListener
 			{
 				profile = new JobSeekerProfile(user);
 				profile.setVisible(true);
-			}
-		});
-		// SK
-		tableJ.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				if(tableJ.getSelectedRowCount()>0)
-				{
-					btnSentCV.setVisible(true);
-				}
 			}
 		});
 		// search
