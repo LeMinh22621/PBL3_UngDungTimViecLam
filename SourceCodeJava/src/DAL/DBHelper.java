@@ -14,7 +14,7 @@ public class DBHelper
 {
 	private static DBHelper Instance;
 	private Connection Con;
-	private static String url = "jdbc:sqlserver://DESKTOP-1GG0LVP\\SQLEXPRESS;databaseName=UngDungTimViecLam;integratedSecurity=true";
+	private static String url = "jdbc:sqlserver://DESKTOP-0QMTVFB\\LEHONGMINH;databaseName=UngDungTimViecLam;integratedSecurity=true";
 	public static DBHelper getInstance() throws ClassNotFoundException, SQLException
 	{
 		if(Instance == null)
@@ -53,7 +53,7 @@ public class DBHelper
 		resultSet.close();
 		statement.close();
 		Con.close();
-		return (dataTableModel.getRowCount() != 0)?dataTableModel:null;
+		return (dataTableModel.getRowCount() > 0)?dataTableModel:null;
 	}
 	
 	public void ExcuteDB(String sql) throws SQLException

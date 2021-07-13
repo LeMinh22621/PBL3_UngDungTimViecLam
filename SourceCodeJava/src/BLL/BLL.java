@@ -1,9 +1,14 @@
 package BLL;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import DAL.DAL;
@@ -67,7 +72,7 @@ public class BLL
 	public List<String[]> getJOB_NAMEByID_POST_BLL(String ID)
 	{
 		try {
-			return DAL.getInstance().getJOB_NAMEByID_POST_DAL(ID);
+			return DAL.getInstance().getJOB_NAMEByID_Post_DAL(ID);
 		} catch (ClassNotFoundException |SQLException e) {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -325,5 +330,20 @@ public class BLL
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return idJobSeeker;
+	}
+	public Image  getImage_BLL(String idProfile)
+	{
+		
+		BufferedImage image = null;
+		try
+		{
+			image = ImageIO.read(new ByteArrayInputStream(DAL.getInstance().getImage(idProfile)));
+			JOptionPane.showMessageDialog(null, idProfile);
+		}
+		catch (ClassNotFoundException | IOException | SQLException e) 
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return image;
 	}
 }

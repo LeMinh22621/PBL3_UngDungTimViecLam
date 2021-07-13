@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Desktop;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -11,6 +12,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -120,7 +122,7 @@ public class JobSeekerProfile extends JFrame
 			{
 				
 				JFileChooser fc = new JFileChooser();
-				fc.setCurrentDirectory(new File("C:\\Users\\lehon\\Desktop\\HK4\\PBL3_UngDungTimViecLam\\CV"));
+				fc.setCurrentDirectory(new File("user.home"));// C:\\Users\\lehon\\Desktop\\HK4\\PBL3_UngDungTimViecLam\\CV
 				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				fc.addChoosableFileFilter(new FileNameExtensionFilter("DOC", "doc", "docx", "DOC", "DOCX"));
 				fc.addChoosableFileFilter(new FileNameExtensionFilter("PDF", "PDF", "pdf"));
@@ -133,7 +135,7 @@ public class JobSeekerProfile extends JFrame
 					String path = f.getAbsolutePath();
 					String name = f.getName();
 					lbCV.setText(name);
-					BLL.getInstance().AddCV_BLL((lbCV.getText() == "NameCV")?true:false,user.getID_ACCOUNT(), path);
+					BLL.getInstance().AddCV_BLL((lbCV.getText() == "")?true:false,user.getID_ACCOUNT(), path);
 				}
 			}
 		});
@@ -218,7 +220,16 @@ public class JobSeekerProfile extends JFrame
 		txtAge.setText(String.valueOf(jobseeker.getAGE()));
 		txtEmail.setText(profile.getEMAIL());
 		txtPhoneNumber.setText(profile.getPHONENUMBER());
+		lbCV.setText(BLL.getInstance().getIdCVByIdJobSeeker_BLL(jobseeker.getID_JOBSEEKER()));
 		
+		Image image = BLL.getInstance().getImage_BLL(jobseeker.getPROFILE().getID_PROFILE());
+		if(image != null)
+		{
+			image.getScaledInstance(lbImage.getWidth(),lbImage.getHeight(), ABORT);
+			ImageIcon icon = new ImageIcon(image);
+			lbImage.setIcon(icon);
+		}
+
 		txtProfessional.setText(jobseeker.getPROFESSIONAL());
 		if(jobseeker.getGENDER())
 		{
@@ -277,7 +288,7 @@ public class JobSeekerProfile extends JFrame
 				}
 				catch (IOException | URISyntaxException e1)
 				{
-					JOptionPane.showMessageDialog(null, "No Zalo linked yet");
+					JOptionPane.showMessageDialog(null, "No Website linked yet");
 				}
 			}
 		});
