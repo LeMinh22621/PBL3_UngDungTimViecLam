@@ -532,7 +532,7 @@ public class DAL
 	public void EditProfileJobseeker_DAl(String iDprofile, String iDjobseeker, String name, String age,
 			boolean gender,String phoneNumber, String email,String professional,String linkFacebook,String linkZalo) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
-		String query ="update TB_PROFILE set Name ='"+name+"', PHONE_NUMBER = '"+phoneNumber+"', EMAIL = '"+email+"'";
+		String query ="update TB_PROFILE set NAME ='"+name+"', PHONE_NUMBER = '"+phoneNumber+"', EMAIL = '"+email+"'";
 		if(!linkFacebook.equals("Empty")||!linkFacebook.equals(""))
 		{
 			query += ", FACEBOOK='"+linkFacebook+"'";

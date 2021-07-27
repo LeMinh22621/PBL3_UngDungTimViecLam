@@ -46,6 +46,9 @@ public class JobSeekerProfile extends JFrame
 	private JTextField txtAge;
 	private JTextField txtEmail;
 	private JTextField txtPhoneNumber;
+	private JLabel lbCV;
+	private JRadioButton rdbtnMale, rdbtnFemale;
+	private JButton btnCV;
 	public JobSeekerProfile(Account user)
 	{
 		super("JobSeeker Profile");
@@ -117,18 +120,18 @@ public class JobSeekerProfile extends JFrame
 		txtPhoneNumber.setBounds(157, 65, 210, 35);
 		pContact.add(txtPhoneNumber);
 		
-		JLabel lbCV = new JLabel("NameCV");
+		lbCV = new JLabel("NameCV");
 		lbCV.setHorizontalAlignment(SwingConstants.CENTER);
 		lbCV.setBounds(389, 114, 108, 43);
 		pContact.add(lbCV);
 		
-		JButton btnCV = new JButton("CV");
+		btnCV = new JButton("CV");
+		btnCV.hide();
 		btnCV.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				
 				JFileChooser fc = new JFileChooser();
 				fc.setCurrentDirectory(new File("user.home"));// C:\\Users\\lehon\\Desktop\\HK4\\PBL3_UngDungTimViecLam\\CV
 				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -198,11 +201,11 @@ public class JobSeekerProfile extends JFrame
 		pAbout.add(txtProfessional);
 		
 		ButtonGroup group = new ButtonGroup();
-		JRadioButton rdbtnMale = new JRadioButton("Male");
+		rdbtnMale = new JRadioButton("Male");
 		rdbtnMale.setBounds(516, 30, 84, 35);
 		pAbout.add(rdbtnMale);
 		
-		JRadioButton rdbtnFemale = new JRadioButton("Female");
+		rdbtnFemale = new JRadioButton("Female");
 		rdbtnFemale.setBounds(621, 30, 84, 35);
 		pAbout.add(rdbtnFemale);
 		group.add(rdbtnFemale);
@@ -237,10 +240,14 @@ public class JobSeekerProfile extends JFrame
 		if(jobseeker.getGENDER())
 		{
 			rdbtnMale.setSelected(true);
+			rdbtnFemale.setEnabled(false);
+			rdbtnMale.setEnabled(false);
 		}
 		else
 		{
 			rdbtnFemale.setSelected(true);
+			rdbtnFemale.setEnabled(false);
+			rdbtnMale.setEnabled(false);
 		}
 		lbFacebook.addMouseListener(new MouseAdapter()
 		{
@@ -275,7 +282,6 @@ public class JobSeekerProfile extends JFrame
 			{
 				try
 				{
-
 					if(btnEdit.getText().equals("OK"))
 					{
 						lbZalo.setVisible(false);
@@ -309,17 +315,20 @@ public class JobSeekerProfile extends JFrame
 					txtPhoneNumber.setEditable(true);
 					txtEmail.setEditable(true);
 					txtProfessional.setEditable(true);
-				}
+					btnCV.show();
+					rdbtnFemale.setEnabled(true);
+					rdbtnMale.setEnabled(true);
+ 				}
 				else
 				{
 					String IDprofile = profile.getID_PROFILE();
-					String IDjobseeker = profile.getID_PROFILE();
+					String IDjobseeker = BLL_GUEST.getInstance().getJobseekerByID_Profile_BLL_GUEST(IDprofile).getID_JOBSEEKER();
 					String Name = txtName.getText();
 					String Age = txtAge.getText();
 					String PhoneNumber = txtPhoneNumber.getText();
 					String Email = txtEmail.getText();
 					String Professional = txtProfessional.getText();
-					boolean Gender = rdbtnMale.isSelected();
+					boolean Gender = rdbtnMale.isSelected()?true:false;
 					String linkFacebook = txtFacebook.getText();
 					String linkZalo = txtZalo.getText();
 					if(BLL_LOGIN.getInstance().EditProfileJobseeker_BLL_LOGIN(IDprofile,IDjobseeker
