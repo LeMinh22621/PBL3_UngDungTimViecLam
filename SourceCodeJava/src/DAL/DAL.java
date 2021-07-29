@@ -145,7 +145,7 @@ public class DAL
 	}
 	
 	//
-	public List<String[]> getJOB_NAMEByID_POST_DAL(String ID) throws ClassNotFoundException, SQLException
+	public List<String[]> getJOB_NAMEByID_Post_DAL(String ID) throws ClassNotFoundException, SQLException
 	{
 		List<String[]> tmp = new ArrayList<String[]>();
 		for(Post i : getListPost_DAL())
@@ -203,7 +203,7 @@ public class DAL
 		
 	}
 	
-	public void DeleteTB_POSTbyID_POST_DAL(String iD) throws ClassNotFoundException, SQLException
+	public void DeleteTB_POSTbyID_Post_DAL(String iD) throws ClassNotFoundException, SQLException
 	{
 		String query = "delete from TB_POST where ID_POST ='"+iD+"'";
 		DBHelper.getInstance().ExcuteDB(query);
@@ -532,7 +532,7 @@ public class DAL
 	public void EditProfileJobseeker_DAl(String iDprofile, String iDjobseeker, String name, String age,
 			boolean gender,String phoneNumber, String email,String professional,String linkFacebook,String linkZalo) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
-		String query ="update TB_PROFILE set Name ='"+name+"', PHONE_NUMBER = '"+phoneNumber+"', EMAIL = '"+email+"'";
+		String query ="update TB_PROFILE set NAME ='"+name+"', PHONE_NUMBER = '"+phoneNumber+"', EMAIL = '"+email+"'";
 		if(!linkFacebook.equals("Empty")||!linkFacebook.equals(""))
 		{
 			query += ", FACEBOOK='"+linkFacebook+"'";
@@ -559,7 +559,7 @@ public class DAL
 		}
 		return null;
 	}
-	public void Post_DAl(String idP,String iD_Acc,String jobname, String companyname, String city, String salary, String descrip, String labor,
+	public void Post_DAL(String idP,String iD_Acc,String jobname, String companyname, String city, String salary, String descrip, String labor,
 			String category) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		String query = "insert into TB_POST values('"+idP+"','"+getEmployerByIDAccount_DAL(iD_Acc).getID_EMPLOYER()+
@@ -579,6 +579,7 @@ public class DAL
 	}
 	public void AddCVToPost_DAL(String idPost, String idCV) throws ClassNotFoundException, SQLException
 	{
+
 		String query = "Insert into TB_DETAIL_CV_AND_POST VALUES ('" + idPost + "','" + idCV + "')";
 		DBHelper.getInstance().ExcuteDB(query);
 	}
@@ -589,10 +590,20 @@ public class DAL
 		
 		return (defaultTableModel != null)?defaultTableModel.getValueAt(0, 0).toString():"";
 	}
-	public void DeletePostByID_DAL(String iD) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-		String query = "delete TB_POST where ID_POST ='"+iD+"'";
+	public void DeletePostByID_DAL(String iD) throws ClassNotFoundException, SQLException
+	{
+		String query = "delete from TB_POST where ID_POST ='"+iD+"'";
 		DBHelper.getInstance().ExcuteDB(query);
+	}
+	public byte[] getImage(String idProfile) throws ClassNotFoundException, SQLException
+	{
+		byte[] image = null;
+		String query = "Select IMAGE from TB_PROFILE where ID_PROFILE = '" + idProfile + "'";
+		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
+		JOptionPane.showMessageDialog(null, defaultTableModel != null);
+		image = (defaultTableModel != null)?(defaultTableModel.getValueAt(0, 0).toString().getBytes()):null;
+
+		return image;
 	}
 
 	public boolean checkApply(String idPost, String idCV) throws ClassNotFoundException, SQLException {

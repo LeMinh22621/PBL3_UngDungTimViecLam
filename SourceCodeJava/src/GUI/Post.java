@@ -173,7 +173,7 @@ public class Post extends JFrame
 	/*
 	 * @wbp.parser.constructor
 	 */
-	private Post(String idJobSeeker, DTO.Post post)
+	public Post(String idJobSeeker, DTO.Post post)
 	{
 		initial();
 		setPost(post);

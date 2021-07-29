@@ -1,6 +1,9 @@
 package GUI;
 
+import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -29,9 +32,6 @@ import BLL.BLL_LOGIN;
 import DTO.Account;
 import DTO.JobSeeker;
 import DTO.Profile;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Image;
 
 public class JobSeekerProfile extends JFrame
 {
@@ -46,6 +46,9 @@ public class JobSeekerProfile extends JFrame
 	private JTextField txtAge;
 	private JTextField txtEmail;
 	private JTextField txtPhoneNumber;
+	private JLabel lbCV;
+	private JRadioButton rdbtnMale, rdbtnFemale;
+	private JButton btnCV;
 	public JobSeekerProfile(Account user)
 	{
 		super("JobSeeker Profile");
@@ -117,20 +120,20 @@ public class JobSeekerProfile extends JFrame
 		txtPhoneNumber.setBounds(157, 65, 210, 35);
 		pContact.add(txtPhoneNumber);
 		
-		JLabel lbCV = new JLabel("NameCV");
+		lbCV = new JLabel("NameCV");
 		lbCV.setHorizontalAlignment(SwingConstants.CENTER);
 		lbCV.setBounds(389, 114, 108, 43);
 		pContact.add(lbCV);
 		
-		JButton btnCV = new JButton("CV");
+		btnCV = new JButton("CV");
+		btnCV.hide();
 		btnCV.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				
 				JFileChooser fc = new JFileChooser();
-				fc.setCurrentDirectory(new File("C:\\Users\\lehon\\Desktop\\HK4\\PBL3_UngDungTimViecLam\\CV"));
+				fc.setCurrentDirectory(new File("user.home"));// C:\\Users\\lehon\\Desktop\\HK4\\PBL3_UngDungTimViecLam\\CV
 				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				fc.addChoosableFileFilter(new FileNameExtensionFilter("DOC", "doc", "docx", "DOC", "DOCX"));
 				fc.addChoosableFileFilter(new FileNameExtensionFilter("PDF", "PDF", "pdf"));
@@ -143,7 +146,7 @@ public class JobSeekerProfile extends JFrame
 					String path = f.getAbsolutePath();
 					String name = f.getName();
 					lbCV.setText(name);
-					BLL.getInstance().AddCV_BLL((lbCV.getText() == "NameCV")?true:false,user.getID_ACCOUNT(), path);
+					BLL.getInstance().AddCV_BLL((lbCV.getText() == "")?true:false,user.getID_ACCOUNT(), path);
 				}
 			}
 		});
@@ -198,11 +201,11 @@ public class JobSeekerProfile extends JFrame
 		pAbout.add(txtProfessional);
 		
 		ButtonGroup group = new ButtonGroup();
-		JRadioButton rdbtnMale = new JRadioButton("Male");
+		rdbtnMale = new JRadioButton("Male");
 		rdbtnMale.setBounds(516, 30, 84, 35);
 		pAbout.add(rdbtnMale);
 		
-		JRadioButton rdbtnFemale = new JRadioButton("Female");
+		rdbtnFemale = new JRadioButton("Female");
 		rdbtnFemale.setBounds(621, 30, 84, 35);
 		pAbout.add(rdbtnFemale);
 		group.add(rdbtnFemale);
@@ -231,17 +234,21 @@ public class JobSeekerProfile extends JFrame
 		txtPhoneNumber.setText(profile.getPHONENUMBER());
 		if(profile.getIMAGE()!=null)
 		{
-		ImageIcon imageIcon = new ImageIcon(new ImageIcon(profile.getIMAGE()).getImage().getScaledInstance(136, 111, Image.SCALE_DEFAULT));
-		lbImage.setIcon(imageIcon);
+			ImageIcon imageIcon = new ImageIcon(new ImageIcon(profile.getIMAGE()).getImage().getScaledInstance(136, 111, Image.SCALE_DEFAULT));
+			lbImage.setIcon(imageIcon);
 		}
 		txtProfessional.setText(jobseeker.getPROFESSIONAL());
 		if(jobseeker.getGENDER())
 		{
 			rdbtnMale.setSelected(true);
+			rdbtnFemale.setEnabled(false);
+			rdbtnMale.setEnabled(false);
 		}
 		else
 		{
 			rdbtnFemale.setSelected(true);
+			rdbtnFemale.setEnabled(false);
+			rdbtnMale.setEnabled(false);
 		}
 		rdbtnFemale.setEnabled(false);
 		rdbtnMale.setEnabled(false);
@@ -278,7 +285,6 @@ public class JobSeekerProfile extends JFrame
 			{
 				try
 				{
-
 					if(btnEdit.getText().equals("OK"))
 					{
 						lbZalo.setVisible(false);
@@ -294,7 +300,7 @@ public class JobSeekerProfile extends JFrame
 				}
 				catch (IOException | URISyntaxException e1)
 				{
-					JOptionPane.showMessageDialog(null, "No Zalo linked yet");
+					JOptionPane.showMessageDialog(null, "No Website linked yet");
 				}
 			}
 		});
@@ -314,7 +320,7 @@ public class JobSeekerProfile extends JFrame
 					txtProfessional.setEditable(true);
 					rdbtnFemale.setEnabled(true);
 					rdbtnMale.setEnabled(true);
-				}
+ 				}
 				else
 				{
 					String IDprofile = profile.getID_PROFILE();
@@ -324,7 +330,7 @@ public class JobSeekerProfile extends JFrame
 					String PhoneNumber = txtPhoneNumber.getText();
 					String Email = txtEmail.getText();
 					String Professional = txtProfessional.getText();
-					boolean Gender = rdbtnMale.isSelected();
+					boolean Gender = rdbtnMale.isSelected()?true:false;
 					String linkFacebook = txtFacebook.getText();
 					String linkZalo = txtZalo.getText();
 					if(BLL_LOGIN.getInstance().EditProfileJobseeker_BLL_LOGIN(IDprofile,IDjobseeker

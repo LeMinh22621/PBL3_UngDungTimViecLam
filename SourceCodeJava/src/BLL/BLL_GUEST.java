@@ -180,7 +180,7 @@ public class BLL_GUEST {
 			try {
 					int idp = SelectLastRowPost_BLL() + 1;
 					String IDP = "P" + idp;
-					DAL.getInstance().Post_DAl(IDP,iD_Acc,jobname,companyname,city,salary,descrip,labor,category);
+					DAL.getInstance().Post_DAL(IDP,iD_Acc,jobname,companyname,city,salary,descrip,labor,category);
 					JOptionPane.showMessageDialog(null, "Post success!");
 					return true;
 				} catch (ClassNotFoundException | SQLException e) {
