@@ -12,6 +12,7 @@ import DTO.CV;
 import DTO.Category_job;
 import DTO.Employer;
 import DTO.JobSeeker;
+import DTO.JobSeekerApply;
 import DTO.Post;
 import DTO.Profile;
 
@@ -612,5 +613,52 @@ public class DAL
 		if(DBHelper.getInstance().GetRecords(query)!=null)
 			return true;
 		return false;
+	}
+	public String getIdJobSeekerByIdCV(String idCV) throws ClassNotFoundException, SQLException
+	{
+		String query = "SELECT ID_JOBSEEKER FROM TB_CV WHERE ID_CV = '" + idCV + "'";
+		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
+		
+		return (defaultTableModel != null)?defaultTableModel.getValueAt(0, 0).toString():"";
+	}
+	public CV getCvByIdCV(String idCV) throws ClassNotFoundException, SQLException
+	{
+		CV cv = new CV();
+		String query = "SELECT * FROM TB_CV WHERE ID_CV = '" + idCV + "'";
+		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
+		cv.setID_CV(defaultTableModel.getValueAt(0, 0).toString());
+		cv.setJOBSEEKER(getJobSeekerByID(defaultTableModel.getValueAt(0, 1).toString()));
+		cv.setADDRESS_CV(defaultTableModel.getValueAt(0, 2).toString());
+		
+		return cv;
+	}
+	public List<JobSeekerApply> getListJobSeekerApplies_DAL(String idPost) throws ClassNotFoundException, SQLException
+	{
+		List<JobSeekerApply> listJobSeekerApplies = new ArrayList<JobSeekerApply>();
+		String query = "SELECT * FROM TB_DETAIL_CV_AND_POST WHERE ID_POST = '" + idPost + "'";
+		DefaultTableModel dtm = null;
+	
+		dtm = DBHelper.getInstance().GetRecords(query);
+		if(dtm != null)
+		{
+			for(int i = 0; i < dtm.getRowCount(); i++)
+			{
+				JobSeekerApply jobSeekerApply = new JobSeekerApply();
+				String idCV = dtm.getValueAt(i, 1).toString();
+				boolean status = (boolean) dtm.getValueAt(i, 2);
+				
+				JobSeeker jobSeeker = new JobSeeker();
+				jobSeeker = getJobSeekerByID(getIdJobSeekerByIdCV(idCV));
+				CV cv = new CV();
+				cv = getCvByIdCV(idCV);
+				
+				jobSeekerApply.setCv(cv);
+				jobSeekerApply.setJobSeeker(jobSeeker);
+				jobSeekerApply.setStatus(status);
+				
+				listJobSeekerApplies.add(jobSeekerApply);
+			}
+		}
+		return listJobSeekerApplies;
 	}
 }

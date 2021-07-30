@@ -1,8 +1,12 @@
 package GUI;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -12,16 +16,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
 
 import BLL.BLL;
 import BLL.BLL_GUEST;
 import DTO.Account;
 
-@SuppressWarnings("serial")
 public class Post extends JFrame
 {
 	private static Post Instance_U;
@@ -56,6 +64,11 @@ public class Post extends JFrame
 	private JButton btnCancel;
 	private JScrollPane scrollPanePostJobDescription;
 	private JLabel lbCategoryName;
+	private JTabbedPane tabbedPane;
+	private JScrollPane scrollPane;
+	private JTable table;
+	private DefaultTableModel dtmodel;
+	private List<Object> listmodel;
 	
 	private void setPost(DTO.Post post)
 	{
@@ -71,15 +84,71 @@ public class Post extends JFrame
 		spinHires.setValue(post.getLABOR());
 		spinHires.setEnabled(false);
 	}
-	@SuppressWarnings("deprecation")
+	private void initE()
+	{
+		pPost.setBounds(0, 0, 444, 511);
+		getContentPane().add(pPost);
+	}
+	private void initJ(String idPost)
+	{
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(0, 0, 444, 511);
+		getContentPane().add(tabbedPane);
+		tabbedPane.addTab("Detail", null, pPost, null);
+		
+		Object[] columns = {"JobSeeker", "CV", "Status"};
+		dtmodel = new DefaultTableModel() {
+			@Override
+			public boolean isCellEditable(int row, int column)
+			{
+				return false;
+			}
+		};
+		dtmodel.setColumnIdentifiers(columns);
+		
+		table = new JTable();
+		table.setModel(dtmodel);
+		table.setBackground(Color.cyan);
+		table.setForeground(Color.red);
+		table.setRowHeight(30);
+		table.setFillsViewportHeight(true);
+		
+		scrollPane = new JScrollPane(table);
+		tabbedPane.addTab("Proposals", null, scrollPane, null);
+		
+		tabbedPane.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				if(tabbedPane.getSelectedIndex() == 1)
+				{
+					List<DTO.JobSeekerApply> listJobSeekerApplies = new ArrayList<DTO.JobSeekerApply>();
+					listJobSeekerApplies.addAll(BLL.getInstance().getListJobSeekerApply_BLL(idPost));
+					if(listJobSeekerApplies != null)
+					{
+						table.removeAll();
+						Vector<DTO.JobSeekerApply> vector = new Vector<DTO.JobSeekerApply>();
+						for(int i = 0; i < listJobSeekerApplies.size(); i++)
+						{
+							dtmodel.addRow( new Object[]
+								{
+									listJobSeekerApplies.get(i).getJobSeeker().getPROFILE().getNAME(),
+									listJobSeekerApplies.get(i).getCv().getID_CV(),
+									listJobSeekerApplies.get(i).getStatus()
+								}
+							);
+						}
+					}
+					
+				}
+			}
+		});
+	}
 	private void initial()
 	{
 		getContentPane().setLayout(null);
-		setBounds(EXIT_ON_CLOSE, ABORT, 460, 530);
-		
+		setBounds(EXIT_ON_CLOSE, ABORT, 460, 545);
+
 		pPost = new JPanel();
-		pPost.setBounds(10, 11, 424, 469);
-		getContentPane().add(pPost);
 		pPost.setLayout(null);
 		
 		lbJobTitle = new JLabel("Job title");
@@ -141,7 +210,7 @@ public class Post extends JFrame
 		txtAJobDescription = new JTextArea();
 		txtAJobDescription.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtAJobDescription.setLineWrap(true);
-		txtAJobDescription.setBounds(46, 328, 340, 100);
+		txtAJobDescription.setBounds(1, 1, 413, 98);
 		pPost.add(txtAJobDescription);
 		
 		spinHires = new JSpinner();
@@ -152,15 +221,15 @@ public class Post extends JFrame
 		cbbCategory = new JComboBox<String>();
 		cbbCategory.setSize(197, 31);
 		cbbCategory.setLocation(189, 200);
-		DefaultComboBoxModel<String> tmpCategory = new DefaultComboBoxModel<String>();
-		cbbCategory.setModel(tmpCategory);
-		if(cbbCategory.getSelectedItem()==null)
-		{
-		tmpCategory.addAll(BLL_GUEST.getInstance().getListCategoryJobName_BLL_GUEST());
-		cbbCategory.setSelectedItem(cbbCategory.getItemAt(0));
-		}
 		pPost.add(cbbCategory);
 		
+		DefaultComboBoxModel<String> tmpCategory = new DefaultComboBoxModel<String>();
+		if(cbbCategory.getSelectedItem()==null)
+		{
+			tmpCategory.addAll(BLL_GUEST.getInstance().getListCategoryJobName_BLL_GUEST());
+			cbbCategory.setSelectedItem(cbbCategory.getItemAt(0));
+		}
+		cbbCategory.setModel(tmpCategory);
 		scrollPanePostJobDescription = new JScrollPane(txtAJobDescription);
 		scrollPanePostJobDescription.setBounds(46, 326, 340, 100);
 		pPost.add(scrollPanePostJobDescription);
@@ -170,12 +239,13 @@ public class Post extends JFrame
 		lbCategoryName.setBounds(46, 200, 143, 27);
 		pPost.add(lbCategoryName);
 	}
-	/*
+	/**
 	 * @wbp.parser.constructor
 	 */
 	public Post(String idJobSeeker, DTO.Post post)
 	{
-		initial();
+		
+		initial();initJ(post.getID_POST());
 		setPost(post);
 		
 		JButton btnApply = new JButton("Apply");
@@ -192,12 +262,11 @@ public class Post extends JFrame
 		btnApply.setBounds(168, 435, 81, 23);
 		pPost.add(btnApply);
 	}
-	/**
-	 * @wbp.parser.constructor
-	 */
 	public Post(Account user)
 	{
+		
 		initial();
+		initE();
 		
 		JButton btnOK = new JButton("OK");
 		btnOK.addActionListener(new ActionListener()
@@ -212,7 +281,7 @@ public class Post extends JFrame
 				String Salary = txtSalary.getText();
 				String Descrip = txtAJobDescription.getText();
 				String Labor = String.valueOf(spinHires.getValue());
-				String Category = cbbCategory.getSelectedItem().toString();
+				String Category = (cbbCategory.getSelectedIndex() == -1)?"":cbbCategory.getSelectedItem().toString();
 				if(BLL_GUEST.getInstance().Post_BLL_GUEST(ID_Acc,Jobname,Companyname,City,Salary,Descrip,Labor,Category))
 				{
 					txtJobTilte.setText("");

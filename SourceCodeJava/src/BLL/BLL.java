@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import DAL.DAL;
 import DTO.Account;
+import DTO.JobSeekerApply;
 import DTO.Post;
 
 public class BLL
@@ -362,5 +363,19 @@ public class BLL
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return image;
+	}
+	public List<JobSeekerApply> getListJobSeekerApply_BLL(String idPost)
+	{
+		List<JobSeekerApply> listJobSeekerApplies = new ArrayList<JobSeekerApply>();
+		try
+		{
+			listJobSeekerApplies = DAL.getInstance().getListJobSeekerApplies_DAL(idPost);
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			//JOptionPane.showMessageDialog(null, "No one has applied yet!!");
+			e.printStackTrace();
+		}
+		return listJobSeekerApplies;
 	}
 }
