@@ -121,11 +121,11 @@ public class Post extends JFrame
 			public void stateChanged(ChangeEvent e) {
 				if(tabbedPane.getSelectedIndex() == 1)
 				{
+					dtmodel.getDataVector().removeAllElements();
 					List<DTO.JobSeekerApply> listJobSeekerApplies = new ArrayList<DTO.JobSeekerApply>();
 					listJobSeekerApplies.addAll(BLL.getInstance().getListJobSeekerApply_BLL(idPost));
 					if(listJobSeekerApplies != null)
 					{
-						table.removeAll();
 						Vector<DTO.JobSeekerApply> vector = new Vector<DTO.JobSeekerApply>();
 						for(int i = 0; i < listJobSeekerApplies.size(); i++)
 						{
@@ -137,6 +137,7 @@ public class Post extends JFrame
 								}
 							);
 						}
+						dtmodel.fireTableDataChanged();
 					}
 					
 				}
