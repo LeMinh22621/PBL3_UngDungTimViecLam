@@ -345,8 +345,8 @@ public class LogIn extends JFrame implements ActionListener
 				boolean GENDER = (rbMale.isSelected())?true:false;
 				
 				String USERNAME = txtUsernameR.getText();
-				String PASSWORD = pwdPasswordR.getText();
-				String CONFIRM = pwdConfirmPassR.getText();
+				String PASSWORD = String.valueOf(pwdPasswordR.getPassword());
+				String CONFIRM = String.valueOf(pwdConfirmPassR.getPassword());
 				
 				if(BLL_LOGIN.getInstance().Register(NAME, CITY, PHONE, EMAIL, AGE, PROFESSIONAL, GENDER, USERNAME, PASSWORD, CONFIRM))
 				{
@@ -355,7 +355,7 @@ public class LogIn extends JFrame implements ActionListener
 					setpLogIn(USERNAME,PASSWORD);
 				}
 				
-			}
+			} 
 		});
 		btnRegisterER.addActionListener(new ActionListener()
 		{
@@ -368,8 +368,8 @@ public class LogIn extends JFrame implements ActionListener
 				String EMAIL = txtGmailR.getText();
 				
 				String USERNAME = txtUsernameR.getText();
-				String PASSWORD = pwdPasswordR.getText();
-				String CONFIRM = pwdConfirmPassR.getText();
+				String PASSWORD = String.valueOf(pwdPasswordR.getPassword());
+				String CONFIRM = String.valueOf(pwdConfirmPassR.getPassword());
 			
 				if(BLL_LOGIN.getInstance().Register(NAME, CITY, PHONE, EMAIL, "1", "1", true, USERNAME, PASSWORD, CONFIRM))
 				{

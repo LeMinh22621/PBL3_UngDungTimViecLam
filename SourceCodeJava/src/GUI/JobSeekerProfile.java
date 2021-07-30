@@ -210,6 +210,7 @@ public class JobSeekerProfile extends JFrame
 		pAbout.add(rdbtnFemale);
 		group.add(rdbtnFemale);
 		group.add(rdbtnMale);
+		
 		JButton btnEdit = new JButton("Edit");
 		btnEdit.setBounds(218, 422, 75, 28);
 		getContentPane().add(btnEdit);
@@ -249,6 +250,8 @@ public class JobSeekerProfile extends JFrame
 			rdbtnFemale.setEnabled(false);
 			rdbtnMale.setEnabled(false);
 		}
+		rdbtnFemale.setEnabled(false);
+		rdbtnMale.setEnabled(false);
 		lbFacebook.addMouseListener(new MouseAdapter()
 		{
 			@Override
@@ -315,14 +318,13 @@ public class JobSeekerProfile extends JFrame
 					txtPhoneNumber.setEditable(true);
 					txtEmail.setEditable(true);
 					txtProfessional.setEditable(true);
-					btnCV.show();
 					rdbtnFemale.setEnabled(true);
 					rdbtnMale.setEnabled(true);
  				}
 				else
 				{
 					String IDprofile = profile.getID_PROFILE();
-					String IDjobseeker = BLL_GUEST.getInstance().getJobseekerByID_Profile_BLL_GUEST(IDprofile).getID_JOBSEEKER();
+					String IDjobseeker = jobseeker.getID_JOBSEEKER();
 					String Name = txtName.getText();
 					String Age = txtAge.getText();
 					String PhoneNumber = txtPhoneNumber.getText();
