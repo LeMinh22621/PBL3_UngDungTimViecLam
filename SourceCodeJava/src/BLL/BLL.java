@@ -1,13 +1,19 @@
 package BLL;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 import DAL.DAL;
 import DTO.Account;
+import DTO.JobSeekerApply;
 import DTO.Post;
 
 public class BLL
@@ -60,17 +66,17 @@ public class BLL
 			}
 		} catch (ClassNotFoundException |SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return tmp;
 	}
 	public List<String[]> getJOB_NAMEByID_POST_BLL(String ID)
 	{
 		try {
-			return DAL.getInstance().getJOB_NAMEByID_POST_DAL(ID);
+			return DAL.getInstance().getJOB_NAMEByID_Post_DAL(ID);
 		} catch (ClassNotFoundException |SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 			return null;
 		}
 	}
@@ -86,34 +92,53 @@ public class BLL
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
-	public void BlockAccountbyID_BLL(String iD) {
-		// TODO Auto-generated method stub
-		try {
-			DAL.getInstance().BlockAccountbyID_Account_DAL(iD);
-		} catch (ClassNotFoundException |SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public void BanAccountByIDAccount_BLL(String iD)
+	{
+		try
+		{
+			DAL.getInstance().BanAccountByIDAccount_DAL(iD);
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
-	public void AcceptPost_BLL(String iD)  {
-		try {
+	public void ActiveAccountByIDAccount_BLL(String iD)
+	{
+		try
+		{
+			DAL.getInstance().ActiveAccountByIDAccount_DAL(iD);
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+	public void AcceptPost_BLL(String iD) 
+	{
+		try
+		{
 			DAL.getInstance().AcceptPost_DAL(iD);
-		} catch (ClassNotFoundException |SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}
+		catch (ClassNotFoundException |SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
 	public void DeclinePost_BLL(String iD) {
-		try {
-			DAL.getInstance().DeleteTB_POSTbyID_POST_DAL(iD);
-		} catch (ClassNotFoundException |SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		try
+		{
+			DAL.getInstance().DeclinePost_DAL(iD);
+		}
+		catch (ClassNotFoundException |SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
 	public List<Account> SortAccount_BLL(String item) {
-		List<Account> list = new ArrayList<>();
-		try {
+		List<Account> list = new ArrayList<Account>();
+		try
+		{
 			list = DAL.getInstance().getListAccounts_DAL();
 			switch(item) {
 				case "ID_ACCOUNT":
@@ -150,7 +175,7 @@ public class BLL
 					{
 						for(int j=i+1;j<list.size();j++)
 						{
-							if(list.get(i).getACCESSER()!= list.get(j).getACCESSER()&&list.get(i).getACCESSER())
+							if(list.get(i).getACCESSER()!= list.get(j).getACCESSER())
 							{
 								java.util.Collections.swap(list,i,j);
 							}
@@ -175,7 +200,7 @@ public class BLL
 			}
 		} catch (ClassNotFoundException |SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return list;
 	}
@@ -230,8 +255,127 @@ public class BLL
 			}
 		} catch (ClassNotFoundException |SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return list;
+	}
+	public int SelectLastRowCV_BLL()
+	{
+		int result = 1;
+		try
+		{
+			String id = DAL.getInstance().SelectLastRowCV_DAL("CV");
+			String num = id.replaceAll("CV", "");
+			result = Integer.parseInt(num);
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		
+		return result;
+	}
+	public void AddCV_BLL(boolean isAdd, String idAccount, String path)
+	{
+		try
+		{
+			String idCV = "CV" + SelectLastRowCV_BLL();
+			if(isAdd)
+			{
+				String idJobSeeker = DAL.getInstance().getIdJobSeekerByIdAccount_DAL(idAccount);
+				DAL.getInstance().AddCV_DAL(idCV, idJobSeeker, path);
+			}
+			else
+			{
+				DAL.getInstance().EditCV_DAL(idCV, path);
+			}
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+	public String getIdCVByIdJobSeeker_BLL(String idJobSeeker)
+	{
+		String idCV = "";
+		try
+		{
+			idCV = DAL.getInstance().getIdCVByIdJobSeeker_DAL(idJobSeeker);
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return idCV;
+	}
+	public boolean CheckApply(String idPost, String idCV)
+	{
+		try {
+			if(DAL.getInstance().checkApply(idPost,idCV))
+			{
+				return true;
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return false;
+	}
+	public void AddCVToPost_BLL(String idPost, String idCV)
+	{
+		try
+		{
+			if(!CheckApply(idPost,idCV))
+			{
+				DAL.getInstance().AddCVToPost_DAL(idPost, idCV);
+				JOptionPane.showMessageDialog(null, "successfully applied");
+			}
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+	public String getIdJobSeekerByIdAccount_BLL(String idAccount)
+	{
+		String idJobSeeker = "";
+		try
+		{
+			idJobSeeker = DAL.getInstance().getIdJobSeekerByIdAccount_DAL(idAccount);
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return idJobSeeker;
+	}
+	public Image  getImage_BLL(String idProfile)
+	{
+		
+		BufferedImage image = null;
+		try
+		{
+			image = ImageIO.read(new ByteArrayInputStream(DAL.getInstance().getImage(idProfile)));
+			JOptionPane.showMessageDialog(null, idProfile);
+		}
+		catch (ClassNotFoundException | IOException | SQLException e) 
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return image;
+	}
+	public List<JobSeekerApply> getListJobSeekerApply_BLL(String idPost)
+	{
+		List<JobSeekerApply> listJobSeekerApplies = new ArrayList<JobSeekerApply>();
+		try
+		{
+			listJobSeekerApplies = DAL.getInstance().getListJobSeekerApplies_DAL(idPost);
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			//JOptionPane.showMessageDialog(null, "No one has applied yet!!");
+			e.printStackTrace();
+		}
+		return listJobSeekerApplies;
 	}
 }

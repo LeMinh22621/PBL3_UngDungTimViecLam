@@ -1,43 +1,63 @@
 package GUI;
 
+import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import BLL.BLL;
+import BLL.BLL_GUEST;
+import BLL.BLL_LOGIN;
+import DTO.Account;
+import DTO.JobSeeker;
+import DTO.Profile;
 
 public class JobSeekerProfile extends JFrame
 {
 	private static JobSeekerProfile Instance;
-	public static JobSeekerProfile getInstance()
+	public static JobSeekerProfile getInstance(Account user)
 	{
 		if(Instance == null)
-			Instance = new JobSeekerProfile();
+			Instance = new JobSeekerProfile(user);
 		return Instance;
 	}
 	private JTextField txtName;
 	private JTextField txtAge;
 	private JTextField txtEmail;
 	private JTextField txtPhoneNumber;
-	private JobSeekerProfile()
+	private JLabel lbCV;
+	private JRadioButton rdbtnMale, rdbtnFemale;
+	private JButton btnCV;
+	public JobSeekerProfile(Account user)
 	{
 		super("JobSeeker Profile");
 		setBounds(193, 0, 800, 500);
 		getContentPane().setLayout(null);
 		
-		JLabel lbImage = new JLabel("Image");
+		JLabel lbImage = new JLabel();
+//		ImageIcon imageIcon = new ImageIcon(new ImageIcon("C:\\Users\\ADMIN\\Pictures\\download1.jpg").getImage().getScaledInstance(20, 30, Image.SCALE_DEFAULT));
+//		lbImage.setIcon(imageIcon);
 		lbImage.setHorizontalAlignment(SwingConstants.CENTER);
 		lbImage.setBounds(327, 11, 136, 111);
 		getContentPane().add(lbImage);
@@ -63,46 +83,74 @@ public class JobSeekerProfile extends JFrame
 		lbPhoneNumber.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JLabel lbFacebook = new JLabel("facebook");
-		lbFacebook.setBounds(428, 22, 279, 35);
+		lbFacebook.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbFacebook.setForeground(new Color(255, 204, 0));
+		lbFacebook.setBackground(Color.WHITE);
+		lbFacebook.setBounds(518, 22, 95, 35);
 		pContact.add(lbFacebook);
-		lbFacebook.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				try
-				{
-					Desktop.getDesktop().browse(new URI("https://www.facebook.com/leminh2k1/"));
-				}
-				catch (IOException e1)
-				{
-					e1.printStackTrace();
-				}
-				catch (URISyntaxException e1)
-				{
-					e1.printStackTrace();
-				}
-			}
-		});
 		lbFacebook.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lbWebsite = new JLabel("Website");
-		lbWebsite.setHorizontalAlignment(SwingConstants.CENTER);
-		lbWebsite.setBounds(428, 68, 279, 35);
-		pContact.add(lbWebsite);
+		JTextField txtFacebook = new JTextField();
+		txtFacebook.setBounds(428, 22, 279, 35);
+		pContact.add(txtFacebook);
+		txtFacebook.setVisible(false);
+		
+		JLabel lbZalo= new JLabel("Zalo");
+		lbZalo.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lbZalo.setForeground(new Color(255, 204, 0));
+		lbZalo.setBackground(Color.RED);
+		lbZalo.setHorizontalAlignment(SwingConstants.CENTER);
+		lbZalo.setBounds(518, 68, 98, 35);
+		pContact.add(lbZalo);
+		
+		JTextField txtZalo = new JTextField();
+		txtZalo.setBounds(428, 68, 279, 35);
+		txtZalo.setVisible(false);
+		pContact.add(txtZalo);
 		
 		txtEmail = new JTextField();
+		txtEmail.setEditable(false);
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(157, 22, 210, 35);
 		pContact.add(txtEmail);
 		
 		txtPhoneNumber = new JTextField();
+		txtPhoneNumber.setEditable(false);
 		txtPhoneNumber.setColumns(10);
 		txtPhoneNumber.setBounds(157, 65, 210, 35);
 		pContact.add(txtPhoneNumber);
 		
-		JButton btnCV = new JButton("CV");
-		btnCV.setBounds(313, 114, 131, 43);
+		lbCV = new JLabel("NameCV");
+		lbCV.setHorizontalAlignment(SwingConstants.CENTER);
+		lbCV.setBounds(389, 114, 108, 43);
+		pContact.add(lbCV);
+		
+		btnCV = new JButton("CV");
+		btnCV.hide();
+		btnCV.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				JFileChooser fc = new JFileChooser();
+				fc.setCurrentDirectory(new File("user.home"));// C:\\Users\\lehon\\Desktop\\HK4\\PBL3_UngDungTimViecLam\\CV
+				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				fc.addChoosableFileFilter(new FileNameExtensionFilter("DOC", "doc", "docx", "DOC", "DOCX"));
+				fc.addChoosableFileFilter(new FileNameExtensionFilter("PDF", "PDF", "pdf"));
+				fc.setAcceptAllFileFilterUsed(true);
+				
+				int res = fc.showOpenDialog(btnCV);
+				if(res == JFileChooser.APPROVE_OPTION)
+				{
+					File f = fc.getSelectedFile();
+					String path = f.getAbsolutePath();
+					String name = f.getName();
+					lbCV.setText(name);
+					BLL.getInstance().AddCV_BLL((lbCV.getText() == "")?true:false,user.getID_ACCOUNT(), path);
+				}
+			}
+		});
+		btnCV.setBounds(313, 114, 66, 43);
 		pContact.add(btnCV);
 		
 		JPanel pAbout = new JPanel();
@@ -126,11 +174,13 @@ public class JobSeekerProfile extends JFrame
 		pAbout.add(lbAge);
 		
 		txtName = new JTextField();
+		txtName.setEditable(false);
 		txtName.setColumns(10);
 		txtName.setBounds(162, 30, 210, 35);
 		pAbout.add(txtName);
 		
 		txtAge = new JTextField();
+		txtAge.setEditable(false);
 		txtAge.setColumns(10);
 		txtAge.setBounds(162, 73, 210, 35);
 		pAbout.add(txtAge);
@@ -145,18 +195,21 @@ public class JobSeekerProfile extends JFrame
 		lblProfessional.setBounds(399, 73, 111, 35);
 		pAbout.add(lblProfessional);
 		
-		JComboBox cbProfessional = new JComboBox();
-		cbProfessional.setBounds(520, 73, 185, 35);
-		pAbout.add(cbProfessional);
+		JTextField txtProfessional = new JTextField();
+		txtProfessional.setEditable(false);
+		txtProfessional.setBounds(520, 73, 185, 35);
+		pAbout.add(txtProfessional);
 		
-		JRadioButton rbbtnMale = new JRadioButton("Male");
-		rbbtnMale.setSelected(true);
-		rbbtnMale.setBounds(516, 30, 84, 35);
-		pAbout.add(rbbtnMale);
+		ButtonGroup group = new ButtonGroup();
+		rdbtnMale = new JRadioButton("Male");
+		rdbtnMale.setBounds(516, 30, 84, 35);
+		pAbout.add(rdbtnMale);
 		
-		JRadioButton rdbtnFemale = new JRadioButton("Female");
+		rdbtnFemale = new JRadioButton("Female");
 		rdbtnFemale.setBounds(621, 30, 84, 35);
 		pAbout.add(rdbtnFemale);
+		group.add(rdbtnFemale);
+		group.add(rdbtnMale);
 		
 		JButton btnEdit = new JButton("Edit");
 		btnEdit.setBounds(218, 422, 75, 28);
@@ -172,6 +225,124 @@ public class JobSeekerProfile extends JFrame
 			}
 		});
 		btnCancel.setBounds(564, 422, 75, 28);
+		// set infor
+		Profile profile = BLL_GUEST.getInstance().getProfileJobByID_Account_BLL_GUEST(user.getID_ACCOUNT());
+		JobSeeker jobseeker = BLL_GUEST.getInstance().getJobseekerByID_Profile_BLL_GUEST(profile.getID_PROFILE());
+		txtName.setText(profile.getNAME());
+		txtAge.setText(String.valueOf(jobseeker.getAGE()));
+		txtEmail.setText(profile.getEMAIL());
+		txtPhoneNumber.setText(profile.getPHONENUMBER());
+		if(profile.getIMAGE()!=null)
+		{
+			ImageIcon imageIcon = new ImageIcon(new ImageIcon(profile.getIMAGE()).getImage().getScaledInstance(136, 111, Image.SCALE_DEFAULT));
+			lbImage.setIcon(imageIcon);
+		}
+		txtProfessional.setText(jobseeker.getPROFESSIONAL());
+		if(jobseeker.getGENDER())
+		{
+			rdbtnMale.setSelected(true);
+			rdbtnFemale.setEnabled(false);
+			rdbtnMale.setEnabled(false);
+		}
+		else
+		{
+			rdbtnFemale.setSelected(true);
+			rdbtnFemale.setEnabled(false);
+			rdbtnMale.setEnabled(false);
+		}
+		rdbtnFemale.setEnabled(false);
+		rdbtnMale.setEnabled(false);
+		lbFacebook.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				try
+				{
+					if(btnEdit.getText().equals("OK"))
+					{
+						lbFacebook.setVisible(false);
+						txtFacebook.setVisible(true);
+						txtFacebook.setText(profile.getFACEBOOK());
+					}
+					else
+					{
+						if(!profile.getFACEBOOK().equals("Empty")) {
+							Desktop.getDesktop().browse(new URI(profile.getFACEBOOK()));
+						}
+					}
+				}
+				catch (Exception e1)
+				{
+					JOptionPane.showMessageDialog(null, "No Facebook linked yet");
+				}
+			}
+		});
+		lbZalo.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				try
+				{
+					if(btnEdit.getText().equals("OK"))
+					{
+						lbZalo.setVisible(false);
+						txtZalo.setVisible(true);
+						txtZalo.setText(profile.getWEBSITE());
+					}
+					else
+					{
+						if(!profile.getWEBSITE().equals("Empty")) {
+							Desktop.getDesktop().browse(new URI(profile.getWEBSITE()));//"https://www.facebook.com/leminh2k1/"
+						}
+					}
+				}
+				catch (IOException | URISyntaxException e1)
+				{
+					JOptionPane.showMessageDialog(null, "No Website linked yet");
+				}
+			}
+		});
+		//edit
+		btnEdit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(btnEdit.getText().equals("Edit"))
+				{
+					btnEdit.setText("OK");
+					txtName.setEditable(true);
+					txtAge.setEditable(true);
+					txtPhoneNumber.setEditable(true);
+					txtEmail.setEditable(true);
+					txtProfessional.setEditable(true);
+					rdbtnFemale.setEnabled(true);
+					rdbtnMale.setEnabled(true);
+ 				}
+				else
+				{
+					String IDprofile = profile.getID_PROFILE();
+					String IDjobseeker = jobseeker.getID_JOBSEEKER();
+					String Name = txtName.getText();
+					String Age = txtAge.getText();
+					String PhoneNumber = txtPhoneNumber.getText();
+					String Email = txtEmail.getText();
+					String Professional = txtProfessional.getText();
+					boolean Gender = rdbtnMale.isSelected()?true:false;
+					String linkFacebook = txtFacebook.getText();
+					String linkZalo = txtZalo.getText();
+					if(BLL_LOGIN.getInstance().EditProfileJobseeker_BLL_LOGIN(IDprofile,IDjobseeker
+							,Name,Age,Gender,PhoneNumber,Email,Professional,linkFacebook,linkZalo))
+					{
+						dispose();
+						JobSeekerProfile profile = new JobSeekerProfile(user);
+						profile.setVisible(true);
+					}
+				}
+			}
+		});
 		getContentPane().add(btnCancel);
 	}
 }

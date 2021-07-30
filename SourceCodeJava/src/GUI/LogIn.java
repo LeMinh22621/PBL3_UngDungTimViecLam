@@ -9,18 +9,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import BLL.BLL_LOGIN;
+import DTO.Account;
 public class LogIn extends JFrame implements ActionListener
 {
 	
@@ -37,23 +40,23 @@ public class LogIn extends JFrame implements ActionListener
 	private JTextField txtUsername;
 	private JPasswordField pwdPassword;
 
-	private JTextField txtUsernameJSR;
-	private JPasswordField pwdPasswordJSR;
-	private JPasswordField pwdConfirmPassJSR;
-	private JTextField txtGmailJSR;
-	private JTextField txtPhoneJSR;
+	private JTextField txtUsernameR;
+	private JPasswordField pwdPasswordR;
+	private JPasswordField pwdConfirmPassR;
+	private JTextField txtGmailR;
+	private JTextField txtPhoneR;
 
-	private JTextField txtAddressJSR;
+	private JTextField txtCityJSR;
 	private JTextField txtProfessionalJSR;
 	private JTextField txtNameJSR;
 	private JTextField txtAgeJSR;
 
 	private JTextField txtNameER;
-	private JTextField txtAddressER;
+	private JTextField txtCityER;
 
 	private JButton btnAdmin, btnJobSeeker, btnEmployer, btnGuest;
 
-	private permission p;
+	public static permission p;
 	
 	public LogIn(String title)
 	{
@@ -67,7 +70,6 @@ public class LogIn extends JFrame implements ActionListener
 		pMenuChoice.setBackground(new Color(143, 188, 143));
 		pMenuChoice.setLocation(0, 0);
 		pMenuChoice.setSize(782, 460);
-		pMenuChoice.setLayout(null);
 		pMenuChoice.setLayout(null);
 
 		JPanel p1 = new JPanel();
@@ -142,7 +144,7 @@ public class LogIn extends JFrame implements ActionListener
 			{
 				getContentPane().removeAll();
 				getContentPane().repaint();
-				setpLogIn();
+				setpLogIn("","");
 				break;
 			}
 			case Guest:
@@ -179,33 +181,34 @@ public class LogIn extends JFrame implements ActionListener
 		pRegister.add(pER);
 		pER.setLayout(null);
 
-		txtAddressER = new JTextField();
-		txtAddressER.setBounds(219, 233, 135, 31);
-		pER.add(txtAddressER);
-		txtAddressER.setColumns(10);
-		txtAddressER.setBorder(null);
-		txtAddressER.setBackground(new Color(160, 82, 45));
+		txtCityER = new JTextField();
+		txtCityER.setHorizontalAlignment(SwingConstants.CENTER);
+		txtCityER.setBounds(219, 233, 135, 31);
+		pER.add(txtCityER);
+		txtCityER.setColumns(10);
+		txtCityER.setBorder(null);
+		txtCityER.setBackground(Color.GRAY);
 
-		JSeparator spAddressER = new JSeparator();
-		spAddressER.setBounds(219, 264, 135, 8);
-		pER.add(spAddressER);
+		JSeparator spCityER = new JSeparator();
+		spCityER.setBounds(219, 264, 135, 8);
+		pER.add(spCityER);
 
-		JLabel lblAddressER = new JLabel("Address");
-		lblAddressER.setBounds(100, 233, 109, 31);
-		pER.add(lblAddressER);
-		lblAddressER.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAddressER.setFont(new Font("Cambria", Font.BOLD, 15));
+		JLabel lblCityER = new JLabel("City");
+		lblCityER.setBounds(71, 231, 109, 31);
+		pER.add(lblCityER);
+		lblCityER.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCityER.setFont(new Font("Cambria", Font.BOLD, 15));
 
 		JLabel lbNameER = new JLabel("Name of Company");
 		lbNameER.setHorizontalAlignment(SwingConstants.CENTER);
 		lbNameER.setFont(new Font("Cambria", Font.BOLD, 15));
-		lbNameER.setBounds(99, 141, 109, 31);
+		lbNameER.setBounds(56, 141, 152, 31);
 		pER.add(lbNameER);
 
 		txtNameER = new JTextField();
 		txtNameER.setColumns(10);
 		txtNameER.setBorder(null);
-		txtNameER.setBackground(new Color(160, 82, 45));
+		txtNameER.setBackground(Color.GRAY);
 		txtNameER.setBounds(218, 141, 135, 31);
 		pER.add(txtNameER);
 
@@ -228,83 +231,155 @@ public class LogIn extends JFrame implements ActionListener
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// JobSeeker
 		JPanel pJSR = new JPanel();
 		pJSR.setBackground(Color.GRAY);
-		// Image backgroundpJSR =
-		// java.awt.Toolkit.getDefaultToolkit().createImage("C:\\Users\\lehon\\Desktop\\HK4\\PBL3_UngDungTimViecLam\\Image\\Register.jpg");
-		// pJSR.paint(getGraphics());
-		// pJSR.set
 		pJSR.setBounds(0, 0, 450, 461);
 		pRegister.add(pJSR);
 		pJSR.setLayout(null);
 
 		txtProfessionalJSR = new JTextField();
-		txtProfessionalJSR.setBounds(219, 275, 135, 31);
+		txtProfessionalJSR.setHorizontalAlignment(SwingConstants.CENTER);
+		txtProfessionalJSR.setBounds(218, 266, 135, 31);
 		pJSR.add(txtProfessionalJSR);
 		txtProfessionalJSR.setColumns(10);
 		txtProfessionalJSR.setBorder(null);
-		txtProfessionalJSR.setBackground(new Color(160, 82, 45));
+		txtProfessionalJSR.setBackground(Color.GRAY);
 
 		JSeparator spProfessionalJSR = new JSeparator();
-		spProfessionalJSR.setBounds(219, 306, 135, 8);
+		spProfessionalJSR.setBounds(218, 297, 135, 8);
 		pJSR.add(spProfessionalJSR);
 
 		JLabel lblProfessionalJSR = new JLabel("Professional");
-		lblProfessionalJSR.setBounds(100, 275, 109, 31);
+		lblProfessionalJSR.setBounds(99, 266, 109, 31);
 		pJSR.add(lblProfessionalJSR);
 		lblProfessionalJSR.setHorizontalAlignment(SwingConstants.CENTER);
 		lblProfessionalJSR.setFont(new Font("Cambria", Font.BOLD, 15));
 
-		txtAddressJSR = new JTextField();
-		txtAddressJSR.setBounds(219, 233, 135, 31);
-		pJSR.add(txtAddressJSR);
-		txtAddressJSR.setColumns(10);
-		txtAddressJSR.setBorder(null);
-		txtAddressJSR.setBackground(new Color(160, 82, 45));
+		txtCityJSR = new JTextField();
+		txtCityJSR.setHorizontalAlignment(SwingConstants.CENTER);
+		txtCityJSR.setBounds(218, 224, 135, 31);
+		pJSR.add(txtCityJSR);
+		txtCityJSR.setColumns(10);
+		txtCityJSR.setBorder(null);
+		txtCityJSR.setBackground(Color.GRAY);
 
-		JSeparator spAddressJSR = new JSeparator();
-		spAddressJSR.setBounds(219, 264, 135, 8);
-		pJSR.add(spAddressJSR);
+		JSeparator spCityJSR = new JSeparator();
+		spCityJSR.setBounds(218, 255, 135, 8);
+		pJSR.add(spCityJSR);
 
-		JLabel lblAddressJSR = new JLabel("Address");
-		lblAddressJSR.setBounds(100, 233, 109, 31);
-		pJSR.add(lblAddressJSR);
-		lblAddressJSR.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAddressJSR.setFont(new Font("Cambria", Font.BOLD, 15));
+		JLabel lblCityJSR = new JLabel("City");
+		lblCityJSR.setBounds(99, 224, 109, 31);
+		pJSR.add(lblCityJSR);
+		lblCityJSR.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCityJSR.setFont(new Font("Cambria", Font.BOLD, 15));
 
 		JLabel lbNameJSR = new JLabel("Name");
 		lbNameJSR.setHorizontalAlignment(SwingConstants.CENTER);
 		lbNameJSR.setFont(new Font("Cambria", Font.BOLD, 15));
-		lbNameJSR.setBounds(99, 141, 109, 31);
+		lbNameJSR.setBounds(99, 140, 109, 31);
 		pJSR.add(lbNameJSR);
 
 		txtNameJSR = new JTextField();
+		txtNameJSR.setHorizontalAlignment(SwingConstants.CENTER);
 		txtNameJSR.setColumns(10);
 		txtNameJSR.setBorder(null);
-		txtNameJSR.setBackground(new Color(160, 82, 45));
-		txtNameJSR.setBounds(218, 141, 135, 31);
+		txtNameJSR.setBackground(Color.GRAY);
+		txtNameJSR.setBounds(218, 140, 135, 31);
 		pJSR.add(txtNameJSR);
 
 		JSeparator spNameJSR = new JSeparator();
-		spNameJSR.setBounds(218, 172, 135, 8);
+		spNameJSR.setBounds(218, 171, 135, 8);
 		pJSR.add(spNameJSR);
 
 		JLabel lblAgeJSR = new JLabel("Age");
 		lblAgeJSR.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAgeJSR.setFont(new Font("Cambria", Font.BOLD, 15));
-		lblAgeJSR.setBounds(99, 183, 109, 31);
+		lblAgeJSR.setBounds(99, 182, 109, 31);
 		pJSR.add(lblAgeJSR);
 
 		txtAgeJSR = new JTextField();
+		txtAgeJSR.setHorizontalAlignment(SwingConstants.CENTER);
 		txtAgeJSR.setColumns(10);
 		txtAgeJSR.setBorder(null);
-		txtAgeJSR.setBackground(new Color(160, 82, 45));
-		txtAgeJSR.setBounds(218, 183, 135, 31);
+		txtAgeJSR.setBackground(Color.GRAY);
+		txtAgeJSR.setBounds(218, 182, 135, 31);
 		pJSR.add(txtAgeJSR);
 
 		JSeparator spAgeJSR = new JSeparator();
-		spAgeJSR.setBounds(218, 214, 135, 8);
+		spAgeJSR.setBounds(218, 213, 135, 8);
 		pJSR.add(spAgeJSR);
+		
+		JLabel lblGenderJSR = new JLabel("Gender");
+		lblGenderJSR.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGenderJSR.setFont(new Font("Cambria", Font.BOLD, 15));
+		lblGenderJSR.setBounds(98, 308, 109, 31);
+		pJSR.add(lblGenderJSR);
+		
+		
+		JRadioButton rbMale = new JRadioButton("Male");
+		rbMale.setBackground(Color.GRAY);
+		rbMale.setBounds(215, 308, 74, 29);
+		rbMale.setSelected(true);
+		pJSR.add(rbMale);
+		
+		JRadioButton rbFemale = new JRadioButton("Female");
+		rbFemale.setBackground(Color.GRAY);
+		rbFemale.setBounds(310, 308, 65, 29);
+		pJSR.add(rbFemale);
 
+		ButtonGroup bg = new ButtonGroup();
+		bg.add(rbFemale);bg.add(rbMale);
+		
 		JButton btnRegisterJSR = new JButton("Register");
+		btnRegisterJSR.addActionListener(new ActionListener()
+		{
+			
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				String NAME = txtNameJSR.getText();
+				String CITY = txtCityJSR.getText();
+				String PHONE = txtPhoneR.getText();
+				String EMAIL = txtGmailR.getText();
+				
+				String AGE = txtAgeJSR.getText();
+				String PROFESSIONAL = txtProfessionalJSR.getText();
+				boolean GENDER = (rbMale.isSelected())?true:false;
+				
+				String USERNAME = txtUsernameR.getText();
+				String PASSWORD = String.valueOf(pwdPasswordR.getPassword());
+				String CONFIRM = String.valueOf(pwdConfirmPassR.getPassword());
+				
+				if(BLL_LOGIN.getInstance().Register(NAME, CITY, PHONE, EMAIL, AGE, PROFESSIONAL, GENDER, USERNAME, PASSWORD, CONFIRM))
+				{
+					getContentPane().removeAll();
+					getContentPane().repaint();
+					setpLogIn(USERNAME,PASSWORD);
+				}
+				
+			} 
+		});
+		btnRegisterER.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				String NAME = txtNameER.getText();
+				String CITY = txtCityER.getText();
+				String PHONE = txtPhoneR.getText();
+				String EMAIL = txtGmailR.getText();
+				
+				String USERNAME = txtUsernameR.getText();
+				String PASSWORD = String.valueOf(pwdPasswordR.getPassword());
+				String CONFIRM = String.valueOf(pwdConfirmPassR.getPassword());
+			
+				if(BLL_LOGIN.getInstance().Register(NAME, CITY, PHONE, EMAIL, "1", "1", true, USERNAME, PASSWORD, CONFIRM))
+				{
+					getContentPane().removeAll();
+					getContentPane().repaint();
+					setpLogIn(USERNAME,PASSWORD);
+				}
+				
+			}
+		});
 		btnRegisterJSR.setBounds(175, 378, 101, 31);
 		pJSR.add(btnRegisterJSR);
 
@@ -316,145 +391,160 @@ public class LogIn extends JFrame implements ActionListener
 		pJSR.add(lblDetailJSR);
 
 		pJSR.setVisible(false);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////LogIn
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// register
 		JPanel P2 = new JPanel();
 		P2.setBackground(new Color(160, 82, 45));
 		P2.setBounds(451, 0, 333, 461);
 		pRegister.add(P2);
 		P2.setLayout(null);
 
-		txtUsernameJSR = new JTextField();
-		txtUsernameJSR.setBounds(172, 146, 135, 31);
-		txtUsernameJSR.setBorder(null);
-		txtUsernameJSR.setHorizontalAlignment(SwingConstants.CENTER);
-		txtUsernameJSR.setBackground(new Color(160, 82, 45));
-		P2.add(txtUsernameJSR);
-		txtUsernameJSR.setColumns(10);
+		txtUsernameR = new JTextField();
+		txtUsernameR.setBounds(172, 146, 135, 31);
+		txtUsernameR.setBorder(null);
+		txtUsernameR.setHorizontalAlignment(SwingConstants.CENTER);
+		txtUsernameR.setBackground(new Color(160, 82, 45));
+		P2.add(txtUsernameR);
+		txtUsernameR.setColumns(10);
 
-		JLabel lbUsernameJSR = new JLabel("Username");
-		lbUsernameJSR.setBounds(27, 146, 109, 31);
-		lbUsernameJSR.setFont(new Font("Cambria", Font.BOLD, 15));
-		lbUsernameJSR.setHorizontalAlignment(SwingConstants.LEFT);
-		P2.add(lbUsernameJSR);
+		JLabel lbUsernameR = new JLabel("Username");
+		lbUsernameR.setBounds(27, 146, 109, 31);
+		lbUsernameR.setFont(new Font("Cambria", Font.BOLD, 15));
+		lbUsernameR.setHorizontalAlignment(SwingConstants.LEFT);
+		P2.add(lbUsernameR);
 
-		JSeparator spUsernameJSR = new JSeparator();
-		spUsernameJSR.setBounds(172, 177, 135, 8);
-		spUsernameJSR.setBackground(new Color(255, 255, 255));
-		P2.add(spUsernameJSR);
+		JSeparator spUsernameR = new JSeparator();
+		spUsernameR.setBounds(172, 177, 135, 8);
+		spUsernameR.setBackground(new Color(255, 255, 255));
+		P2.add(spUsernameR);
 
-		JLabel lbPasswordJSR = new JLabel("Password");
-		lbPasswordJSR.setBounds(27, 188, 109, 31);
-		lbPasswordJSR.setHorizontalAlignment(SwingConstants.LEFT);
-		lbPasswordJSR.setFont(new Font("Cambria", Font.BOLD, 15));
-		P2.add(lbPasswordJSR);
+		JLabel lbPasswordR = new JLabel("Password");
+		lbPasswordR.setBounds(27, 188, 109, 31);
+		lbPasswordR.setHorizontalAlignment(SwingConstants.LEFT);
+		lbPasswordR.setFont(new Font("Cambria", Font.BOLD, 15));
+		P2.add(lbPasswordR);
 
-		JLabel lbConfirmPassJSR = new JLabel("Confirm Password");
-		lbConfirmPassJSR.setBounds(27, 230, 135, 31);
-		lbConfirmPassJSR.setHorizontalAlignment(SwingConstants.LEFT);
-		lbConfirmPassJSR.setFont(new Font("Cambria", Font.BOLD, 15));
-		P2.add(lbConfirmPassJSR);
+		JLabel lbConfirmPassR = new JLabel("Confirm Password");
+		lbConfirmPassR.setBounds(27, 230, 135, 31);
+		lbConfirmPassR.setHorizontalAlignment(SwingConstants.LEFT);
+		lbConfirmPassR.setFont(new Font("Cambria", Font.BOLD, 15));
+		P2.add(lbConfirmPassR);
 
-		JSeparator spConfirmPassJSR = new JSeparator();
-		spConfirmPassJSR.setBounds(172, 261, 135, 8);
-		P2.add(spConfirmPassJSR);
+		JSeparator spConfirmPassR = new JSeparator();
+		spConfirmPassR.setBounds(172, 261, 135, 8);
+		P2.add(spConfirmPassR);
 
-		pwdPasswordJSR = new JPasswordField();
-		pwdPasswordJSR.setBounds(172, 190, 135, 31);
-		pwdPasswordJSR.setBackground(new Color(160, 82, 45));
-		pwdPasswordJSR.setBorder(null);
-		P2.add(pwdPasswordJSR);
+		pwdPasswordR = new JPasswordField();
+		pwdPasswordR.setHorizontalAlignment(SwingConstants.CENTER);
+		pwdPasswordR.setBounds(172, 190, 135, 31);
+		pwdPasswordR.setBackground(new Color(160, 82, 45));
+		pwdPasswordR.setBorder(null);
+		P2.add(pwdPasswordR);
 
-		JSeparator spPasswordJSR = new JSeparator();
-		spPasswordJSR.setBounds(172, 221, 135, 8);
-		P2.add(spPasswordJSR);
+		JSeparator spPasswordR = new JSeparator();
+		spPasswordR.setBounds(172, 221, 135, 8);
+		P2.add(spPasswordR);
 
-		JButton btnBackJSR = new JButton("Back");
-		btnBackJSR.setBounds(250, 11, 73, 23);
-		btnBackJSR.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				getContentPane().removeAll();
-				getContentPane().repaint();
-				setpLogIn();
-			}
-		});
-		P2.add(btnBackJSR);
-
-		JLabel lbGmailJSR = new JLabel("Gmail");
-		lbGmailJSR.setHorizontalAlignment(SwingConstants.LEFT);
-		lbGmailJSR.setFont(new Font("Cambria", Font.BOLD, 15));
-		lbGmailJSR.setBounds(27, 272, 109, 31);
-		P2.add(lbGmailJSR);
-
-		txtGmailJSR = new JTextField();
-		txtGmailJSR.setColumns(10);
-		txtGmailJSR.setBorder(null);
-		txtGmailJSR.setBackground(new Color(160, 82, 45));
-		txtGmailJSR.setBounds(172, 272, 135, 31);
-		P2.add(txtGmailJSR);
-
-		JSeparator spGmailJSR = new JSeparator();
-		spGmailJSR.setBounds(172, 303, 135, 8);
-		P2.add(spGmailJSR);
-
-		JLabel lblPhoneNumberJSR = new JLabel("Phone Number");
-		lblPhoneNumberJSR.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPhoneNumberJSR.setFont(new Font("Cambria", Font.BOLD, 15));
-		lblPhoneNumberJSR.setBounds(27, 312, 109, 31);
-		P2.add(lblPhoneNumberJSR);
-
-		txtPhoneJSR = new JTextField();
-		txtPhoneJSR.setColumns(10);
-		txtPhoneJSR.setBorder(null);
-		txtPhoneJSR.setBackground(new Color(160, 82, 45));
-		txtPhoneJSR.setBounds(172, 314, 135, 31);
-		P2.add(txtPhoneJSR);
-
-		JSeparator spPhoneNumberJSR = new JSeparator();
-		spPhoneNumberJSR.setBounds(172, 345, 135, 8);
-		P2.add(spPhoneNumberJSR);
-
-		pwdConfirmPassJSR = new JPasswordField();
-		pwdConfirmPassJSR.setBorder(null);
-		pwdConfirmPassJSR.setBackground(new Color(160, 82, 45));
-		pwdConfirmPassJSR.setBounds(172, 230, 135, 31);
-		P2.add(pwdConfirmPassJSR);
-
-		JButton btnContinueJSR = new JButton("Continue");
-		btnContinueJSR.setBounds(127, 385, 101, 31);
-		btnContinueJSR.addActionListener(new ActionListener()
+		JButton btnBackR = new JButton("Back");
+		btnBackR.setBounds(250, 11, 73, 23);
+		btnBackR.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				switch (p)
-				{
-					case JobSeeker:
-						setpRegisterJobSeeker(pJSR);
-						break;
-					case Employer:
-						setpRgisterEmployer(pER);
-						break;
-				default:
-					break;
-				}
-
+				getContentPane().removeAll();
+				getContentPane().repaint();
+				setpLogIn("","");
 			}
 		});
-		P2.add(btnContinueJSR);
+		P2.add(btnBackR);
 
-		JLabel lbRegisterJSR = new JLabel("Register");
-		lbRegisterJSR.setBounds(48, 58, 246, 77);
-		P2.add(lbRegisterJSR);
-		lbRegisterJSR.setForeground(new Color(0, 255, 0));
-		lbRegisterJSR.setFont(new Font("Algerian", Font.PLAIN, 40));
-		lbRegisterJSR.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel lbGmailR = new JLabel("Gmail");
+		lbGmailR.setHorizontalAlignment(SwingConstants.LEFT);
+		lbGmailR.setFont(new Font("Cambria", Font.BOLD, 15));
+		lbGmailR.setBounds(27, 272, 109, 31);
+		P2.add(lbGmailR);
+
+		txtGmailR = new JTextField();
+		txtGmailR.setHorizontalAlignment(SwingConstants.CENTER);
+		txtGmailR.setColumns(10);
+		txtGmailR.setBorder(null);
+		txtGmailR.setBackground(new Color(160, 82, 45));
+		txtGmailR.setBounds(172, 272, 135, 31);
+		P2.add(txtGmailR);
+
+		JSeparator spGmailR = new JSeparator();
+		spGmailR.setBounds(172, 303, 135, 8);
+		P2.add(spGmailR);
+
+		JLabel lblPhoneNumberR = new JLabel("Phone Number");
+		lblPhoneNumberR.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPhoneNumberR.setFont(new Font("Cambria", Font.BOLD, 15));
+		lblPhoneNumberR.setBounds(27, 312, 109, 31);
+		P2.add(lblPhoneNumberR);
+
+		txtPhoneR = new JTextField();
+		txtPhoneR.setHorizontalAlignment(SwingConstants.CENTER);
+		txtPhoneR.setColumns(10);
+		txtPhoneR.setBorder(null);
+		txtPhoneR.setBackground(new Color(160, 82, 45));
+		txtPhoneR.setBounds(172, 314, 135, 31);
+		P2.add(txtPhoneR);
+
+		JSeparator spPhoneNumberR = new JSeparator();
+		spPhoneNumberR.setBounds(172, 345, 135, 8);
+		P2.add(spPhoneNumberR);
+
+		pwdConfirmPassR = new JPasswordField();
+		pwdConfirmPassR.setHorizontalAlignment(SwingConstants.CENTER);
+		pwdConfirmPassR.setBorder(null);
+		pwdConfirmPassR.setBackground(new Color(160, 82, 45));
+		pwdConfirmPassR.setBounds(172, 230, 135, 31);
+		P2.add(pwdConfirmPassR);
+
+		JButton btnContinueR = new JButton("Continue");
+		btnContinueR.setBounds(127, 385, 101, 31);
+		btnContinueR.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if(txtUsernameR.getText().length() != 0 && pwdPasswordR.getText().length() != 0 && pwdConfirmPassR.getText().length() != 0 && txtGmailR.getText().length() != 0 && txtPhoneR.getText().length() != 0)
+				{
+					if(pwdPasswordR.getText().equals(pwdConfirmPassR.getText()))
+						switch (p)
+						{
+							case JobSeeker:
+								setpRegisterJobSeeker(pJSR);
+								break;
+							case Employer:
+								setpRgisterEmployer(pER);
+								break;
+							default:
+								break;
+						}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Confirm wrong password!");
+					}
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Please full fill");
+			}
+		});
+		P2.add(btnContinueR);
+
+		JLabel lbRegisterR = new JLabel("Register");
+		lbRegisterR.setBounds(48, 58, 246, 77);
+		P2.add(lbRegisterR);
+		lbRegisterR.setForeground(new Color(0, 255, 0));
+		lbRegisterR.setFont(new Font("Algerian", Font.PLAIN, 40));
+		lbRegisterR.setHorizontalAlignment(SwingConstants.CENTER);
 
 		getContentPane().add(pRegister);
 		setVisible(true);
 	}
 
-	private void setpLogIn()// set Login
+	private void setpLogIn(String USERNAME, String PASSWORD)// set Login
 	{
 		pLogIn = new JPanel();
 		pLogIn.setSize(WIDTH, HEIGHT);
@@ -465,8 +555,6 @@ public class LogIn extends JFrame implements ActionListener
 		panel.setBounds(0, 0, 450, 461);
 		panel.setBackground(new Color(0, 0, 153));
 		panel.setLayout(null);
-		// panel.setLayout(new GridLayout(0, 1, 0, 0));
-		// panel.add(new Label(""));
 
 		Label lbLogin = new Label("");
 		switch (p)
@@ -489,8 +577,8 @@ public class LogIn extends JFrame implements ActionListener
 				lbLogin.setText("JobSeeker Log In");
 				break;
 			}
-		default:
-			break;
+			default:
+				break;
 		}
 		lbLogin.setBounds(10, 77, 430, 66);
 		lbLogin.setForeground(new Color(0, 255, 0));
@@ -505,7 +593,7 @@ public class LogIn extends JFrame implements ActionListener
 		pLogIn.add(panel_1);
 		panel_1.setLayout(null);
 
-		txtUsername = new JTextField();
+		txtUsername = new JTextField(USERNAME);
 		txtUsername.setHorizontalAlignment(SwingConstants.CENTER);
 		txtUsername.setBorder(null);
 		txtUsername.setBackground(new Color(160, 82, 45));
@@ -513,7 +601,7 @@ public class LogIn extends JFrame implements ActionListener
 		panel_1.add(txtUsername);
 		txtUsername.setColumns(10);
 
-		pwdPassword = new JPasswordField();
+		pwdPassword = new JPasswordField(PASSWORD);
 		pwdPassword.setHorizontalAlignment(SwingConstants.CENTER);
 		pwdPassword.setBorder(null);
 		pwdPassword.setBackground(new Color(160, 82, 45));
@@ -553,11 +641,9 @@ public class LogIn extends JFrame implements ActionListener
 				boolean accesser=false;
 				switch (p)
 				{
-					default:
-						break;
 					case Admin:
 					{
-						if(BLL_LOGIN.getInstance().CheckAdmin_BLL_LOGIN(name,pwd))
+						if(BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,-1)!=null)
 						{
 							dispose();
 							Admin f = new Admin();
@@ -568,10 +654,11 @@ public class LogIn extends JFrame implements ActionListener
 					}
 					case Employer:
 					{
-						if(BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,true))
+						Account i=BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,1);
+						if(i!=null)
 						{
 							dispose();
-							Employer f =  new Employer();
+							Employer f =  new Employer(i);
 							f.setVisible(true);
 							accesser=true;
 						}
@@ -579,16 +666,20 @@ public class LogIn extends JFrame implements ActionListener
 					}
 					case JobSeeker:
 					{
-						if(BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,false))
+						Account i=BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,0);
+						if(i!=null)
 						{
 							dispose();
-							JobSeeker f =  new JobSeeker();
+							JobSeeker f =  new JobSeeker(i);
 							f.setVisible(true);
 							accesser=true;
 						}
 						break;
 					}
-					
+					default:
+					{
+						break;
+					}
 				}
 				if(!accesser)
 				{
@@ -639,7 +730,7 @@ public class LogIn extends JFrame implements ActionListener
 		setVisible(true);
 
 		if (p == permission.Admin)
-			btnRegisterLogin.setEnabled(false);
+			btnRegisterLogin.setVisible(false);
 	}
 
 	private void initialize()
@@ -649,7 +740,7 @@ public class LogIn extends JFrame implements ActionListener
 		getContentPane().setLayout(null);
 		//setpLogIn();
 		setpMenuChoice();
-		// setpRegister();
+		//setpRegister();
 	}
 
 	public static void main(String[] args)
