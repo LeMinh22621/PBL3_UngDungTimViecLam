@@ -214,7 +214,7 @@ public class BLL_GUEST {
 		try {
 			for(Post i : DAL.getInstance().getListPost_DAL())
 			{
-				if(i.getEMPLOYER().getID_EMPLOYER().equals(iDEmployer))
+				if(i.getEMPLOYER().getID_EMPLOYER().equals(iDEmployer)&& i.getSTATUS()==true)
 				{
 					list.add(i);
 				}
@@ -338,6 +338,15 @@ public class BLL_GUEST {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null, e.getMessage());
 			return null;
+		}
+	}
+	public void CancelAppliedsI_BLL_GUEST(String ID) {
+		// TODO Auto-generated method stub
+		try {
+			DAL.getInstance().CancelAppliedsI_DAL(ID);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
 }
