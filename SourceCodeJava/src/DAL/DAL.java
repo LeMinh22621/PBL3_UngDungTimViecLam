@@ -581,7 +581,7 @@ public class DAL
 	public void AddCVToPost_DAL(String idPost, String idCV) throws ClassNotFoundException, SQLException
 	{
 
-		String query = "Insert into TB_DETAIL_CV_AND_POST VALUES ('" + idPost + "','" + idCV + "')";
+		String query = "Insert into TB_DETAIL_CV_AND_POST VALUES ('" + idPost + "','" + idCV +"','False')";
 		DBHelper.getInstance().ExcuteDB(query);
 	}
 	public String getIdCVByIdJobSeeker_DAL(String idJobSeeker) throws ClassNotFoundException, SQLException

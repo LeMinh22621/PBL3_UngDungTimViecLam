@@ -156,6 +156,7 @@ public class JobSeekerProfile extends JFrame
 			}
 		});
 		btnCV.setBounds(313, 114, 66, 43);
+		btnCV.setEnabled(false);
 		pContact.add(btnCV);
 		
 		JPanel pAbout = new JPanel();
@@ -328,6 +329,7 @@ public class JobSeekerProfile extends JFrame
 					txtProfessional.setEditable(true);
 					rdbtnFemale.setEnabled(true);
 					rdbtnMale.setEnabled(true);
+					btnCV.setEnabled(true);
  				}
 				else
 				{
