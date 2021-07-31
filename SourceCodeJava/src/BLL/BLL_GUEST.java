@@ -174,7 +174,6 @@ public class BLL_GUEST {
 	}
 	public boolean Post_BLL_GUEST(String iD_Acc, String jobname, String companyname, String city, String salary,
 			String descrip, String labor,String category) {
-		// TODO Auto-generated method stub
 		if(jobname.length() != 0 && companyname.length() != 0 && city.length() != 0 && salary.length() != 0)
 		{
 			try {
