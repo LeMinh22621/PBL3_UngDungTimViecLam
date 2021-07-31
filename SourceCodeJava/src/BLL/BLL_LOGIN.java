@@ -307,5 +307,14 @@ public class BLL_LOGIN {
 		}
 		
 	}
+	public void EditImageProfile_BLL_LOGIN(byte[] image,String IDprofile) {
+		// TODO Auto-generated method stub
+		try {
+			DAL.getInstance().EditImageProfile_DAL(image,IDprofile);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
 	
 }

@@ -8,12 +8,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -38,7 +41,7 @@ public class EmployerProfile extends JFrame
 	private JTextField txtPhoneNumber;
 	private JTextField txtName;
 	private JTextField txtCity;
-	
+	private byte[] image=null;
 	public EmployerProfile(Account user)
 	{
 		super("Employer Profile");
@@ -177,6 +180,10 @@ public class EmployerProfile extends JFrame
 					String Email = txtEmail.getText();
 					String linkFacebook = txtFacebook.getText();
 					String linkZalo = txtZalo.getText();
+					if(image != null)
+					{
+						BLL_LOGIN.getInstance().EditImageProfile_BLL_LOGIN(image,ID);
+					}
 					if(BLL_LOGIN.getInstance().EditProfileEmployer_BLL_LOGIN(ID,Name,City,PhoneNumber,Email,linkFacebook,linkZalo))
 					{
 						dispose();
@@ -257,6 +264,37 @@ public class EmployerProfile extends JFrame
 				}
 			}
 		});
+		
+		lbImage.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				if(btnEdit.getText().equals("OK"))
+				{
+					JFileChooser fc = new JFileChooser();
+					fc.setCurrentDirectory(new File("C:\\Users\\ADMIN\\Desktop\\PBL\\PBL3_UngDungTimViecLam\\Image"));
+					fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+					fc.setAcceptAllFileFilterUsed(true);
+					int res = fc.showOpenDialog(lbImage);
+					if(res == JFileChooser.APPROVE_OPTION)
+					{
+						File f = fc.getSelectedFile();
+						ImageIcon imageIcon = new ImageIcon(new ImageIcon(f.getPath()).getImage().getScaledInstance(136, 111, Image.SCALE_DEFAULT));
+						lbImage.setIcon(imageIcon);
+						image = new byte[(int) f.length()];
+						try {
+							FileInputStream fis = new FileInputStream(f);
+							fis.read(image);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							image = null;
+						}
+					}
+				}
+			}
+		});
+		
 		getContentPane().add(btnCancel);		
 	}
 }

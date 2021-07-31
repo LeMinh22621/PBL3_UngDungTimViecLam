@@ -8,10 +8,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -49,6 +53,7 @@ public class JobSeekerProfile extends JFrame
 	private JLabel lbCV;
 	private JRadioButton rdbtnMale, rdbtnFemale;
 	private JButton btnCV;
+	private byte[] image=null;
 	public JobSeekerProfile(Account user)
 	{
 		super("JobSeeker Profile");
@@ -126,14 +131,14 @@ public class JobSeekerProfile extends JFrame
 		pContact.add(lbCV);
 		
 		btnCV = new JButton("CV");
-		btnCV.hide();
+		//btnCV.hide();
 		btnCV.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				JFileChooser fc = new JFileChooser();
-				fc.setCurrentDirectory(new File("user.home"));// C:\\Users\\lehon\\Desktop\\HK4\\PBL3_UngDungTimViecLam\\CV
+				fc.setCurrentDirectory(new File("C:\\Users\\ADMIN\\Desktop\\PBL\\PBL3_UngDungTimViecLam\\CV"));// C:\\Users\\lehon\\Desktop\\HK4\\PBL3_UngDungTimViecLam\\CV
 				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				fc.addChoosableFileFilter(new FileNameExtensionFilter("DOC", "doc", "docx", "DOC", "DOCX"));
 				fc.addChoosableFileFilter(new FileNameExtensionFilter("PDF", "PDF", "pdf"));
@@ -145,8 +150,8 @@ public class JobSeekerProfile extends JFrame
 					File f = fc.getSelectedFile();
 					String path = f.getAbsolutePath();
 					String name = f.getName();
+					BLL.getInstance().AddCV_BLL((lbCV.getText() == "NameCV")?true:false,user.getID_ACCOUNT(), path);
 					lbCV.setText(name);
-					BLL.getInstance().AddCV_BLL((lbCV.getText() == "")?true:false,user.getID_ACCOUNT(), path);
 				}
 			}
 		});
@@ -238,6 +243,9 @@ public class JobSeekerProfile extends JFrame
 			lbImage.setIcon(imageIcon);
 		}
 		txtProfessional.setText(jobseeker.getPROFESSIONAL());
+		List<String> ListCV = BLL_GUEST.getInstance().getListCVByID_Jobseeker_BLL_GUEST(jobseeker.getID_JOBSEEKER());
+		File tmpfile = new File(ListCV.get(0));
+		lbCV.setText(tmpfile.getName());
 		if(jobseeker.getGENDER())
 		{
 			rdbtnMale.setSelected(true);
@@ -333,12 +341,45 @@ public class JobSeekerProfile extends JFrame
 					boolean Gender = rdbtnMale.isSelected()?true:false;
 					String linkFacebook = txtFacebook.getText();
 					String linkZalo = txtZalo.getText();
+					if(image != null)
+					{
+						BLL_LOGIN.getInstance().EditImageProfile_BLL_LOGIN(image,IDprofile);
+					}
 					if(BLL_LOGIN.getInstance().EditProfileJobseeker_BLL_LOGIN(IDprofile,IDjobseeker
 							,Name,Age,Gender,PhoneNumber,Email,Professional,linkFacebook,linkZalo))
 					{
 						dispose();
 						JobSeekerProfile profile = new JobSeekerProfile(user);
 						profile.setVisible(true);
+					}
+				}
+			}
+		});
+		lbImage.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				if(btnEdit.getText().equals("OK"))
+				{
+					JFileChooser fc = new JFileChooser();
+					fc.setCurrentDirectory(new File("C:\\Users\\ADMIN\\Desktop\\PBL\\PBL3_UngDungTimViecLam\\Image"));
+					fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+					fc.setAcceptAllFileFilterUsed(true);
+					int res = fc.showOpenDialog(lbImage);
+					if(res == JFileChooser.APPROVE_OPTION)
+					{
+						File f = fc.getSelectedFile();
+						ImageIcon imageIcon = new ImageIcon(new ImageIcon(f.getPath()).getImage().getScaledInstance(136, 111, Image.SCALE_DEFAULT));
+						lbImage.setIcon(imageIcon);
+						image = new byte[(int) f.length()];
+						try {
+							FileInputStream fis = new FileInputStream(f);
+							fis.read(image);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							image = null;
+						}
 					}
 				}
 			}

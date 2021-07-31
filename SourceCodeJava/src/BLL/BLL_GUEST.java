@@ -331,4 +331,14 @@ public class BLL_GUEST {
 		}
 		return list;
 	}
+	public List<String> getListCVByID_Jobseeker_BLL_GUEST(String id_JOBSEEKER) {
+		// TODO Auto-generated method stub
+		try {
+			return DAL.getInstance().getListCVByID_Jobseeker_DAL(id_JOBSEEKER);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e.getMessage());
+			return null;
+		}
+	}
 }

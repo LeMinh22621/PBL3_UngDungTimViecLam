@@ -278,7 +278,8 @@ public class BLL
 	{
 		try
 		{
-			String idCV = "CV" + SelectLastRowCV_BLL();
+			int nb = SelectLastRowCV_BLL()+1;
+			String idCV = "CV" + nb;
 			if(isAdd)
 			{
 				String idJobSeeker = DAL.getInstance().getIdJobSeekerByIdAccount_DAL(idAccount);
@@ -286,7 +287,7 @@ public class BLL
 			}
 			else
 			{
-				DAL.getInstance().EditCV_DAL(idCV, path);
+				DAL.getInstance().EditCV_DAL("CV"+SelectLastRowCV_BLL(), path);
 			}
 		}
 		catch (ClassNotFoundException | SQLException e)

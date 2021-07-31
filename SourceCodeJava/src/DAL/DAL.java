@@ -613,4 +613,24 @@ public class DAL
 			return true;
 		return false;
 	}
+
+	public void EditImageProfile_DAL(byte[] image,String IDprofile) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String query = "UPDATE TB_PROFILE set IMAGE=? where [ID_PROFILE] = '" + IDprofile + "'";
+		DBHelper.getInstance().ExcuteDBImage(image,query);
+	}
+
+	public List<String> getListCVByID_Jobseeker_DAL(String id_JOBSEEKER) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String query = "Select ADDRESS_CV from TB_CV where ID_JOBSEEKER = '" + id_JOBSEEKER + "'";
+		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
+		List<String> ListCV = new ArrayList<String>();
+		if(defaultTableModel != null)
+		{
+			for(int i = 0;i<defaultTableModel.getRowCount();i++)
+				ListCV.add(defaultTableModel.getValueAt(i, 0).toString());
+			return ListCV;
+		}
+		return null;
+	}
 }
