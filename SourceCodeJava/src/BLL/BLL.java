@@ -375,8 +375,20 @@ public class BLL
 		catch (ClassNotFoundException | SQLException e)
 		{
 			//JOptionPane.showMessageDialog(null, "No one has applied yet!!");
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return listJobSeekerApplies;
+	}
+	public List<Post> getListPostApplied_BLL_GUEST(String id_ACCOUNT) {
+		// TODO Auto-generated method stub
+		String idJobseeker = getIdJobSeekerByIdAccount_BLL(id_ACCOUNT);
+		
+		try {
+			return DAL.getInstance().getListPostApplied_DAL(idJobseeker);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e.getMessage());
+			return null;
+		}
 	}
 }

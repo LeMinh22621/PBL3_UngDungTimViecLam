@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import DTO.Account;
 import DTO.CV;
 import DTO.Category_job;
+import DTO.Detail_CV_And_Post;
 import DTO.Employer;
 import DTO.JobSeeker;
 import DTO.JobSeekerApply;
@@ -679,5 +680,59 @@ public class DAL
 			}
 		}
 		return listJobSeekerApplies;
+	}
+	public List<Detail_CV_And_Post> getDetailByIDCV_DAL(String iDCV) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		List<Detail_CV_And_Post> listDetail = new ArrayList<Detail_CV_And_Post>();
+		String query = "select * from TB_DETAIL_CV_AND_POST where ID_CV = '"+iDCV+"'";
+		DefaultTableModel dtm = DBHelper.getInstance().GetRecords(query);
+		if(dtm != null)
+		{
+			for(int i = 0; i < dtm.getRowCount(); i++)
+			{
+				Detail_CV_And_Post detail_CV_And_Post = new Detail_CV_And_Post();
+				
+				detail_CV_And_Post.setID_POST(dtm.getValueAt(i, 0).toString());
+				detail_CV_And_Post.setID_CV(dtm.getValueAt(i, 1).toString());
+				detail_CV_And_Post.setSTATUS(Boolean.parseBoolean(dtm.getValueAt(i, 2).toString()));
+				
+				listDetail.add(detail_CV_And_Post);
+			}
+		}
+		return listDetail;
+	}
+	
+	public List<Post> getListPostApplied_DAL(String idJobseeker) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String IDCV = getIdCVByIdJobSeeker_DAL(idJobseeker);
+		List<Post> listPost = new ArrayList<Post>();
+		String query = "select * from TB_POST where ID_POST = '";
+		for(Detail_CV_And_Post i : getDetailByIDCV_DAL(IDCV))
+		{
+			DefaultTableModel dtm = DBHelper.getInstance().GetRecords(query+i.getID_POST()+"'");
+			if(dtm != null)
+			{
+				Post post = new Post();
+				post.setID_POST(dtm.getValueAt(0, 0).toString());
+				post.setEMPLOYER(getEmployerByID_DAL(dtm.getValueAt(0, 1).toString()));
+				post.setCATEGORY_JOB(getCategory_jobByID_DAL(dtm.getValueAt(0, 2).toString()));
+				post.setJOB_NAME(dtm.getValueAt(0, 3).toString());
+				post.setCOMPANY_NAME((dtm.getValueAt(0, 4) != null)?dtm.getValueAt(0, 4).toString():"");
+				post.setCITY(dtm.getValueAt(0, 5).toString());
+				post.setSALARY((dtm.getValueAt(0, 6) != null)?Integer.parseInt(dtm.getValueAt(0, 6).toString()):-1);
+				post.setDESCIPTION_JOB((dtm.getValueAt(0, 7) != null)?dtm.getValueAt(0, 7).toString():"");
+				post.setLABOR((dtm.getValueAt(0, 8) != null)?Integer.parseInt(dtm.getValueAt(0, 8).toString()):-1);
+				post.setSTATUS(i.getSTATUS());
+				
+				listPost.add(post);
+			}
+		}
+		return listPost;
+	}
+
+	public void CancelAppliedsI_DAL(String iD) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String query = "delete from TB_DETAIL_CV_AND_POST where ID_POST='"+iD+"'";
+		DBHelper.getInstance().ExcuteDB(query);
 	}
 }
