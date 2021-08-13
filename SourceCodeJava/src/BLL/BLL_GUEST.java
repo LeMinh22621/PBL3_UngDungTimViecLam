@@ -40,24 +40,6 @@ public class BLL_GUEST {
 		}
 		return null;
 	}
-	public List<JobSeeker> GetlistJobSeeker_BLL_GUEST(String name,String address) {
-		try {
-			List<JobSeeker> list = new ArrayList<JobSeeker>();
-			for(JobSeeker i : DAL.getInstance().getAllJobSeeker_DAL())
-			{
-				if(i.getPROFESSIONAL().contains(name) && i.getPROFILE().getCITY().contains(address))
-				{
-					list.add(i);
-				}
-			}
-			return list;
-		} catch (ClassNotFoundException |SQLException e) {
-			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		}
-		return null;
-		
-	}
 	public Account getAccountByID_BLL_GUEST(String id_ACCOUNT) {
 		// TODO Auto-generated method stub
 		try {

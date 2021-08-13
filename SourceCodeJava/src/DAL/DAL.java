@@ -735,4 +735,19 @@ public class DAL
 		String query = "delete from TB_DETAIL_CV_AND_POST where ID_POST='"+iD+"'";
 		DBHelper.getInstance().ExcuteDB(query);
 	}
+	public boolean checkCommunication_DAL(String idEmployer, String idJobSeeker, String idPost) throws ClassNotFoundException, SQLException
+	{
+		String query = "select * from TB_COMMUNICATION where ID_EMPLOYER = '" + idEmployer + "' and ID_JOBSEEKER = '" + idJobSeeker + "' and ID_POST = '" + idPost +"'";
+		DefaultTableModel defaultTableModel = (DBHelper.getInstance().GetRecords(query) != null)?DBHelper.getInstance().GetRecords(query):null;
+		if(defaultTableModel == null)
+			return false;
+		if(defaultTableModel.getRowCount() == 1)
+			return true;
+		return false;
+	}
+	public void sendMessToJobSeeker_DAL(String idEmployer, String idJobSeeker, String contents, String idPost) throws ClassNotFoundException, SQLException
+	{
+		String query = "Insert into TB_COMMUNICATION values ('"+ idEmployer +"','"+ idJobSeeker +"','"+ contents +"','"+idPost+"')";
+		DBHelper.getInstance().ExcuteDB(query);
+	}
 }

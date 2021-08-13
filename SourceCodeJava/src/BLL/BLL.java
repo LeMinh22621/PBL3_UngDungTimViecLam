@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import DAL.DAL;
 import DTO.Account;
+import DTO.JobSeeker;
 import DTO.JobSeekerApply;
 import DTO.Post;
 
@@ -389,6 +390,55 @@ public class BLL
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null, e.getMessage());
 			return null;
+		}
+	}
+	public List<JobSeeker> GetlistJobSeeker_BLL(String name,String address) {
+		try {
+			List<JobSeeker> list = new ArrayList<JobSeeker>();
+			for(JobSeeker i : DAL.getInstance().getAllJobSeeker_DAL())
+			{
+				if(i.getPROFESSIONAL().contains(name) && i.getPROFILE().getCITY().contains(address))
+				{
+					list.add(i);
+				}
+			}
+			return list;
+		} catch (ClassNotFoundException |SQLException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return null;
+	}
+	private boolean checkCommunication_BLL(String idEmployer, String idJobSeeker, String idPost)
+	{
+		try
+		{
+			if(DAL.getInstance().checkCommunication_DAL(idEmployer, idJobSeeker, idPost))
+				return true;
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return false;
+	}
+	public void sendMessToJobSeeker_BLL(String idEmployer, String idJobSeeker, String contents, String idPost)
+	{
+		if(contents == null)
+			contents = "";
+		try
+		{
+			if(!checkCommunication_BLL(idEmployer, idJobSeeker, idPost))
+			{
+				DAL.getInstance().sendMessToJobSeeker_DAL(idEmployer, idJobSeeker, contents, idPost);
+				JOptionPane.showMessageDialog(null, "Send Success!");
+			}
+			else
+				JOptionPane.showMessageDialog(null, "This post was sent!");
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			e.printStackTrace();
 		}
 	}
 }
