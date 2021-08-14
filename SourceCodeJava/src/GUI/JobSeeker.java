@@ -266,6 +266,7 @@ public class JobSeeker extends JFrame implements WindowListener
 					int index = tableApplied.getSelectedRows()[0];
 					BLL_GUEST.getInstance().CancelAppliedsI_BLL_GUEST(tableApplied.getModel().getValueAt(tableApplied.getSelectedRow(),9).toString());
 					mnItemApplied.doClick();
+					btnCancelApplieds.setVisible(false);
 				}
 			}
 		});
@@ -301,6 +302,8 @@ public class JobSeeker extends JFrame implements WindowListener
 				pAppliedS.setVisible(true);
 				pListS.setVisible(false);
 				pSearchS.setVisible(false);
+				//load data
+				// applied
 				DefaultTableModel dtm = (DefaultTableModel) tableApplied.getModel();
 				dtm.setNumRows(0);
 				for(Post i : BLL.getInstance().getListPostApplied_BLL_GUEST(user.getID_ACCOUNT()))
@@ -322,6 +325,24 @@ public class JobSeeker extends JFrame implements WindowListener
 				{
 					tableApplied.removeColumn(tableApplied.getColumnModel().getColumn(9));
 				}
+				//message
+//				DefaultTableModel tmpNotifications = (DefaultTableModel) tableNotifications.getModel();
+//				tmpNotifications.setNumRows(0);
+//				for(Post i : BLL.getInstance().getListPostApplied_BLL_GUEST(user.getID_ACCOUNT()))
+//				{
+//					Object[] row = new Object[tmpNotifications.getColumnCount()];
+//					row[0] = i.getEMPLOYER().getPROFILE().getNAME();
+//					row[1] = i.getCATEGORY_JOB().getCATEGORY_JOB_NAME();
+//					row[2] = i.getJOB_NAME();
+//					row[3] = i.getCOMPANY_NAME();
+//					row[4] = i.getCITY();
+//					row[5] = i.getSALARY();
+//					row[6] = i.getDESCIPTION_JOB();
+//					row[7] = i.getLABOR();
+//					row[8] = i.getSTATUS();
+//					row[9] = i.getID_POST();
+//					tmpNotifications.addRow(row);
+//				}
 			}
 		});
 		//profile
