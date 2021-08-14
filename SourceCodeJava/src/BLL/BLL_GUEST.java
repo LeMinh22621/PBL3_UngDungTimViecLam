@@ -1,6 +1,7 @@
 package BLL;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class BLL_GUEST {
 				}
 			}
 			return list;
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException | SQLException | ParseException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return null;
@@ -167,12 +168,12 @@ public class BLL_GUEST {
 	}
 
 	public boolean Post_BLL_GUEST(String iD_Acc, String jobname, String companyname, String city, String salary,
-			String descrip, String labor, String category) {
+			String descrip, String labor, String category, String date) {
 		if (jobname.length() != 0 && companyname.length() != 0 && city.length() != 0 && salary.length() != 0) {
 			try {
 				int idp = SelectLastRowPost_BLL() + 1;
 				String IDP = "P" + idp;
-				DAL.getInstance().Post_DAL(IDP, iD_Acc, jobname, companyname, city, salary, descrip, labor, category);
+				DAL.getInstance().Post_DAL(IDP, iD_Acc, jobname, companyname, city, salary, descrip, labor, category, date);
 				JOptionPane.showMessageDialog(null, "Post success!");
 				return true;
 			} catch (ClassNotFoundException | SQLException e) {
@@ -206,7 +207,7 @@ public class BLL_GUEST {
 					list.add(i);
 				}
 			}
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException | SQLException | ParseException e) {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}

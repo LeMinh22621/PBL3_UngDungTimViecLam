@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -165,7 +166,8 @@ public class Employer extends JFrame implements WindowListener {
 		// table xem nhung bai post da dang
 		JTable tablepost = new JTable();
 		List<DTO.Post> listPost = new ArrayList<DTO.Post>();
-		String[] nameOfColumnsPost = { "JOB_NAME", "COMPANY_NAME", "CITY", "SALARY", "DESCIPTION_JOB", "LABOR" };
+		String[] nameOfColumnsPost = { "JOB_NAME", "COMPANY_NAME", "CITY", "SALARY", "DESCIPTION_JOB", "LABOR", "DATETIME"
+				+ ""};
 		DefaultTableModel tmppost = new DefaultTableModel() {
 			@Override
 			public boolean isCellEditable(int row, int col) {
@@ -394,6 +396,8 @@ public class Employer extends JFrame implements WindowListener {
 					row[3] = i.getSALARY();
 					row[4] = i.getDESCIPTION_JOB();
 					row[5] = i.getLABOR();
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+					row[6] = format.format(i.getDATETIME());
 					dtm.addRow(row);
 				}
 				dtm.fireTableDataChanged();

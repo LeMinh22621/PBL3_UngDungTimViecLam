@@ -9,10 +9,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.SimpleFormatter;
 
+import javax.print.attribute.standard.DateTimeAtCompleted;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -105,7 +109,7 @@ public class Post extends JFrame {
 		getContentPane().add(tabbedPane);
 		tabbedPane.addTab("Detail", null, pPost, null);
 
-		Object[] columns = { "JobSeeker", "CV", "Status" };
+		Object[] columns = { "JobSeeker", "CV", "Status", "DateTime"};
 		dtmodel = new DefaultTableModel() {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -162,7 +166,6 @@ public class Post extends JFrame {
 					}
 
 				}
-
 			}
 		});
 
@@ -173,14 +176,19 @@ public class Post extends JFrame {
 			public void stateChanged(ChangeEvent e) {
 				if (tabbedPane.getSelectedIndex() == 1) {
 					dtmodel.getDataVector().removeAllElements();
+					listJobSeekerApplies.clear();
 					listJobSeekerApplies.addAll(BLL.getInstance().getListJobSeekerApply_BLL(idPost));
 					if (listJobSeekerApplies != null) {
+						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 						Vector<DTO.JobSeekerApply> vector = new Vector<DTO.JobSeekerApply>();
 						for (int i = 0; i < listJobSeekerApplies.size(); i++) {
 							dtmodel.addRow(
-									new Object[] { listJobSeekerApplies.get(i).getJobSeeker().getPROFILE().getNAME(),
-											listJobSeekerApplies.get(i).getCv().getID_CV(),
-											listJobSeekerApplies.get(i).getStatus() });
+								new Object[] {
+										listJobSeekerApplies.get(i).getJobSeeker().getPROFILE().getNAME(),
+										listJobSeekerApplies.get(i).getCv().getID_CV(),
+										listJobSeekerApplies.get(i).getStatus(),
+										format.format(listJobSeekerApplies.get(i).getDateTime())
+							});
 						}
 						dtmodel.fireTableDataChanged();
 					}
@@ -325,8 +333,10 @@ public class Post extends JFrame {
 				String Labor = String.valueOf(spinHires.getValue());
 				String Category = (cbbCategory.getSelectedIndex() == -1) ? ""
 						: cbbCategory.getSelectedItem().toString();
+				SimpleDateFormat formatedDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+				Date currentDate = new Date(System.currentTimeMillis());
 				if (BLL_GUEST.getInstance().Post_BLL_GUEST(ID_Acc, Jobname, Companyname, City, Salary, Descrip, Labor,
-						Category)) {
+						Category, formatedDate.format(currentDate))) {
 					txtJobTilte.setText("");
 					txtCompanyName.setText("");
 					txtAddress.setText("");
