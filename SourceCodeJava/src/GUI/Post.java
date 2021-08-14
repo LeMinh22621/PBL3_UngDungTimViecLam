@@ -139,7 +139,6 @@ public class Post extends JFrame
 						}
 						dtmodel.fireTableDataChanged();
 					}
-					
 				}
 			}
 		});
@@ -248,20 +247,22 @@ public class Post extends JFrame
 		
 		initial();initJ(post.getID_POST());
 		setPost(post);
-		
-		JButton btnApply = new JButton("Apply");
-		btnApply.addActionListener(new ActionListener()
+		if(idJobSeeker != null)
 		{
-			@Override
-			public void actionPerformed(ActionEvent e)
+			JButton btnApply = new JButton("Apply");
+			btnApply.addActionListener(new ActionListener()
 			{
-				String idCV = "";
-				idCV = BLL.getInstance().getIdCVByIdJobSeeker_BLL(idJobSeeker);
-				BLL.getInstance().AddCVToPost_BLL(post.getID_POST(),idCV);
-			}
-		});
-		btnApply.setBounds(168, 435, 81, 23);
-		pPost.add(btnApply);
+				@Override
+				public void actionPerformed(ActionEvent e)
+				{
+					String idCV = "";
+					idCV = BLL.getInstance().getIdCVByIdJobSeeker_BLL(idJobSeeker);
+					BLL.getInstance().AddCVToPost_BLL(post.getID_POST(),idCV);
+				}
+			});
+			btnApply.setBounds(168, 435, 81, 23);
+			pPost.add(btnApply);
+		}
 	}
 	public Post(Account user)
 	{
