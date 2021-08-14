@@ -9,7 +9,7 @@ public class Profile {
 	private String EMAIL;
 	private String FACEBOOK;
 	private String WEBSITE;
-	
+
 	public String getID_PROFILE() {
 		return ID_PROFILE;
 	}
@@ -17,6 +17,7 @@ public class Profile {
 	public void setID_PROFILE(String iD_PROFILE) {
 		ID_PROFILE = iD_PROFILE;
 	}
+
 	public byte[] getIMAGE() {
 		return IMAGE;
 	}
@@ -24,6 +25,7 @@ public class Profile {
 	public void setIMAGE(byte[] iMAGE) {
 		IMAGE = iMAGE;
 	}
+
 	public String getNAME() {
 		return NAME;
 	}
@@ -31,6 +33,7 @@ public class Profile {
 	public void setNAME(String nAME) {
 		NAME = nAME;
 	}
+
 	public String getCITY() {
 		return CITY;
 	}
@@ -38,6 +41,7 @@ public class Profile {
 	public void setCITY(String cITY) {
 		CITY = cITY;
 	}
+
 	public String getEMAIL() {
 		return EMAIL;
 	}
@@ -53,6 +57,7 @@ public class Profile {
 	public void setPHONENUMBER(String pHONENUMBER) {
 		PHONENUMBER = pHONENUMBER;
 	}
+
 	public String getFACEBOOK() {
 		return FACEBOOK;
 	}

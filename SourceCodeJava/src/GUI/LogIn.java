@@ -24,18 +24,19 @@ import javax.swing.UIManager;
 
 import BLL.BLL_LOGIN;
 import DTO.Account;
-public class LogIn extends JFrame implements ActionListener
-{
-	
+
+public class LogIn extends JFrame implements ActionListener {
+
 	private static LogIn Instance;
-	public static LogIn getInstance()
-	{
-		if(Instance == null)
-			Instance= new LogIn("MenuChoise");
+
+	public static LogIn getInstance() {
+		if (Instance == null)
+			Instance = new LogIn("MenuChoise");
 		return Instance;
 	}
+
 	private int WIDTH = 800, HEIGHT = 500;
-	
+
 	private JPanel pMenuChoice, pLogIn, pRegister;
 	private JTextField txtUsername;
 	private JPasswordField pwdPassword;
@@ -57,9 +58,8 @@ public class LogIn extends JFrame implements ActionListener
 	private JButton btnAdmin, btnJobSeeker, btnEmployer, btnGuest;
 
 	public static permission p;
-	
-	public LogIn(String title)
-	{
+
+	public LogIn(String title) {
 		super(title);
 		initialize();
 	}
@@ -133,38 +133,32 @@ public class LogIn extends JFrame implements ActionListener
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 		p = permission.valueOf(e.getActionCommand());
-		switch (p)
-		{
-			case Admin:
-			case Employer:
-			case JobSeeker:
-			{
-				getContentPane().removeAll();
-				getContentPane().repaint();
-				setpLogIn("","");
-				break;
-			}
-			case Guest:
-			{
-				dispose();
-				Guest f = new Guest();
-				f.setVisible(true);
-				break;
-			}
+		switch (p) {
+		case Admin:
+		case Employer:
+		case JobSeeker: {
+			getContentPane().removeAll();
+			getContentPane().repaint();
+			setpLogIn("", "");
+			break;
+		}
+		case Guest: {
+			dispose();
+			Guest f = new Guest();
+			f.setVisible(true);
+			break;
+		}
 		}
 
 	}
 
-	private void setpRegisterJobSeeker(JPanel p1)
-	{
+	private void setpRegisterJobSeeker(JPanel p1) {
 		p1.setVisible(true);
 	}
 
-	private void setpRgisterEmployer(JPanel p1)
-	{
+	private void setpRgisterEmployer(JPanel p1) {
 		p1.setVisible(true);
 	}
 
@@ -306,78 +300,74 @@ public class LogIn extends JFrame implements ActionListener
 		JSeparator spAgeJSR = new JSeparator();
 		spAgeJSR.setBounds(218, 213, 135, 8);
 		pJSR.add(spAgeJSR);
-		
+
 		JLabel lblGenderJSR = new JLabel("Gender");
 		lblGenderJSR.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGenderJSR.setFont(new Font("Cambria", Font.BOLD, 15));
 		lblGenderJSR.setBounds(98, 308, 109, 31);
 		pJSR.add(lblGenderJSR);
-		
-		
+
 		JRadioButton rbMale = new JRadioButton("Male");
 		rbMale.setBackground(Color.GRAY);
 		rbMale.setBounds(215, 308, 74, 29);
 		rbMale.setSelected(true);
 		pJSR.add(rbMale);
-		
+
 		JRadioButton rbFemale = new JRadioButton("Female");
 		rbFemale.setBackground(Color.GRAY);
 		rbFemale.setBounds(310, 308, 65, 29);
 		pJSR.add(rbFemale);
 
 		ButtonGroup bg = new ButtonGroup();
-		bg.add(rbFemale);bg.add(rbMale);
-		
+		bg.add(rbFemale);
+		bg.add(rbMale);
+
 		JButton btnRegisterJSR = new JButton("Register");
-		btnRegisterJSR.addActionListener(new ActionListener()
-		{
-			
+		btnRegisterJSR.addActionListener(new ActionListener() {
+
 			@Override
-			public void actionPerformed(ActionEvent e)
-			{
+			public void actionPerformed(ActionEvent e) {
 				String NAME = txtNameJSR.getText();
 				String CITY = txtCityJSR.getText();
 				String PHONE = txtPhoneR.getText();
 				String EMAIL = txtGmailR.getText();
-				
+
 				String AGE = txtAgeJSR.getText();
 				String PROFESSIONAL = txtProfessionalJSR.getText();
-				boolean GENDER = (rbMale.isSelected())?true:false;
-				
+				boolean GENDER = (rbMale.isSelected()) ? true : false;
+
 				String USERNAME = txtUsernameR.getText();
 				String PASSWORD = String.valueOf(pwdPasswordR.getPassword());
 				String CONFIRM = String.valueOf(pwdConfirmPassR.getPassword());
-				
-				if(BLL_LOGIN.getInstance().Register(NAME, CITY, PHONE, EMAIL, AGE, PROFESSIONAL, GENDER, USERNAME, PASSWORD, CONFIRM))
-				{
+
+				if (BLL_LOGIN.getInstance().Register(NAME, CITY, PHONE, EMAIL, AGE, PROFESSIONAL, GENDER, USERNAME,
+						PASSWORD, CONFIRM)) {
 					getContentPane().removeAll();
 					getContentPane().repaint();
-					setpLogIn(USERNAME,PASSWORD);
+					setpLogIn(USERNAME, PASSWORD);
 				}
-				
-			} 
+
+			}
 		});
-		btnRegisterER.addActionListener(new ActionListener()
-		{
+		btnRegisterER.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e)
-			{
+			public void actionPerformed(ActionEvent e) {
 				String NAME = txtNameER.getText();
 				String CITY = txtCityER.getText();
 				String PHONE = txtPhoneR.getText();
 				String EMAIL = txtGmailR.getText();
-				
+
 				String USERNAME = txtUsernameR.getText();
 				String PASSWORD = String.valueOf(pwdPasswordR.getPassword());
 				String CONFIRM = String.valueOf(pwdConfirmPassR.getPassword());
-			
-				if(BLL_LOGIN.getInstance().Register(NAME, CITY, PHONE, EMAIL, "1", "1", true, USERNAME, PASSWORD, CONFIRM))
-				{
+
+				if (BLL_LOGIN.getInstance().Register(NAME, CITY, PHONE, EMAIL, "1", "1", true, USERNAME, PASSWORD,
+						CONFIRM)) {
 					getContentPane().removeAll();
 					getContentPane().repaint();
-					setpLogIn(USERNAME,PASSWORD);
+					setpLogIn(USERNAME, PASSWORD);
 				}
-				
+
 			}
 		});
 		btnRegisterJSR.setBounds(175, 378, 101, 31);
@@ -446,14 +436,12 @@ public class LogIn extends JFrame implements ActionListener
 
 		JButton btnBackR = new JButton("Back");
 		btnBackR.setBounds(250, 11, 73, 23);
-		btnBackR.addActionListener(new ActionListener()
-		{
+		btnBackR.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e)
-			{
+			public void actionPerformed(ActionEvent e) {
 				getContentPane().removeAll();
 				getContentPane().repaint();
-				setpLogIn("","");
+				setpLogIn("", "");
 			}
 		});
 		P2.add(btnBackR);
@@ -503,31 +491,27 @@ public class LogIn extends JFrame implements ActionListener
 
 		JButton btnContinueR = new JButton("Continue");
 		btnContinueR.setBounds(127, 385, 101, 31);
-		btnContinueR.addActionListener(new ActionListener()
-		{
+		btnContinueR.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				if(txtUsernameR.getText().length() != 0 && pwdPasswordR.getText().length() != 0 && pwdConfirmPassR.getText().length() != 0 && txtGmailR.getText().length() != 0 && txtPhoneR.getText().length() != 0)
-				{
-					if(pwdPasswordR.getText().equals(pwdConfirmPassR.getText()))
-						switch (p)
-						{
-							case JobSeeker:
-								setpRegisterJobSeeker(pJSR);
-								break;
-							case Employer:
-								setpRgisterEmployer(pER);
-								break;
-							default:
-								break;
+			public void actionPerformed(ActionEvent e) {
+				if (txtUsernameR.getText().length() != 0 && pwdPasswordR.getText().length() != 0
+						&& pwdConfirmPassR.getText().length() != 0 && txtGmailR.getText().length() != 0
+						&& txtPhoneR.getText().length() != 0) {
+					if (pwdPasswordR.getText().equals(pwdConfirmPassR.getText()))
+						switch (p) {
+						case JobSeeker:
+							setpRegisterJobSeeker(pJSR);
+							break;
+						case Employer:
+							setpRgisterEmployer(pER);
+							break;
+						default:
+							break;
 						}
-					else
-					{
+					else {
 						JOptionPane.showMessageDialog(null, "Confirm wrong password!");
 					}
-				}
-				else
+				} else
 					JOptionPane.showMessageDialog(null, "Please full fill");
 			}
 		});
@@ -557,28 +541,24 @@ public class LogIn extends JFrame implements ActionListener
 		panel.setLayout(null);
 
 		Label lbLogin = new Label("");
-		switch (p)
-		{
-			case Admin:
-			{
-				setTitle("Admin");
-				lbLogin.setText("Admin Log In");
-				break;
-			}
-			case Employer:
-			{
-				setTitle("Employer");
-				lbLogin.setText("Employer Log In");
-				break;
-			}
-			case JobSeeker:
-			{
-				setTitle("JobSeeker");
-				lbLogin.setText("JobSeeker Log In");
-				break;
-			}
-			default:
-				break;
+		switch (p) {
+		case Admin: {
+			setTitle("Admin");
+			lbLogin.setText("Admin Log In");
+			break;
+		}
+		case Employer: {
+			setTitle("Employer");
+			lbLogin.setText("Employer Log In");
+			break;
+		}
+		case JobSeeker: {
+			setTitle("JobSeeker");
+			lbLogin.setText("JobSeeker Log In");
+			break;
+		}
+		default:
+			break;
 		}
 		lbLogin.setBounds(10, 77, 430, 66);
 		lbLogin.setForeground(new Color(0, 255, 0));
@@ -631,58 +611,47 @@ public class LogIn extends JFrame implements ActionListener
 		panel_1.add(lbPassword);
 
 		Button btn_LogIn = new Button("Log In");
-		btn_LogIn.addActionListener(new ActionListener()
-		{
+		btn_LogIn.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e)
-			{
+			public void actionPerformed(ActionEvent e) {
 				String name = txtUsername.getText();
 				String pwd = String.valueOf(pwdPassword.getPassword());
-				boolean accesser=false;
-				switch (p)
-				{
-					case Admin:
-					{
-						if(BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,-1)!=null)
-						{
-							dispose();
-							Admin f = new Admin();
-							f.setVisible(true);
-							accesser=true;
-						}
-						break;
+				boolean accesser = false;
+				switch (p) {
+				case Admin: {
+					if (BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name, pwd, -1) != null) {
+						dispose();
+						Admin f = new Admin();
+						f.setVisible(true);
+						accesser = true;
 					}
-					case Employer:
-					{
-						Account i=BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,1);
-						if(i!=null)
-						{
-							dispose();
-							Employer f =  new Employer(i);
-							f.setVisible(true);
-							accesser=true;
-						}
-						break;
-					}
-					case JobSeeker:
-					{
-						Account i=BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name,pwd,0);
-						if(i!=null)
-						{
-							dispose();
-							JobSeeker f =  new JobSeeker(i);
-							f.setVisible(true);
-							accesser=true;
-						}
-						break;
-					}
-					default:
-					{
-						break;
-					}
+					break;
 				}
-				if(!accesser)
-				{
+				case Employer: {
+					Account i = BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name, pwd, 1);
+					if (i != null) {
+						dispose();
+						Employer f = new Employer(i);
+						f.setVisible(true);
+						accesser = true;
+					}
+					break;
+				}
+				case JobSeeker: {
+					Account i = BLL_LOGIN.getInstance().CheckAccount_BLL_LOGIN(name, pwd, 0);
+					if (i != null) {
+						dispose();
+						JobSeeker f = new JobSeeker(i);
+						f.setVisible(true);
+						accesser = true;
+					}
+					break;
+				}
+				default: {
+					break;
+				}
+				}
+				if (!accesser) {
 					JOptionPane.showMessageDialog(null, "Incorrect user or password");
 				}
 			}
@@ -692,11 +661,9 @@ public class LogIn extends JFrame implements ActionListener
 		panel_1.add(btn_LogIn);
 
 		JButton btnRegisterLogin = new JButton("Register");
-		btnRegisterLogin.addActionListener(new ActionListener()
-		{
+		btnRegisterLogin.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e)
-			{
+			public void actionPerformed(ActionEvent e) {
 				getContentPane().removeAll();
 				getContentPane().repaint();
 				setpRegister();
@@ -711,11 +678,9 @@ public class LogIn extends JFrame implements ActionListener
 		panel_1.add(btnRegisterLogin);
 
 		JButton btnBackLogin = new JButton("back");
-		btnBackLogin.addActionListener(new ActionListener()
-		{
+		btnBackLogin.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e)
-			{
+			public void actionPerformed(ActionEvent e) {
 				setTitle("Menu Choise");
 				getContentPane().removeAll();
 				getContentPane().repaint();
@@ -733,23 +698,20 @@ public class LogIn extends JFrame implements ActionListener
 			btnRegisterLogin.setVisible(false);
 	}
 
-	private void initialize()
-	{
+	private void initialize() {
 		setBounds(100, 100, WIDTH, HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
-		//setpLogIn();
+		// setpLogIn();
 		setpMenuChoice();
-		//setpRegister();
+		// setpRegister();
 	}
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		LogIn l = new LogIn("Log in");
 	}
 
-	public static enum permission
-	{
+	public static enum permission {
 		JobSeeker, Employer, Guest, Admin
 	}
 }
