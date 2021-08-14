@@ -6,6 +6,7 @@ public class Account {
 	private String PASSWORD;
 	private int ACCESSER;
 	private boolean STATUS;
+
 	public String getID_ACCOUNT() {
 		return ID_ACCOUNT;
 	}
