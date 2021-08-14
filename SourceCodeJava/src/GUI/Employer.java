@@ -166,6 +166,7 @@ public class Employer extends JFrame implements WindowListener {
 		// table xem nhung bai post da dang
 		JTable tablepost = new JTable();
 		List<DTO.Post> listPost = new ArrayList<DTO.Post>();
+
 		String[] nameOfColumnsPost = { "JOB_NAME", "COMPANY_NAME", "CITY", "SALARY", "DESCIPTION_JOB", "LABOR", "DATETIME"
 				+ ""};
 		DefaultTableModel tmppost = new DefaultTableModel() {
@@ -223,7 +224,7 @@ public class Employer extends JFrame implements WindowListener {
 				if (tableE.getSelectedRowCount() == 1) {
 					int index = tableE.getSelectedRow();
 					JobSeeker job = listJobSeeker.get(index);
-					SendPost sendPost = SendPost.getInstance(
+					SendPost sendPost = new SendPost(
 							BLL_GUEST.getInstance().getIDEMployerByIDAccount_BLL_GUEST(user.getID_ACCOUNT()),
 							job.getID_JOBSEEKER());
 					sendPost.show();
@@ -341,8 +342,11 @@ public class Employer extends JFrame implements WindowListener {
 						int index = tablepost.getSelectedRow();
 						viewingPost = new Post(null, listPost.get(index));
 						viewingPost.setVisible(true);
-						btnDeletePost.setVisible(true);
+						btnDeletePost.setVisible(false);
 					}
+				}else if(tablepost.getSelectedRowCount() >= 1)
+				{
+					btnDeletePost.setVisible(true);
 				}
 			}
 		});
@@ -409,7 +413,7 @@ public class Employer extends JFrame implements WindowListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				post = new Post(user);
+				post = new Post(user,btnShowPost);
 				post.setVisible(true);
 			}
 		});

@@ -78,7 +78,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener {
 
 		JPanel guest = new JPanel();
 		guest.setBackground(new Color(51, 204, 153));
-		guest.setPreferredSize(new Dimension(750, 750));
+		//guest.setPreferredSize(new Dimension(750, 750));
 		guest.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("JOBS-SEEKING APP FOR DESKTOP");
@@ -110,7 +110,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener {
 		cbbName.setSelectedItem(cbbName.getItemAt(0));
 		cbbAddress.setSelectedItem(cbbAddress.getItemAt(0));
 		JComboBox cbb = new JComboBox();
-		cbb.setModel(new DefaultComboBoxModel(new Item[] { new Item(0, "CategoryJob"), new Item(1, "SeekerName") }));
+		cbb.setModel(new DefaultComboBoxModel(new Item[] { new Item(0, "POST"), new Item(1, "SEEKER") }));
 		cbb.setToolTipText("");
 		cbb.setBounds(635, 81, 106, 32);
 		guest.add(cbb);
@@ -160,15 +160,11 @@ public class Guest extends JFrame implements ActionListener, WindowListener {
 		scrollPane.setBounds(35, 206, 706, 216);
 		guest.add(scrollPane);
 
-//		JButton btnSentMessage = new JButton("SEND MESSAGE");
-//		btnSentMessage.setVisible(false);
-//		btnSentMessage.setBounds(612, 726, 129, 23);
-//		guest.add(btnSentMessage);
-
 		JLabel lbemployer = new JLabel("Top-Seeker");
-		lbemployer.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lbemployer.setFont(new Font("VNI-Fato", Font.PLAIN, 15));
 		lbemployer.setHorizontalAlignment(SwingConstants.CENTER);
-		lbemployer.setBounds(20, 485, 150, 32);
+		lbemployer.setBounds(20, 174, 150, 32);
+		lbemployer.setVisible(false);
 		guest.add(lbemployer);
 
 		tablejobseeker = new JTable();
@@ -180,7 +176,8 @@ public class Guest extends JFrame implements ActionListener, WindowListener {
 		JScrollPane scrollPane1 = new JScrollPane(tablejobseeker);
 		tablejobseeker.setFillsViewportHeight(true);
 		tablejobseeker.setDefaultEditor(Object.class, null);
-		scrollPane1.setBounds(35, 510, 706, 216);
+		scrollPane1.setBounds(35, 206, 706, 216);
+		scrollPane1.setVisible(false);
 		guest.add(scrollPane1);
 
 		JScrollPane scrollPaneFrame = new JScrollPane(guest);
@@ -275,18 +272,26 @@ public class Guest extends JFrame implements ActionListener, WindowListener {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				// TODO Auto-generated method stub
-				if (cbb.getSelectedItem().toString().equals("CategoryJob")) {
+				if (cbb.getSelectedItem().toString().equals("POST")) {
 					lblName.setText("CATEGORY_JOB");
 					cbbName.setModel(tmpName);
 					cbbAddress.setModel(tmpaddressPost);
 					cbbName.setSelectedItem(cbbName.getItemAt(0));
 					cbbAddress.setSelectedItem(cbbAddress.getItemAt(0));
+					scrollPane.setVisible(true);
+					lbseeker.setVisible(true);
+					scrollPane1.setVisible(false);
+					lbemployer.setVisible(false);
 				} else {
 					lblName.setText("PROFESSIONAL");
 					cbbName.setModel(tmpProfessional);
 					cbbAddress.setModel(tmpaddressJobseeker);
 					cbbName.setSelectedItem(cbbName.getItemAt(0));
 					cbbAddress.setSelectedItem(cbbAddress.getItemAt(0));
+					scrollPane.setVisible(false);
+					lbseeker.setVisible(false);
+					scrollPane1.setVisible(true);
+					lbemployer.setVisible(true);
 
 				}
 			}
@@ -298,7 +303,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener {
 				String name = cbbName.getSelectedItem().toString();
 				String address = cbbAddress.getSelectedItem().toString();
 				switch (cbb.getSelectedItem().toString()) {
-				case "CategoryJob": {
+				case "POST": {
 					DefaultTableModel dtm = (DefaultTableModel) tablepost.getModel();
 					dtm.setNumRows(0);
 					for (Post i : BLL_GUEST.getInstance().getListPostByNameAndAddress_BLL_GUEST(name, address)) {
@@ -316,7 +321,7 @@ public class Guest extends JFrame implements ActionListener, WindowListener {
 					}
 					break;
 				}
-				case "SeekerName": {
+				case "SEEKER": {
 					DefaultTableModel dtm = (DefaultTableModel) tablejobseeker.getModel();
 					dtm.setNumRows(0);
 					for (JobSeeker i : BLL_GUEST.getInstance().GetlistJobSeeker_BLL_GUEST(name, address)) {

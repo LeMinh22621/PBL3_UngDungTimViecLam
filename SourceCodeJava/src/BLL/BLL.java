@@ -291,7 +291,7 @@ public class BLL {
 			else
 				JOptionPane.showMessageDialog(null, "you had applied");
 		} catch (ClassNotFoundException | SQLException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
+			JOptionPane.showMessageDialog(null, "You don't have CV!");
 		}
 	}
 
@@ -370,8 +370,10 @@ public class BLL {
 	public void sendMessToJobSeeker_BLL(String idEmployer, String idJobSeeker, String contents, String idPost) {
 		if (contents == null)
 			contents = "";
-		try {
-			if (!checkCommunication_BLL(idEmployer, idJobSeeker, idPost)) {
+		try
+		{
+			if(!checkCommunication_BLL(idEmployer, idJobSeeker, idPost))
+			{
 				DAL.getInstance().sendMessToJobSeeker_DAL(idEmployer, idJobSeeker, contents, idPost);
 				JOptionPane.showMessageDialog(null, "Successfully Sent!");
 			} else

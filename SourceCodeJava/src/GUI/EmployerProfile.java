@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -207,15 +208,13 @@ public class EmployerProfile extends JFrame {
 						txtFacebook.setVisible(true);
 						txtFacebook.setText(profile.getFACEBOOK());
 					} else {
-						if (!profile.getFACEBOOK().equals("Empty")) {
+						if (!profile.getFACEBOOK().equals("Empty")&&!profile.getFACEBOOK().equals("")) {
 							Desktop.getDesktop().browse(new URI(profile.getFACEBOOK()));
-						}
+						}else JOptionPane.showMessageDialog(null, "No Facebook linked yet!");
 					}
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (URISyntaxException e1) {
-					e1.printStackTrace();
-				}
+				} catch (IOException |URISyntaxException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+				} 
 			}
 		});
 		lblZalo.addMouseListener(new MouseAdapter() {
@@ -227,14 +226,12 @@ public class EmployerProfile extends JFrame {
 						txtZalo.setVisible(true);
 						txtZalo.setText(profile.getWEBSITE());
 					} else {
-						if (!profile.getWEBSITE().equals("Empty")) {
+						if (!profile.getWEBSITE().equals("Empty")&&!profile.getWEBSITE().equals("")) {
 							Desktop.getDesktop().browse(new URI(profile.getWEBSITE()));
-						}
+						}else JOptionPane.showMessageDialog(null, "No Website linked yet");
 					}
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (URISyntaxException e1) {
-					e1.printStackTrace();
+				} catch (IOException |URISyntaxException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}
 			}
 		});
