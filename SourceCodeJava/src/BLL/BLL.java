@@ -428,6 +428,7 @@ public class BLL
 			contents = "";
 		try
 		{
+			JOptionPane.showMessageDialog(null, idEmployer + " " + idJobSeeker + " " + contents + " " + idPost);
 			if(!checkCommunication_BLL(idEmployer, idJobSeeker, idPost))
 			{
 				DAL.getInstance().sendMessToJobSeeker_DAL(idEmployer, idJobSeeker, contents, idPost);

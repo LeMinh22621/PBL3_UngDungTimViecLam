@@ -253,6 +253,9 @@ public class DAL
 			Employer em = new Employer();
 			em = getEmployerByIDAccount_DAL(acc.getID_ACCOUNT());
 			
+			String query0 = "delete from TB_COMMUNICATION where ID_EMPLOYER ='"+em.getID_EMPLOYER()+"'";
+			DBHelper.getInstance().ExcuteDB(query0);
+			
 			String query = "delete from TB_DETAIL_CV_AND_POST where ID_POST='"+getID_POSTByID_EMPLOYER(em.getID_EMPLOYER())+"'";
 			DBHelper.getInstance().ExcuteDB(query);
 			
@@ -271,6 +274,8 @@ public class DAL
 			JobSeeker js = new JobSeeker();
 			js = getJobSeekerByIDAccount_DAL(acc.getID_ACCOUNT());
 			
+			String query0 = "delete from TB_COMMUNICATION where ID_JOBSEEKER ='"+js.getID_JOBSEEKER()+"'";
+			DBHelper.getInstance().ExcuteDB(query0);
 			String query2 = "delete from TB_DETAIL_CV_AND_POST where ID_CV='"+getCVByID_JOBSEEKER(js.getID_JOBSEEKER()).getID_CV()+"'";
 			DBHelper.getInstance().ExcuteDB(query2);
 			String query3 = "delete from TB_CV where ID_JOBSEEKER='"+js.getID_JOBSEEKER()+"'";
@@ -303,6 +308,10 @@ public class DAL
 	}
 	public void DeclinePost_DAL(String iD) throws ClassNotFoundException, SQLException
 	{
+		String query2 = "delete from TB_COMMUNICATION where ID_POST = '" + iD + "'";
+		DBHelper.getInstance().ExcuteDB(query2);
+		String query1 = "delete from TB_DETAIL_CV_AND_POST where ID_POST = '" + iD + "'";
+		DBHelper.getInstance().ExcuteDB(query1);
 		String query = "delete from TB_POST where ID_POST='"+iD+"'";
 		DBHelper.getInstance().ExcuteDB(query);
 	}

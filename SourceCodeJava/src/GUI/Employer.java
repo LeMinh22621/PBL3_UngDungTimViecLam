@@ -400,6 +400,7 @@ public class Employer extends JFrame implements WindowListener
 				String IDEMployer = BLL_GUEST.getInstance().getIDEMployerByIDAccount_BLL_GUEST(user.getID_ACCOUNT());
 				listPost.clear();
 				listPost.addAll(BLL_GUEST.getInstance().getListPostByIDEmployer_BLL_GUEST(IDEMployer) );
+				dtm.getDataVector().removeAllElements();
 				for(DTO.Post i : listPost)
 				{
 					Object[] row = new Object[dtm.getColumnCount()];
@@ -411,6 +412,7 @@ public class Employer extends JFrame implements WindowListener
 					row[5] = i.getLABOR();
 					dtm.addRow(row);
 				}
+				dtm.fireTableDataChanged();
 			}
 		});
 		// post
