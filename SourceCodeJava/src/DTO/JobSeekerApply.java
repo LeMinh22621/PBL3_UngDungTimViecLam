@@ -1,9 +1,12 @@
 package DTO;
 
+import java.util.Date;
+
 public class JobSeekerApply {
 	private CV cv;
 	private JobSeeker jobSeeker;
 	private boolean status;
+	private Date dateTime;
 
 	public JobSeeker getJobSeeker() {
 		return jobSeeker;
@@ -27,5 +30,13 @@ public class JobSeekerApply {
 
 	public void setCv(CV cv) {
 		this.cv = cv;
+	}
+
+	public Date getDateTime() {
+		return dateTime;
+	}
+
+	public void setDateTime(Date dateTime) {
+		this.dateTime = dateTime;
 	}
 }

@@ -5,7 +5,10 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -42,7 +45,7 @@ public class BLL {
 		List<Post> list = new ArrayList<Post>();
 		try {
 			list = DAL.getInstance().getListPost_DAL();
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException | SQLException | ParseException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return list;
@@ -57,7 +60,7 @@ public class BLL {
 					list.add(i);
 				}
 			}
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException | SQLException | ParseException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return list;
@@ -70,7 +73,7 @@ public class BLL {
 				String[] t = { i.getID_POST(), i.getJOB_NAME(), i.getCITY() };
 				tmp.add(t);
 			}
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException | SQLException | ParseException e) {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -80,7 +83,7 @@ public class BLL {
 	public List<String[]> getJOB_NAMEByID_POST_BLL(String ID) {
 		try {
 			return DAL.getInstance().getJOB_NAMEByID_Post_DAL(ID);
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException | SQLException | ParseException e) {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null, e.getMessage());
 			return null;
@@ -91,7 +94,7 @@ public class BLL {
 	public void DeleteAccount_BLL(Account acc) {
 		try {
 			DAL.getInstance().DeleteAccount_DAL(acc);
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException | SQLException | ParseException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 	}
@@ -219,7 +222,7 @@ public class BLL {
 				break;
 			}
 			}
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException | SQLException | ParseException e) {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
@@ -270,7 +273,6 @@ public class BLL {
 				return true;
 			}
 		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 		return false;
@@ -279,9 +281,15 @@ public class BLL {
 	public void AddCVToPost_BLL(String idPost, String idCV) {
 		try {
 			if (!CheckApply(idPost, idCV)) {
-				DAL.getInstance().AddCVToPost_DAL(idPost, idCV);
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				Date date = new Date(System.currentTimeMillis());
+				String dateString = format.format(date);
+				
+				DAL.getInstance().AddCVToPost_DAL(idPost, idCV, dateString);
 				JOptionPane.showMessageDialog(null, "successfully applied");
 			}
+			else
+				JOptionPane.showMessageDialog(null, "you had applied");
 		} catch (ClassNotFoundException | SQLException e) {
 			JOptionPane.showMessageDialog(null, "You don't have CV!");
 		}
@@ -313,7 +321,7 @@ public class BLL {
 		List<JobSeekerApply> listJobSeekerApplies = new ArrayList<JobSeekerApply>();
 		try {
 			listJobSeekerApplies = DAL.getInstance().getListJobSeekerApplies_DAL(idPost);
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException | SQLException | ParseException e) {
 			// JOptionPane.showMessageDialog(null, "No one has applied yet!!");
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}

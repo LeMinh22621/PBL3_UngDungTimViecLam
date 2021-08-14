@@ -1,9 +1,12 @@
 package DTO;
 
+import java.util.Date;
+
 public class Detail_CV_And_Post {
 	private String ID_POST;
 	private String ID_CV;
 	private Boolean STATUS;
+	private Date DATETIME;
 
 	public String getID_POST() {
 		return ID_POST;
@@ -27,5 +30,13 @@ public class Detail_CV_And_Post {
 
 	public void setSTATUS(Boolean iTATUS) {
 		STATUS = iTATUS;
+	}
+
+	public Date getDATETIME() {
+		return DATETIME;
+	}
+
+	public void setDATETIME(Date dATETIME) {
+		DATETIME = dATETIME;
 	}
 }

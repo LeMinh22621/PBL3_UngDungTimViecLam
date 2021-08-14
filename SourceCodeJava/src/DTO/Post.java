@@ -1,5 +1,7 @@
 package DTO;
 
+import java.util.Date;
+
 public class Post {
 	private String ID_POST;
 	private Employer EMPLOYER;
@@ -7,6 +9,7 @@ public class Post {
 	private String JOB_NAME;
 	private String COMPANY_NAME;
 	private String CITY;
+	private Date DATETIME;
 
 	private int SALARY;
 	private String DESCIPTION_JOB;
@@ -91,5 +94,13 @@ public class Post {
 
 	public void setSTATUS(boolean sTATUS) {
 		STATUS = sTATUS;
+	}
+
+	public Date getDATETIME() {
+		return DATETIME;
+	}
+
+	public void setDATETIME(Date dATETIME) {
+		DATETIME = dATETIME;
 	}
 }

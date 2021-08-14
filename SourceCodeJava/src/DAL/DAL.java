@@ -1,6 +1,10 @@
 package DAL;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,7 +103,7 @@ public class DAL {
 	}
 
 	// List post
-	public List<Post> getListPost_DAL() throws ClassNotFoundException, SQLException {
+	public List<Post> getListPost_DAL() throws ClassNotFoundException, SQLException, ParseException {
 		List<Post> list = new ArrayList<Post>();
 		String query = "Select * from TB_POST";
 		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
@@ -125,6 +129,8 @@ public class DAL {
 						? Integer.parseInt(defaultTableModel.getValueAt(i, 8).toString())
 						: -1);
 				post.setSTATUS(Boolean.parseBoolean(defaultTableModel.getValueAt(i, 9).toString()));
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				post.setDATETIME(format.parse(defaultTableModel.getValueAt(i, 10).toString()));
 
 				list.add(post);
 			}
@@ -132,7 +138,7 @@ public class DAL {
 		return list;
 	}
 
-	public Post getPostByID_DAL(String ID) throws ClassNotFoundException, SQLException {
+	public Post getPostByID_DAL(String ID) throws ClassNotFoundException, SQLException, ParseException {
 		for (Post i : getListPost_DAL()) {
 			if (i.getID_POST().equals(ID)) {
 				return i;
@@ -142,7 +148,7 @@ public class DAL {
 	}
 
 	//
-	public List<String[]> getJOB_NAMEByID_Post_DAL(String ID) throws ClassNotFoundException, SQLException {
+	public List<String[]> getJOB_NAMEByID_Post_DAL(String ID) throws ClassNotFoundException, SQLException, ParseException {
 		List<String[]> tmp = new ArrayList<String[]>();
 		for (Post i : getListPost_DAL()) {
 			if (i.getID_POST().equals(ID)) {
@@ -153,7 +159,7 @@ public class DAL {
 		return tmp;
 	}
 
-	public String getID_POSTByID_EMPLOYER(String ID) throws ClassNotFoundException, SQLException {
+	public String getID_POSTByID_EMPLOYER(String ID) throws ClassNotFoundException, SQLException, ParseException {
 		for (Post i : getListPost_DAL()) {
 			if (i.getEMPLOYER().getID_EMPLOYER().equals(ID)) {
 				return i.getID_POST();
@@ -224,7 +230,7 @@ public class DAL {
 		return e;
 	}
 
-	public void DeleteAccount_DAL(Account acc) throws ClassNotFoundException, SQLException {
+	public void DeleteAccount_DAL(Account acc) throws ClassNotFoundException, SQLException, ParseException {
 		if (acc.getACCESSER() == 1) {
 			Employer em = new Employer();
 			em = getEmployerByIDAccount_DAL(acc.getID_ACCOUNT());
@@ -526,12 +532,12 @@ public class DAL {
 	}
 
 	public void Post_DAL(String idP, String iD_Acc, String jobname, String companyname, String city, String salary,
-			String descrip, String labor, String category) throws ClassNotFoundException, SQLException {
+			String descrip, String labor, String category, String date) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		String query = "insert into TB_POST values('" + idP + "','"
 				+ getEmployerByIDAccount_DAL(iD_Acc).getID_EMPLOYER() + "','" + getIDCategoryByName(category) + "','"
 				+ jobname + "','" + companyname + "','" + city + "'," + salary + ",'" + descrip + "'," + labor
-				+ ",'False')";
+				+ ",'False','" + date+"')";
 		DBHelper.getInstance().ExcuteDB(query);
 	}
 
@@ -546,9 +552,9 @@ public class DAL {
 		DBHelper.getInstance().ExcuteDB(query);
 	}
 
-	public void AddCVToPost_DAL(String idPost, String idCV) throws ClassNotFoundException, SQLException {
+	public void AddCVToPost_DAL(String idPost, String idCV, String date) throws ClassNotFoundException, SQLException {
 
-		String query = "Insert into TB_DETAIL_CV_AND_POST VALUES ('" + idPost + "','" + idCV + "','False')";
+		String query = "Insert into TB_DETAIL_CV_AND_POST VALUES ('" + idPost + "','" + idCV + "','False','"+ date +"')";
 		DBHelper.getInstance().ExcuteDB(query);
 	}
 
@@ -626,7 +632,7 @@ public class DAL {
 		return cv;
 	}
 
-	public List<JobSeekerApply> getListJobSeekerApplies_DAL(String idPost) throws ClassNotFoundException, SQLException {
+	public List<JobSeekerApply> getListJobSeekerApplies_DAL(String idPost) throws ClassNotFoundException, SQLException, ParseException {
 		List<JobSeekerApply> listJobSeekerApplies = new ArrayList<JobSeekerApply>();
 		String query = "SELECT * FROM TB_DETAIL_CV_AND_POST WHERE ID_POST = '" + idPost + "'";
 		DefaultTableModel dtm = null;
@@ -637,6 +643,12 @@ public class DAL {
 				JobSeekerApply jobSeekerApply = new JobSeekerApply();
 				String idCV = dtm.getValueAt(i, 1).toString();
 				boolean status = (boolean) dtm.getValueAt(i, 2);
+				
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				String dateString = dtm.getValueAt(i, 3).toString();
+				java.util.Date date = new java.util.Date();
+				if(dateString.length() != 0)
+					date = format.parse(dateString);
 
 				JobSeeker jobSeeker = new JobSeeker();
 				jobSeeker = getJobSeekerByID(getIdJobSeekerByIdCV(idCV));
@@ -646,6 +658,7 @@ public class DAL {
 				jobSeekerApply.setCv(cv);
 				jobSeekerApply.setJobSeeker(jobSeeker);
 				jobSeekerApply.setStatus(status);
+				jobSeekerApply.setDateTime(date);
 
 				listJobSeekerApplies.add(jobSeekerApply);
 			}
