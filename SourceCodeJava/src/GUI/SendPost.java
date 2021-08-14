@@ -85,11 +85,20 @@ public class SendPost extends JFrame
 		});
 		btnOK.setBounds(68, 318, 110, 39);
 		getContentPane().add(btnOK);
-		initialize();
+		
+		btnCancel.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				dispose();
+			}
+		});
+		initialize(idEmployer);
 	}
-	public void initialize()
+	public void initialize(String idEmployer)
 	{
-		List<DTO.Post> listPosts = BLL.getInstance().getListPost_BLL();
+		List<DTO.Post> listPosts = BLL.getInstance().getListPostByIdemployer_BLL(idEmployer);
 		listItems = new DefaultComboBoxModel<ItemPost>();
 		for(DTO.Post i : listPosts)
 		{

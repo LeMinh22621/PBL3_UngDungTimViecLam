@@ -16,6 +16,7 @@ import DTO.JobSeeker;
 import DTO.JobSeekerApply;
 import DTO.Post;
 import DTO.Profile;
+import DTO.Communication;
 
 public class DAL
 {
@@ -758,5 +759,49 @@ public class DAL
 	{
 		String query = "Insert into TB_COMMUNICATION values ('"+ idEmployer +"','"+ idJobSeeker +"','"+ contents +"','"+idPost+"')";
 		DBHelper.getInstance().ExcuteDB(query);
+	}
+
+	public List<Communication> getListCommunicationByID_Jobseeker_DAL(String idJobseeker) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String query = "select * from TB_COMMUNICATION where ID_JOBSEEKER = '"+idJobseeker + "'";
+		List<Communication> listCommunication = new ArrayList<Communication>();
+		DefaultTableModel dtm = DBHelper.getInstance().GetRecords(query);
+		if(dtm != null)
+		{
+			for(int i = 0; i < dtm.getRowCount(); i++)
+			{
+				Communication communication = new Communication();
+				
+				communication.setID_EMPLOYER(dtm.getValueAt(i, 0).toString());
+				communication.setID_JOBSEEKER(dtm.getValueAt(i, 1).toString());
+				communication.setMESS(dtm.getValueAt(i, 2).toString());
+				communication.setID_POST(dtm.getValueAt(i, 3).toString());
+				
+				listCommunication.add(communication);
+			}
+		}
+		return listCommunication;
+	}
+
+	public Post getPostByIDPOST_DAL(String id_POST) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String query = "select * from TB_POST where ID_POST = '"+id_POST + "'";
+		Post post = new Post();
+		DefaultTableModel defaultTableModel = DBHelper.getInstance().GetRecords(query);
+		if(defaultTableModel != null)
+		{
+			post.setID_POST(defaultTableModel.getValueAt(0, 0).toString());
+			post.setEMPLOYER(getEmployerByID_DAL(defaultTableModel.getValueAt(0, 1).toString()));
+			post.setCATEGORY_JOB(getCategory_jobByID_DAL(defaultTableModel.getValueAt(0, 2).toString()));
+			post.setJOB_NAME(defaultTableModel.getValueAt(0, 3).toString());
+			post.setCOMPANY_NAME((defaultTableModel.getValueAt(0, 4) != null)?defaultTableModel.getValueAt(0, 4).toString():"");
+			post.setCITY(defaultTableModel.getValueAt(0, 5).toString());
+			post.setSALARY((defaultTableModel.getValueAt(0, 6) != null)?Integer.parseInt(defaultTableModel.getValueAt(0, 6).toString()):-1);
+			post.setDESCIPTION_JOB((defaultTableModel.getValueAt(0, 7) != null)?defaultTableModel.getValueAt(0, 7).toString():"");
+			post.setLABOR((defaultTableModel.getValueAt(0, 8) != null)?Integer.parseInt(defaultTableModel.getValueAt(0, 8).toString()):-1);
+			post.setSTATUS(Boolean.parseBoolean(defaultTableModel.getValueAt(0, 9).toString()));
+				
+		}
+		return post;
 	}
 }
