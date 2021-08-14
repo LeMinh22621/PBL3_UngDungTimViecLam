@@ -16,6 +16,7 @@ import DTO.Account;
 import DTO.JobSeeker;
 import DTO.JobSeekerApply;
 import DTO.Post;
+import DTO.Communication;
 
 public class BLL
 {
@@ -47,6 +48,26 @@ public class BLL
 		try
 		{
 			list = DAL.getInstance().getListPost_DAL();
+		}
+		catch (ClassNotFoundException | SQLException e)
+		{
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+		return list;
+	}
+	public List<Post> getListPostByIdemployer_BLL(String iD_EMPLOYER)
+	{
+		List<Post> list = new ArrayList<Post>();
+		try
+		{
+			//list = DAL.getInstance().getListPost_DAL();
+			for(Post i :DAL.getInstance().getListPost_DAL())
+			{
+				if(i.getEMPLOYER().getID_EMPLOYER().equals(iD_EMPLOYER))
+				{
+					list.add(i);
+				}
+			}
 		}
 		catch (ClassNotFoundException | SQLException e)
 		{
@@ -380,7 +401,7 @@ public class BLL
 		}
 		return listJobSeekerApplies;
 	}
-	public List<Post> getListPostApplied_BLL_GUEST(String id_ACCOUNT) {
+	public List<Post> getListPostApplied_BLL(String id_ACCOUNT) {
 		// TODO Auto-generated method stub
 		String idJobseeker = getIdJobSeekerByIdAccount_BLL(id_ACCOUNT);
 		
@@ -431,7 +452,7 @@ public class BLL
 			if(!checkCommunication_BLL(idEmployer, idJobSeeker, idPost))
 			{
 				DAL.getInstance().sendMessToJobSeeker_DAL(idEmployer, idJobSeeker, contents, idPost);
-				JOptionPane.showMessageDialog(null, "Send Success!");
+				JOptionPane.showMessageDialog(null, "Successfully Sent!");
 			}
 			else
 				JOptionPane.showMessageDialog(null, "This post was sent!");
@@ -439,6 +460,26 @@ public class BLL
 		catch (ClassNotFoundException | SQLException e)
 		{
 			e.printStackTrace();
+		}
+	}
+	public List<Communication> getListCommunication_BLL(String id_ACCOUNT) {
+		// TODO Auto-generated method stub
+		String idJobseeker = getIdJobSeekerByIdAccount_BLL(id_ACCOUNT);
+		
+		try {
+			return DAL.getInstance().getListCommunicationByID_Jobseeker_DAL(idJobseeker);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			return null;
+		}
+	}
+	public Post getPostByID_POST(String id_POST) {
+		// TODO Auto-generated method stub
+		try {
+			return DAL.getInstance().getPostByIDPOST_DAL(id_POST);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			return null;
 		}
 	}
 }

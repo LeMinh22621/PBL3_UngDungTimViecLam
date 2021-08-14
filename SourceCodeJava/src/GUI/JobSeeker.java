@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -19,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -30,6 +32,7 @@ import BLL.BLL;
 import BLL.BLL_GUEST;
 import DTO.Account;
 import DTO.Post;
+import DTO.Communication;
 
 public class JobSeeker extends JFrame implements WindowListener
 {
@@ -179,7 +182,7 @@ public class JobSeeker extends JFrame implements WindowListener
 		
 		tableNotifications = new JTable();
 		String[] nameOfColumnsNoti= {"EMPLOYER_NAME","CATEGORY_JOB_NAME","JOB_NAME","COMPANY_NAME","CITY",
-				"SALARY","DESCIPTION_JOB","LABOR","INFO"};
+				"SALARY","DESCIPTION_JOB","LABOR","MESS"};
 		DefaultTableModel tmpNoti = new DefaultTableModel();
 		tmpNoti.setColumnIdentifiers(nameOfColumnsNoti);
 		tableNotifications.setModel(tmpNoti);
@@ -306,7 +309,7 @@ public class JobSeeker extends JFrame implements WindowListener
 				// applied
 				DefaultTableModel dtm = (DefaultTableModel) tableApplied.getModel();
 				dtm.setNumRows(0);
-				for(Post i : BLL.getInstance().getListPostApplied_BLL_GUEST(user.getID_ACCOUNT()))
+				for(Post i : BLL.getInstance().getListPostApplied_BLL(user.getID_ACCOUNT()))
 				{
 					Object[] row = new Object[dtm.getColumnCount()];
 					row[0] = i.getEMPLOYER().getPROFILE().getNAME();
@@ -326,23 +329,29 @@ public class JobSeeker extends JFrame implements WindowListener
 					tableApplied.removeColumn(tableApplied.getColumnModel().getColumn(9));
 				}
 				//message
-//				DefaultTableModel tmpNotifications = (DefaultTableModel) tableNotifications.getModel();
-//				tmpNotifications.setNumRows(0);
-//				for(Post i : BLL.getInstance().getListPostApplied_BLL_GUEST(user.getID_ACCOUNT()))
-//				{
-//					Object[] row = new Object[tmpNotifications.getColumnCount()];
-//					row[0] = i.getEMPLOYER().getPROFILE().getNAME();
-//					row[1] = i.getCATEGORY_JOB().getCATEGORY_JOB_NAME();
-//					row[2] = i.getJOB_NAME();
-//					row[3] = i.getCOMPANY_NAME();
-//					row[4] = i.getCITY();
-//					row[5] = i.getSALARY();
-//					row[6] = i.getDESCIPTION_JOB();
-//					row[7] = i.getLABOR();
-//					row[8] = i.getSTATUS();
-//					row[9] = i.getID_POST();
-//					tmpNotifications.addRow(row);
-//				}
+				List<Communication> listcommunication = new ArrayList<Communication>();
+				listcommunication = BLL.getInstance().getListCommunication_BLL(user.getID_ACCOUNT());
+				DefaultTableModel tmpNotifications = (DefaultTableModel) tableNotifications.getModel();
+				tmpNotifications.setNumRows(0);
+				for(Communication i : listcommunication)
+				{
+					Post tmppost = new Post();
+					tmppost = BLL.getInstance().getPostByID_POST(i.getID_POST());
+					if(tmppost != null)
+					{
+						Object[] row = new Object[tmpNotifications.getColumnCount()];
+						row[0] = tmppost.getEMPLOYER().getPROFILE().getNAME();
+						row[1] = tmppost.getCATEGORY_JOB().getCATEGORY_JOB_NAME();
+						row[2] = tmppost.getJOB_NAME();
+						row[3] = tmppost.getCOMPANY_NAME();
+						row[4] = tmppost.getCITY();
+						row[5] = tmppost.getSALARY();
+						row[6] = tmppost.getDESCIPTION_JOB();
+						row[7] = tmppost.getLABOR();
+						row[8] = i.getMESS();
+						tmpNotifications.addRow(row);
+					}
+				}
 			}
 		});
 		//profile
