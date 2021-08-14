@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -39,9 +40,9 @@ public class Post extends JFrame {
 	private static Post Instance_U;
 	private static Post Instance_P;
 
-	public static Post getProfile(Account user) {
+	public static Post getProfile(Account user,JButton tmp) {
 		if (Instance_U == null)
-			Instance_U = new Post(user);
+			Instance_U = new Post(user, tmp);
 		return Instance_U;
 	}
 
@@ -269,11 +270,11 @@ public class Post extends JFrame {
 		pPost.add(cbbCategory);
 
 		DefaultComboBoxModel<String> tmpCategory = new DefaultComboBoxModel<String>();
+		cbbCategory.setModel(tmpCategory);
 		if (cbbCategory.getSelectedItem() == null) {
 			tmpCategory.addAll(BLL_GUEST.getInstance().getListCategoryJobName_BLL_GUEST());
 			cbbCategory.setSelectedItem(cbbCategory.getItemAt(0));
 		}
-		cbbCategory.setModel(tmpCategory);
 		scrollPanePostJobDescription = new JScrollPane(txtAJobDescription);
 		scrollPanePostJobDescription.setBounds(46, 326, 340, 100);
 		pPost.add(scrollPanePostJobDescription);
@@ -307,7 +308,7 @@ public class Post extends JFrame {
 		}
 	}
 
-	public Post(Account user) {
+	public Post(Account user, JButton showpost) {
 
 		initial();
 		initE();
@@ -332,6 +333,7 @@ public class Post extends JFrame {
 					txtAddress.setText("");
 					txtSalary.setText("");
 					txtAJobDescription.setText("");
+					showpost.doClick();
 				}
 			}
 		});

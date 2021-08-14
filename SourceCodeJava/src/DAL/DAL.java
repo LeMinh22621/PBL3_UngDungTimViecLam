@@ -297,8 +297,6 @@ public class DAL {
 		Profile profile = new Profile();
 
 		profile.setID_PROFILE(defaultTableModel.getValueAt(0, 0).toString());
-		// profile.setIMAGE((defaultTableModel.getValueAt(0, 1) !=
-		// null)?defaultTableModel.getValueAt(0, 1).toString():"");
 		profile.setIMAGE(DBHelper.getInstance().GetImageProfile(query));
 		profile.setNAME(defaultTableModel.getValueAt(0, 2).toString());
 		profile.setCITY(defaultTableModel.getValueAt(0, 3).toString());
@@ -384,7 +382,7 @@ public class DAL {
 	}
 
 	public boolean checkAccount_DAL(String username, boolean accesser) throws ClassNotFoundException, SQLException {
-		String query = "select * from TB_ACCOUNT where USERNAME = '" + username + "' and ACCESSER = '" + accesser + "'";
+		String query = "select * from TB_ACCOUNT where USERNAME = '" + username + "'";// and ACCESSER = '" + accesser + "'";
 		DefaultTableModel defaultTableModel = (DBHelper.getInstance().GetRecords(query) != null)
 				? DBHelper.getInstance().GetRecords(query)
 				: null;
@@ -562,8 +560,15 @@ public class DAL {
 	}
 
 	public void DeletePostByID_DAL(String iD) throws ClassNotFoundException, SQLException {
-		String query = "delete from TB_POST where ID_POST ='" + iD + "'";
-		DBHelper.getInstance().ExcuteDB(query);
+		
+		String query1 = "delete from TB_COMMUNICATION where ID_POST ='" + iD + "'";
+		DBHelper.getInstance().ExcuteDB(query1);
+		
+		String query2 = "delete from TB_DETAIL_CV_AND_POST where ID_POST ='" + iD + "'";
+		DBHelper.getInstance().ExcuteDB(query2);
+		
+		String query3 = "delete from TB_POST where ID_POST ='" + iD + "'";
+		DBHelper.getInstance().ExcuteDB(query3);
 	}
 
 	public byte[] getImage(String idProfile) throws ClassNotFoundException, SQLException {
@@ -766,5 +771,13 @@ public class DAL {
 
 		}
 		return post;
+	}
+
+	public boolean checkEmail_DAL(String email) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String query = "select * from TB_PROFILE where EMAIL ='"+email +"'";
+		if(DBHelper.getInstance().GetRecords(query) != null )
+			return true;
+		return false;
 	}
 }

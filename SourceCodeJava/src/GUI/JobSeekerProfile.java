@@ -268,12 +268,12 @@ public class JobSeekerProfile extends JFrame {
 						txtFacebook.setVisible(true);
 						txtFacebook.setText(profile.getFACEBOOK());
 					} else {
-						if (!profile.getFACEBOOK().equals("Empty")) {
+						if (!profile.getFACEBOOK().equals("Empty")&&!profile.getFACEBOOK().equals("")) {
 							Desktop.getDesktop().browse(new URI(profile.getFACEBOOK()));
-						}
+						}else JOptionPane.showMessageDialog(null, "No Facebook linked yet!");
 					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "No Facebook linked yet");
+					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}
 			}
 		});
@@ -286,12 +286,12 @@ public class JobSeekerProfile extends JFrame {
 						txtZalo.setVisible(true);
 						txtZalo.setText(profile.getWEBSITE());
 					} else {
-						if (!profile.getWEBSITE().equals("Empty")) {
+						if (!profile.getWEBSITE().equals("Empty")&&!profile.getWEBSITE().equals("")) {
 							Desktop.getDesktop().browse(new URI(profile.getWEBSITE()));// "https://www.facebook.com/leminh2k1/"
-						}
+						}else JOptionPane.showMessageDialog(null, "No Website linked yet");
 					}
 				} catch (IOException | URISyntaxException e1) {
-					JOptionPane.showMessageDialog(null, "No Website linked yet");
+					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}
 			}
 		});

@@ -283,7 +283,7 @@ public class BLL {
 				JOptionPane.showMessageDialog(null, "successfully applied");
 			}
 		} catch (ClassNotFoundException | SQLException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
+			JOptionPane.showMessageDialog(null, "You don't have CV!");
 		}
 	}
 

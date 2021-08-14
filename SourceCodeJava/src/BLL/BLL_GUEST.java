@@ -26,7 +26,7 @@ public class BLL_GUEST {
 		try {
 			List<Post> list = new ArrayList<Post>();
 			for (Post i : DAL.getInstance().getListPost_DAL()) {
-				if (i.getCATEGORY_JOB().getCATEGORY_JOB_NAME().contains(name) && i.getCITY().contains(address)) {
+				if (i.getCATEGORY_JOB().getCATEGORY_JOB_NAME().contains(name) && i.getCITY().contains(address)&& i.getSTATUS() == true) {
 					list.add(i);
 				}
 			}
@@ -202,7 +202,7 @@ public class BLL_GUEST {
 		List<Post> list = new ArrayList<Post>();
 		try {
 			for (Post i : DAL.getInstance().getListPost_DAL()) {
-				if (i.getEMPLOYER().getID_EMPLOYER().equals(iDEmployer) && i.getSTATUS() == true) {
+				if (i.getEMPLOYER().getID_EMPLOYER().equals(iDEmployer)) {
 					list.add(i);
 				}
 			}

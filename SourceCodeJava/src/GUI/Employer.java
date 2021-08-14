@@ -165,7 +165,7 @@ public class Employer extends JFrame implements WindowListener {
 		// table xem nhung bai post da dang
 		JTable tablepost = new JTable();
 		List<DTO.Post> listPost = new ArrayList<DTO.Post>();
-		String[] nameOfColumnsPost = { "JOB_NAME", "COMPANY_NAME", "CITY", "SALARY", "DESCIPTION_JOB", "LABOR" };
+		String[] nameOfColumnsPost = { "JOB_NAME", "COMPANY_NAME", "CITY", "SALARY", "DESCIPTION_JOB", "LABOR", "STATUS" };
 		DefaultTableModel tmppost = new DefaultTableModel() {
 			@Override
 			public boolean isCellEditable(int row, int col) {
@@ -339,8 +339,11 @@ public class Employer extends JFrame implements WindowListener {
 						int index = tablepost.getSelectedRow();
 						viewingPost = new Post(null, listPost.get(index));
 						viewingPost.setVisible(true);
-						btnDeletePost.setVisible(true);
+						btnDeletePost.setVisible(false);
 					}
+				}else if(tablepost.getSelectedRowCount() >= 1)
+				{
+					btnDeletePost.setVisible(true);
 				}
 			}
 		});
@@ -394,6 +397,7 @@ public class Employer extends JFrame implements WindowListener {
 					row[3] = i.getSALARY();
 					row[4] = i.getDESCIPTION_JOB();
 					row[5] = i.getLABOR();
+					row[6] = i.getSTATUS();
 					dtm.addRow(row);
 				}
 				dtm.fireTableDataChanged();
@@ -405,7 +409,7 @@ public class Employer extends JFrame implements WindowListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				post = new Post(user);
+				post = new Post(user,btnShowPost);
 				post.setVisible(true);
 			}
 		});
