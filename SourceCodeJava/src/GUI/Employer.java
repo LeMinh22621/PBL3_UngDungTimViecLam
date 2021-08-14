@@ -224,7 +224,7 @@ public class Employer extends JFrame implements WindowListener {
 				if (tableE.getSelectedRowCount() == 1) {
 					int index = tableE.getSelectedRow();
 					JobSeeker job = listJobSeeker.get(index);
-					SendPost sendPost = SendPost.getInstance(
+					SendPost sendPost = new SendPost(
 							BLL_GUEST.getInstance().getIDEMployerByIDAccount_BLL_GUEST(user.getID_ACCOUNT()),
 							job.getID_JOBSEEKER());
 					sendPost.show();

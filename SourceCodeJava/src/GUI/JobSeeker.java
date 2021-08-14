@@ -42,6 +42,7 @@ public class JobSeeker extends JFrame implements WindowListener {
 	private JTable tableJ;
 	private JTable tableNotifications;
 	private JTable tableApplied;
+	Post tmppostNotification;
 	JobSeekerProfile profile;
 	GUI.Post viewingPost;
 
@@ -180,7 +181,7 @@ public class JobSeeker extends JFrame implements WindowListener {
 
 		tableNotifications = new JTable();
 		String[] nameOfColumnsNoti = { "EMPLOYER_NAME", "CATEGORY_JOB_NAME", "JOB_NAME", "COMPANY_NAME", "CITY",
-				"SALARY", "DESCIPTION_JOB", "LABOR", "MESS" };
+				"SALARY", "DESCIPTION_JOB", "LABOR", "MESS","ID_POST" };
 		DefaultTableModel tmpNoti = new DefaultTableModel();
 		tmpNoti.setColumnIdentifiers(nameOfColumnsNoti);
 		tableNotifications.setModel(tmpNoti);
@@ -324,21 +325,25 @@ public class JobSeeker extends JFrame implements WindowListener {
 				DefaultTableModel tmpNotifications = (DefaultTableModel) tableNotifications.getModel();
 				tmpNotifications.setNumRows(0);
 				for (Communication i : listcommunication) {
-					Post tmppost = new Post();
-					tmppost = BLL.getInstance().getPostByID_POST(i.getID_POST());
-					if (tmppost != null) {
+					tmppostNotification = new Post();
+					tmppostNotification = BLL.getInstance().getPostByID_POST(i.getID_POST());
+					if (tmppostNotification != null) {
 						Object[] row = new Object[tmpNotifications.getColumnCount()];
-						row[0] = tmppost.getEMPLOYER().getPROFILE().getNAME();
-						row[1] = tmppost.getCATEGORY_JOB().getCATEGORY_JOB_NAME();
-						row[2] = tmppost.getJOB_NAME();
-						row[3] = tmppost.getCOMPANY_NAME();
-						row[4] = tmppost.getCITY();
-						row[5] = tmppost.getSALARY();
-						row[6] = tmppost.getDESCIPTION_JOB();
-						row[7] = tmppost.getLABOR();
+						row[0] = tmppostNotification.getEMPLOYER().getPROFILE().getNAME();
+						row[1] = tmppostNotification.getCATEGORY_JOB().getCATEGORY_JOB_NAME();
+						row[2] = tmppostNotification.getJOB_NAME();
+						row[3] = tmppostNotification.getCOMPANY_NAME();
+						row[4] = tmppostNotification.getCITY();
+						row[5] = tmppostNotification.getSALARY();
+						row[6] = tmppostNotification.getDESCIPTION_JOB();
+						row[7] = tmppostNotification.getLABOR();
 						row[8] = i.getMESS();
+						row[9] = tmppostNotification.getID_POST();
 						tmpNotifications.addRow(row);
 					}
+				}
+				if (tableNotifications.getColumnCount() > 9) {
+					tableNotifications.removeColumn(tableNotifications.getColumnModel().getColumn(9));
 				}
 			}
 		});
@@ -408,6 +413,19 @@ public class JobSeeker extends JFrame implements WindowListener {
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
 
+			}
+		});
+		tableNotifications.addMouseListener(new MouseAdapter() {
+			;
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 2)
+				{
+					if (tableNotifications.getSelectedRowCount() == 1 ) {
+						String idJobSeeker = BLL.getInstance().getIdJobSeekerByIdAccount_BLL(user.getID_ACCOUNT());
+						viewingPost = GUI.Post.getPost(tmppostNotification, idJobSeeker);
+						viewingPost.setVisible(true);
+					}
+				}
 			}
 		});
 		tableApplied.addMouseListener(new MouseAdapter() {

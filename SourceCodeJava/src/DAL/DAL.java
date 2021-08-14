@@ -537,7 +537,7 @@ public class DAL {
 		String query = "insert into TB_POST values('" + idP + "','"
 				+ getEmployerByIDAccount_DAL(iD_Acc).getID_EMPLOYER() + "','" + getIDCategoryByName(category) + "','"
 				+ jobname + "','" + companyname + "','" + city + "'," + salary + ",'" + descrip + "'," + labor
-				+ ",'False','" + date+"')";
+				+ ",'False'," + date+")";
 		DBHelper.getInstance().ExcuteDB(query);
 	}
 

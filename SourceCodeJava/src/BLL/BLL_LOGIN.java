@@ -99,21 +99,24 @@ public class BLL_LOGIN {
 		}
 	}
 
-	public boolean checkEmail(String email) {
+	public boolean checkEmail(String email,String edit) {
 		if (email.length() >= 0 && email.length() <= 50)
 			if(email.contains("@"))
 			{
-				try {
-					if(DAL.getInstance().checkEmail_DAL(email))
-					{
-						JOptionPane.showMessageDialog(null,"Only one account per email!");
+				if(edit == null )
+				{
+					try {
+						if(DAL.getInstance().checkEmail_DAL(email))
+						{
+							JOptionPane.showMessageDialog(null,"Only one account per email!");
+							return false;
+						}
+						else return true;
+					} catch (ClassNotFoundException | SQLException e) {
+						// TODO Auto-generated catch block
 						return false;
 					}
-					else return true;
-				} catch (ClassNotFoundException | SQLException e) {
-					// TODO Auto-generated catch block
-					return false;
-				}
+				}else return true;
 			}else
 			{
 				JOptionPane.showMessageDialog(null,"Email must be have @!");
@@ -160,7 +163,7 @@ public class BLL_LOGIN {
 			return false;
 		try {
 			if (DAL.getInstance().checkAccount_DAL(USERNAME, (LogIn.p == LogIn.permission.Employer) ? true : false)) {
-				JOptionPane.showMessageDialog(null, "This Username has been registered");
+				JOptionPane.showMessageDialog(null, "This Username has been registered!");
 				return false;
 			}
 		} catch (ClassNotFoundException | SQLException e) {
@@ -188,7 +191,7 @@ public class BLL_LOGIN {
 		if (NAME.length() != 0 && CITY.length() != 0 && PHONE.length() != 0 && EMAIL.length() != 0 && AGE.length() != 0
 				&& PROFESSIONAL.length() != 0 && USERNAME.length() != 0 && PASSWORD.length() != 0) {
 			if (PASSWORD.equals(CONFIRM)) {
-				if (checkPhone(PHONE) && checkEmail(EMAIL)) {
+				if (checkPhone(PHONE) && checkEmail(EMAIL,null)) {
 					String insertP = "Insert into TB_PROFILE (ID_PROFILE, NAME, CITY, PHONE_NUMBER, EMAIL) VALUES ('";
 					String queryP = insertP + IDP + "','" + NAME + "','" + CITY + "','" + PHONE + "','" + EMAIL + "')";
 
@@ -241,7 +244,7 @@ public class BLL_LOGIN {
 	public boolean EditProfileEmployer_BLL_LOGIN(String iD, String name, String city, String phoneNumber, String email,
 			String linkFacebook, String linkZalo) {
 		if (name.length() != 0 && city.length() != 0 && phoneNumber.length() != 0 && email.length() != 0) {
-			if (checkPhone(phoneNumber) && checkEmail(email)) {
+			if (checkPhone(phoneNumber) && checkEmail(email,"edit")) {
 				try {
 					DAL.getInstance().EditProfileEmployer_DAl(iD, name, city, phoneNumber, email, linkFacebook,
 							linkZalo);
@@ -265,7 +268,7 @@ public class BLL_LOGIN {
 			boolean gender, String phoneNumber, String email, String professional, String linkFacebook,
 			String linkZalo) {
 		if (name.length() != 0 && age.length() != 0 && phoneNumber.length() != 0 && email.length() != 0) {
-			if (checkPhone(phoneNumber) && checkEmail(email) && checkAge(age)) {
+			if (checkPhone(phoneNumber) && checkEmail(email,"edit") && checkAge(age)) {
 				try {
 					DAL.getInstance().EditProfileJobseeker_DAl(iDprofile, iDjobseeker, name, age, gender, phoneNumber,
 							email, professional, linkFacebook, linkZalo);
@@ -276,8 +279,6 @@ public class BLL_LOGIN {
 					return false;
 				}
 			} else {
-				JOptionPane.showMessageDialog(null,
-						"Wrong data!\n( Email have @ or the number Phone == 10 or 0 < Age < 150 )");
 				return false;
 			}
 		} else {

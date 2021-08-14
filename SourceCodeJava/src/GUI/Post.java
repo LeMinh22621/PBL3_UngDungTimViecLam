@@ -334,7 +334,7 @@ public class Post extends JFrame {
 				String Labor = String.valueOf(spinHires.getValue());
 				String Category = (cbbCategory.getSelectedIndex() == -1) ? ""
 						: cbbCategory.getSelectedItem().toString();
-				SimpleDateFormat formatedDate = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+				SimpleDateFormat formatedDate = new SimpleDateFormat("dd-MM-yyyy");
 				Date currentDate = new Date(System.currentTimeMillis());
 				if (BLL_GUEST.getInstance().Post_BLL_GUEST(ID_Acc, Jobname, Companyname, City, Salary, Descrip, Labor,
 						Category, formatedDate.format(currentDate))) {
