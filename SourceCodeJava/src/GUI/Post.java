@@ -1,9 +1,14 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -105,24 +110,73 @@ public class Post extends JFrame
 			}
 		};
 		dtmodel.setColumnIdentifiers(columns);
-		
+		List<DTO.JobSeekerApply> listJobSeekerApplies = new ArrayList<DTO.JobSeekerApply>();
 		table = new JTable();
 		table.setModel(dtmodel);
 		table.setBackground(Color.cyan);
 		table.setForeground(Color.red);
 		table.setRowHeight(30);
 		table.setFillsViewportHeight(true);
+		table.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				int index = table.getSelectedRow();
+				String addressCV = "";
+				if(index != -1)
+					addressCV = listJobSeekerApplies.get(index).getCv().getADDRESS_CV();
+				if(addressCV.length() != 0)
+				{
+					File file = new File(addressCV);
+					try
+					{
+						file.createNewFile();
+						Desktop.getDesktop().open(file);
+					}
+					catch (IOException e1)
+					{
+						e1.printStackTrace();
+					}
+					
+					
+				}
+				
+			}
+		});
 		
 		scrollPane = new JScrollPane(table);
 		tabbedPane.addTab("Proposals", null, scrollPane, null);
-		
 		tabbedPane.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				if(tabbedPane.getSelectedIndex() == 1)
 				{
 					dtmodel.getDataVector().removeAllElements();
-					List<DTO.JobSeekerApply> listJobSeekerApplies = new ArrayList<DTO.JobSeekerApply>();
 					listJobSeekerApplies.addAll(BLL.getInstance().getListJobSeekerApply_BLL(idPost));
 					if(listJobSeekerApplies != null)
 					{
