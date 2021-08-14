@@ -780,4 +780,14 @@ public class DAL {
 		}
 		return post;
 	}
+	public void acceptCVToPost_DAL(String idPost, String idCV) throws ClassNotFoundException, SQLException
+	{
+		String query = "update TB_DETAIL_CV_AND_POST set STATUS = 'True' where ID_POST='" + idPost+ "' and ID_CV = '" + idCV + "'";
+		DBHelper.getInstance().ExcuteDB(query);
+	}
+	public void declineCVToPost_DAL(String idPost, String idCV) throws ClassNotFoundException, SQLException
+	{
+		String query = "update TB_DETAIL_CV_AND_POST set STATUS = 'False' where ID_POST='" + idPost+ "' and ID_CV = '" + idCV + "'";
+		DBHelper.getInstance().ExcuteDB(query);
+	}
 }

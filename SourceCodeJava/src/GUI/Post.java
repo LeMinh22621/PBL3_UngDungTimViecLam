@@ -38,6 +38,7 @@ import javax.swing.table.DefaultTableModel;
 import BLL.BLL;
 import BLL.BLL_GUEST;
 import DTO.Account;
+import java.awt.FlowLayout;
 
 public class Post extends JFrame {
 	private static Post Instance_U;
@@ -74,10 +75,11 @@ public class Post extends JFrame {
 	private JScrollPane scrollPanePostJobDescription;
 	private JLabel lbCategoryName;
 	private JTabbedPane tabbedPane;
-	private JScrollPane scrollPane;
 	private JTable table;
+	private JButton btnAccept;
 	private DefaultTableModel dtmodel;
-	private List<Object> listmodel;
+	private List<DTO.JobSeekerApply> listJobSeekerApplies = new ArrayList<DTO.JobSeekerApply>();
+	private JPanel pProposal;
 
 	private void setPost(DTO.Post post) {
 		txtJobTilte.setText(post.getJOB_NAME());
@@ -117,8 +119,8 @@ public class Post extends JFrame {
 			}
 		};
 		dtmodel.setColumnIdentifiers(columns);
-		List<DTO.JobSeekerApply> listJobSeekerApplies = new ArrayList<DTO.JobSeekerApply>();
 		table = new JTable();
+		table.setBounds(10, 33, 419, 405);
 		table.setModel(dtmodel);
 		table.setBackground(Color.cyan);
 		table.setForeground(Color.red);
@@ -152,51 +154,89 @@ public class Post extends JFrame {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int index = table.getSelectedRow();
-				String addressCV = "";
-				if (index != -1)
-					addressCV = listJobSeekerApplies.get(index).getCv().getADDRESS_CV();
-				if (addressCV.length() != 0) {
-					File file = new File(addressCV);
-					try {
-						file.createNewFile();
-						Desktop.getDesktop().open(file);
-					} catch (IOException e1) {
-						e1.printStackTrace();
+				int index1 = table.getSelectedRow();
+				if(table.getValueAt(index1, 2).equals(true))
+					btnAccept.setText("Decline");
+				else
+					btnAccept.setText("Accept");
+				if(e.getClickCount() == 2)
+				{
+					int index = table.getSelectedRow();
+					String addressCV = "";
+					if (index != -1)
+						addressCV = listJobSeekerApplies.get(index).getCv().getADDRESS_CV();
+					if (addressCV.length() != 0) {
+						File file = new File(addressCV);
+						try {
+							file.createNewFile();
+							Desktop.getDesktop().open(file);
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+	
 					}
-
 				}
 			}
 		});
-
-		scrollPane = new JScrollPane(table);
-		tabbedPane.addTab("Proposals", null, scrollPane, null);
+		
+		pProposal = new JPanel();
+		pProposal.setLayout(null);
+		pProposal.add(table);
+		tabbedPane.addTab("Proposals", null, pProposal, null);
+		
+		btnAccept = new JButton("Accept");
+		btnAccept.setBounds(182, 449, 89, 23);
+		btnAccept.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int index = table.getSelectedRow();
+				if(index != -1)
+				{
+					if(listJobSeekerApplies.get(index).getStatus() == false)
+					{
+						btnAccept.setText("Decline");
+						BLL.getInstance().acceptCVToPost_BLL(idPost,listJobSeekerApplies.get(index).getCv().getID_CV());
+					}
+					else
+					{
+						btnAccept.setText("Accept");
+						BLL.getInstance().declineCVToPost_BLL(idPost,listJobSeekerApplies.get(index).getCv().getID_CV());
+					}
+					loadProposals(idPost);
+				}
+			}
+		});
+		pProposal.add(btnAccept);
+		btnAccept.setVisible(false);
+		
 		tabbedPane.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				if (tabbedPane.getSelectedIndex() == 1) {
-					dtmodel.getDataVector().removeAllElements();
-					listJobSeekerApplies.clear();
-					listJobSeekerApplies.addAll(BLL.getInstance().getListJobSeekerApply_BLL(idPost));
-					if (listJobSeekerApplies != null) {
-						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-						Vector<DTO.JobSeekerApply> vector = new Vector<DTO.JobSeekerApply>();
-						for (int i = 0; i < listJobSeekerApplies.size(); i++) {
-							dtmodel.addRow(
-								new Object[] {
-										listJobSeekerApplies.get(i).getJobSeeker().getPROFILE().getNAME(),
-										listJobSeekerApplies.get(i).getCv().getID_CV(),
-										listJobSeekerApplies.get(i).getStatus(),
-										format.format(listJobSeekerApplies.get(i).getDateTime())
-							});
-						}
-						dtmodel.fireTableDataChanged();
-					}
+					loadProposals(idPost);
 				}
 			}
 		});
 	}
-
+	private void loadProposals(String idPost)
+	{
+		dtmodel.getDataVector().removeAllElements();
+		listJobSeekerApplies.clear();
+		listJobSeekerApplies.addAll(BLL.getInstance().getListJobSeekerApply_BLL(idPost));
+		if (listJobSeekerApplies != null) {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			for (int i = 0; i < listJobSeekerApplies.size(); i++) {
+				dtmodel.addRow(
+					new Object[] {
+							listJobSeekerApplies.get(i).getJobSeeker().getPROFILE().getNAME(),
+							listJobSeekerApplies.get(i).getCv().getID_CV(),
+							listJobSeekerApplies.get(i).getStatus(),
+							format.format(listJobSeekerApplies.get(i).getDateTime())
+				});
+			}
+			dtmodel.fireTableDataChanged();
+		}
+	}
 	private void initial() {
 		getContentPane().setLayout(null);
 		setBounds(EXIT_ON_CLOSE, ABORT, 460, 545);
@@ -313,6 +353,8 @@ public class Post extends JFrame {
 			btnApply.setBounds(168, 435, 81, 23);
 			pPost.add(btnApply);
 		}
+		else
+			btnAccept.setVisible(true);
 	}
 
 	public Post(Account user) {

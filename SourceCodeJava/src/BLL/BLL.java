@@ -402,4 +402,26 @@ public class BLL {
 			return null;
 		}
 	}
+	public void acceptCVToPost_BLL(String idPost, String idCV)
+	{
+		try
+		{
+			DAL.getInstance().acceptCVToPost_DAL(idPost, idCV);
+		}
+		catch(ClassNotFoundException | SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	public void declineCVToPost_BLL(String idPost, String idCV)
+	{
+		try
+		{
+			DAL.getInstance().declineCVToPost_DAL(idPost, idCV);
+		}
+		catch(ClassNotFoundException | SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
 }
