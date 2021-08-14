@@ -283,14 +283,17 @@ public class Admin extends JFrame implements ActionListener, WindowListener
 				for(int i = 0; i < tableAccountG.getSelectedRowCount(); i++)
 				{
 					int index = tableAccountG.getSelectedRows()[i];
-					Account acc = new Account();
-					acc.setID_ACCOUNT(tableAccountG.getValueAt(index, 0).toString());
-					acc.setUSERNAME(tableAccountG.getValueAt(index, 1).toString());
-					acc.setPASSWORD(tableAccountG.getValueAt(index, 2).toString());
-					acc.setACCESSER(Integer.parseInt(tableAccountG.getValueAt(index, 3).toString()));
-					acc.setSTATUS(Boolean.parseBoolean(tableAccountG.getValueAt(index, 4).toString()));
-					
-					BLL.getInstance().DeleteAccount_BLL(acc);
+					if(!tableAccountG.getValueAt(index,0).toString().equals("AA"))
+					{
+						Account acc = new Account();
+						acc.setID_ACCOUNT(tableAccountG.getValueAt(index, 0).toString());
+						acc.setUSERNAME(tableAccountG.getValueAt(index, 1).toString());
+						acc.setPASSWORD(tableAccountG.getValueAt(index, 2).toString());
+						acc.setACCESSER(Integer.parseInt(tableAccountG.getValueAt(index, 3).toString()));
+						acc.setSTATUS(Boolean.parseBoolean(tableAccountG.getValueAt(index, 4).toString()));
+						
+						BLL.getInstance().DeleteAccount_BLL(acc);
+					}
 				}
 				btnShowListAccG.doClick();
 			}

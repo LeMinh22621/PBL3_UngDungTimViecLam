@@ -245,8 +245,11 @@ public class JobSeekerProfile extends JFrame
 		}
 		txtProfessional.setText(jobseeker.getPROFESSIONAL());
 		List<String> ListCV = BLL_GUEST.getInstance().getListCVByID_Jobseeker_BLL_GUEST(jobseeker.getID_JOBSEEKER());
-		File tmpfile = new File(ListCV.get(0));
-		lbCV.setText(tmpfile.getName());
+		if(ListCV !=null)
+		{
+			File tmpfile = new File(ListCV.get(0));
+			lbCV.setText(tmpfile.getName());
+		}
 		if(jobseeker.getGENDER())
 		{
 			rdbtnMale.setSelected(true);
